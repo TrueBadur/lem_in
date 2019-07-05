@@ -1,0 +1,23 @@
+MAINLIB = libft.a
+SRC = $(wildcard *.c)
+OBJ = $(SRC:.c=.o)
+CC = clang
+LIBROOT = ../../
+LIBHPATH = -I $(LIBROOT)includes/
+STOREPATH = $(LIBROOT)lib/
+CFLAGS = -Wall -Wextra -Werror
+
+.c.a:
+	@$(CC) $(CFLAGS) $(LIBHPATH) -c $< -o $*.o
+	@ar r $@ $*.o
+	@rm $*.o
+
+all: $(STOREPATH)$(NAME)($(OBJ)) $(STOREPATH)$(MAINLIB)($(OBJ))
+
+fclean: clean
+	@/bin/rm -f $(STOREPATH)$(NAME)
+
+clean:
+	@/bin/rm -f $(OBJ)
+
+re: fclean all
