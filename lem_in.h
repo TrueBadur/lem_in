@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/05 17:46:43 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/05 19:05:08 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_LEM_IN_H
 #define LEM_IN_LEM_IN_H
+
+# include "libft.h"
 
 struct s_node;
 
@@ -26,7 +28,9 @@ typedef struct s_node
 {
 	int			wgth;
 	char		*name;
-	t_edge		**links;
+	t_list		*links;
 }				t_node;
 
-#endif //LEM_IN_LEM_IN_H
+void 			bfs(t_node *root);
+
+#endif
