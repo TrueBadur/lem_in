@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/05 19:05:08 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/07 18:13:31 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,19 @@ struct s_node;
 
 typedef struct	s_edge
 {
-	int				wgth;
-	struct s_node	*from;
-	struct s_node	*to;
+	struct s_node	*node1;
+	struct s_node	*node2;
+	int 			wgth12;
+	int 			wgth21;
 }				t_edge;
 
 typedef struct s_node
 {
 	int			wgth;
 	char		*name;
-	t_list		*links;
+	t_list		*links;  // t_edge
 }				t_node;
+
 
 void 			bfs(t_node *root);
 
