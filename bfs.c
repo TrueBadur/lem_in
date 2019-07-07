@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/05 19:05:08 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/07 17:02:07 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,61 @@
 
 #define QUE_SIZE 1000
 
-void	que_add(t_vector *que, t_node *node, int depth)
+/*
+** add Node to queue
+*/
+
+static void		que_add(t_vector *que, t_node *node)
 {
-	ft_vecpush(que, (long[]){(long)node,(long)depth}, sizeof(long)*2);
+	ft_vecpush(que, node, sizeof(t_node*));
 }
 
-void	que_popleft(t_vector *que)
+/*
+** pop(0) one Node from queue
+*/
+
+static t_node	*que_popleft(t_vector *que)
 {
-	que->offset += sizeof(long)*2;
+	que->offset += sizeof(t_node*);
+	return (((t_node **)que)[0]);
 }
 
-t_node	*que_get_node(t_vector *que)
+/*
+** set weight of Edge by weight of its Nodes
+*/
+
+static void		set_edge_weight(t_edge *edge)
 {
-	return ((t_node *)(((long*)que)[0]));
+	edge->wgth = edge->from - edge->to + 1;
 }
 
-int		que_get_depth(t_vector *que)
-{
-	return ((int)(((long*)que)[1]));
-}
+/*
+** set weights to all Nodes and Edges by BreadthFirstSearch of input graph
+*/
 
 void	bfs(t_node *root)
 {
 	t_vector	*que;
 	t_node		*cur;
-	int 		depth;
 	t_list		*child;
 
-	que = ft_vecinit(sizeof(t_node) * QUE_SIZE);
-	que_add(que, root, 0);
+	que = ft_vecinit(sizeof(t_node*) * QUE_SIZE);
+	root->wgth = 0;
+	que_add(que, root);
 	while (que->offset != que->len)
 	{
-		cur = que_get_node(que);
-		depth = que_get_depth(que);
-		que_popleft(que);
-		if (cur->wgth != -1)
-			continue;
-		cur->wgth = depth;
+		cur = que_popleft(que);
 		child = cur->links;
 		while (child)
 		{
-			que_add(que, child->data, depth + 1);
+			if (((t_edge *)child->data)->to->wgth == -1)
+			{
+				((t_edge *)child->data)->to->wgth = cur->wgth + 1;
+				que_add(que, ((t_edge *) child->data)->to);
+			}
+			set_edge_weight((t_edge *)child->data);
 			child = child->next;
 		}
 	}
+	ft_vecdel((void **)&que);
 }
