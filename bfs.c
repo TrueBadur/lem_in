@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/07 17:02:07 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/07 19:35:08 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,21 @@ static t_node	*que_popleft(t_vector *que)
 
 static void		set_edge_weight(t_edge *edge)
 {
-	edge->wgth = edge->from - edge->to + 1;
+	edge->wgth12 = edge->node1->wgth - edge->node2->wgth + 1;
+	edge->wgth21 = edge->node2->wgth - edge->node1->wgth + 1;
+}
+
+static void		set_node_weight(t_vector *que, t_node *node, int weight)
+{
+	node->wgth = weight;
+	que_add(que, node);
 }
 
 /*
 ** set weights to all Nodes and Edges by BreadthFirstSearch of input graph
 */
+
+#define EDGE ((t_edge *)child->data)
 
 void	bfs(t_node *root)
 {
@@ -61,12 +70,12 @@ void	bfs(t_node *root)
 		child = cur->links;
 		while (child)
 		{
-			if (((t_edge *)child->data)->to->wgth == -1)
+			if (EDGE->wgth12 == -1)
 			{
-				((t_edge *)child->data)->to->wgth = cur->wgth + 1;
-				que_add(que, ((t_edge *) child->data)->to);
+				set_node_weight(que, EDGE->node1->wgth == -1 ? EDGE->node1 :
+										EDGE->node2, cur->wgth + 1);
+				set_edge_weight(EDGE);
 			}
-			set_edge_weight((t_edge *)child->data);
 			child = child->next;
 		}
 	}
