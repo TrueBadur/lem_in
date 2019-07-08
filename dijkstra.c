@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/08 03:03:50 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/08 05:21:55 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 #define SIZE_OF_QUE 1000
 #define EDGE ((t_edge *)child->data)
 
-void	dijkstra(t_node *start, t_node *fin, int iter)
+/*
+** one run of Dijkstra algorithm trough graph,
+** it sets /path/ field of /node/ from start up to finish
+** and /counter/ field of /node/ to /iter/
+*/
+
+int	dijkstra(t_node *start, t_node *fin, int iter)
 {
 	t_vector 	*queue;
 	t_pque		cur;
@@ -39,27 +45,93 @@ void	dijkstra(t_node *start, t_node *fin, int iter)
 				to->counter = iter;
 				to->path = EDGE;
 				push_que(queue, to, cur.priority + w);
-				if (to == fin)
-					return;
+				if (to == fin) {
+					ft_vecdel((void **)&queue);
+					return (0);
+				}
 			}
 			child = child->next;
 		}
 	}
+	ft_vecdel((void **)&queue);
+	return (-1);
 }
+
+/*
+** delete one link from /node/->/links/
+*/
+
+void		del_from_links(t_list **links, t_edge *one)
+{
+	t_list *tmp;
+	t_list *del;
+
+	tmp = *links;
+	while (tmp->next->data != one)
+		tmp = tmp->next;
+	del = tmp->next;
+	tmp->next = del->next;
+	free(del);
+}
+
+#define NEG_WEIGHT -10
+
+/*
+** go by /path/s from finish to start,
+** reverse or/and delete edges, switch weights
+*/
 
 void	reverse_path(t_node *fin)
 {
-	t_edge	*next;
+	t_edge	*edge;
 	t_node	*from;
 	t_node	*to;
 
-	next = fin->path;
+	edge = fin->path;
 	from = fin;
-	while (next)
+	while (edge)
 	{
-		to = from == next->node1 ? next->node2 : next->node1;
-
+		if (from == edge->node1)
+		{
+			to = edge->node2;
+			if (edge->wgth21 == NEG_WEIGHT)
+				del_from_links(&from->links, edge);
+			else {
+				edge->wgth12 = edge->wgth21;
+				edge->wgth21 = NEG_WEIGHT;
+			}
+		}
+		else
+		{
+			to = edge->node1;
+			if (edge->wgth12 == NEG_WEIGHT)
+				del_from_links(&from->links, edge);
+			else {
+				edge->wgth21 = edge->wgth12;
+				edge->wgth12 = NEG_WEIGHT;
+			}
+		}
+		del_from_links(&to->links, edge);
 		from = to;
-		next = to->path;
+		edge = to->path;
 	}
+}
+
+#define MIN(x, y) (x < y ? x : y)
+
+int	suurballe(t_node *start, t_node *fin)
+{
+	int 	iter;
+	int 	limit;
+
+	iter = -1;
+	limit = -MIN(ft_lstlen(start->links), ft_lstlen(fin->links)) - 1;
+	while (iter > limit)
+	{
+		--iter;
+		if (dijkstra(start, fin, iter))
+			break ;
+		reverse_path(fin);
+	}
+	return (iter);
 }
