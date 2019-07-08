@@ -14,7 +14,7 @@ FILE(GLOB LIBFT_SRCS ./libft/std_lib/*.c ./libft/std_lib/printf/*.c)  # ADD LIBF
 
 AUX_SOURCE_DIRECTORY(libft/std_lib/liblist/ TMP)
 
-add_executable(lem_in main.c lem_in.h bfs.c dijkstra.c priority_queue.c pque.h)
+add_executable(lem_in main.c lem_in.h bfs.c dijkstra.c priority_queue.c pque.h get_paths.c)
 
 include(FindPkgConfig)
 find_package(ft REQUIRED)
