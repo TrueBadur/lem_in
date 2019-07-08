@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/08 01:28:40 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/08 05:21:55 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,13 @@ typedef struct s_node
 	t_list		*links;  // t_edge
 }				t_node;
 
-
+void			que_add(t_vector *que, t_node *node);
+t_node			*que_popleft(t_vector *que);
 void 			bfs(t_node *root);
+
+void			del_from_links(t_list **links, t_edge *one);
+int				suurballe(t_node *start, t_node *fin);
+
+void			clean_graph(t_node *fin, int iter);
 
 #endif
