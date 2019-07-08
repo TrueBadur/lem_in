@@ -6,54 +6,52 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/08 05:21:55 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/08 18:34:28 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-#define SIZE_OF_QUE 1000
+#define SIZE_OF_QUE 1000 * sizeof(t_node)
 #define EDGE ((t_edge *)child->data)
 
 /*
 ** one run of Dijkstra algorithm trough graph,
 ** it sets /path/ field of /node/ from start up to finish
-** and /counter/ field of /node/ to /iter/
+** and sets /counter/ field of /node/ to /iter/ (markdown of walk)
 */
 
 int	dijkstra(t_node *start, t_node *fin, int iter)
 {
-	t_vector 	*queue;
+	t_vector 	*que;
 	t_pque		cur;
 	t_list		*child;
-	t_node		*to;
-	int 		w;
 
-	queue = ft_vecinit(SIZE_OF_QUE * sizeof(t_pque));
-	push_que(queue, start, 0);
+	que = ft_vecinit(SIZE_OF_QUE);
+	push_que(que, start, 0);
 	start->counter = iter;
 	start->path = NULL;
-	while (queue->len > 0) {
-		cur = pop_que(queue);
-		child = ((t_node *) cur.data)->links;
+	while (que->len > 0)
+	{
+		cur = pop_que(que);
+		child = ((t_node *)cur.data)->links;
 		while (child)
 		{
-			to = (t_node *)cur.data == EDGE->node1 ? EDGE->node2 : EDGE->node1;
-			w = (t_node *)cur.data == EDGE->node1 ? EDGE->wgth12 : EDGE->wgth21;
-			if (to->counter != iter)
+			if (EDGE->to->counter != iter)
 			{
-				to->counter = iter;
-				to->path = EDGE;
-				push_que(queue, to, cur.priority + w);
-				if (to == fin) {
-					ft_vecdel((void **)&queue);
+				EDGE->to->counter = iter;
+				EDGE->to->path = EDGE;
+				if (EDGE->to == fin)
+				{
+					ft_vecdel((void **)&que);
 					return (0);
 				}
+				push_que(que, EDGE->to, cur.priority + EDGE->wgth);
 			}
 			child = child->next;
 		}
 	}
-	ft_vecdel((void **)&queue);
+	ft_vecdel((void **)&que);
 	return (-1);
 }
 
@@ -74,46 +72,28 @@ void		del_from_links(t_list **links, t_edge *one)
 	free(del);
 }
 
-#define NEG_WEIGHT -10
-
 /*
-** go by /path/s from finish to start,
-** reverse or/and delete edges, switch weights
+** goes by /path/s from finish up to start,
+** reverses or/and delete edges, switch weights
 */
 
 void	reverse_path(t_node *fin)
 {
 	t_edge	*edge;
-	t_node	*from;
-	t_node	*to;
+	t_node	*next;
 
 	edge = fin->path;
-	from = fin;
 	while (edge)
 	{
-		if (from == edge->node1)
+		next = edge->from;
+		if (edge->reverse)
 		{
-			to = edge->node2;
-			if (edge->wgth21 == NEG_WEIGHT)
-				del_from_links(&from->links, edge);
-			else {
-				edge->wgth12 = edge->wgth21;
-				edge->wgth21 = NEG_WEIGHT;
-			}
+			edge->reverse->wgth = edge->wgth;
+			edge->reverse->reverse = NULL;
 		}
-		else
-		{
-			to = edge->node1;
-			if (edge->wgth12 == NEG_WEIGHT)
-				del_from_links(&from->links, edge);
-			else {
-				edge->wgth21 = edge->wgth12;
-				edge->wgth12 = NEG_WEIGHT;
-			}
-		}
-		del_from_links(&to->links, edge);
-		from = to;
-		edge = to->path;
+		free(edge);
+		del_from_links(&edge->from->links, edge);
+		edge = next->path;
 	}
 }
 

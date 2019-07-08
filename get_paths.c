@@ -6,25 +6,27 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/08 05:22:01 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/08 22:33:14 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-#define NEG_WEIGHT -10
-#define SIZE_OF_QUE 1000
+#define SIZE_OF_QUE 1000 * sizeof(t_node)
 #define EDGE ((t_edge *)child->data)
 
+/*
+** deletes all two-direction edges from graph
+** (walking it by BFS)
+*/
 
 void	clean_graph(t_node *fin, int iter)
 {
 	t_vector	*que;
 	t_node		*cur;
-	t_node		*next;
 	t_list		*child;
 
-	que = ft_vecinit(sizeof(t_node*) * SIZE_OF_QUE);
+	que = ft_vecinit(SIZE_OF_QUE);
 	fin->counter = iter;
 	que_add(que, fin);
 	while (que->offset != que->len)
@@ -33,20 +35,14 @@ void	clean_graph(t_node *fin, int iter)
 		child = cur->links;
 		while (child)
 		{
-			next = NULL;
-			if (EDGE->node1->counter != iter)
-				next = EDGE->node1;
-			if (EDGE->node2->counter != iter)
-				next = EDGE->node2;
-			if (next)
+			if (EDGE->to->counter != iter)
+				set_node_weight(que, EDGE->to, iter);
+			if (EDGE->reverse)
 			{
-				if (EDGE->wgth12 == NEG_WEIGHT || EDGE->wgth21 == NEG_WEIGHT) {
-					del_from_links(&(EDGE->node1->links), EDGE);
-					del_from_links(&(EDGE->node2->links), EDGE);
-					free(EDGE);
-				}
-				next->counter = iter;
-				que_add(que, next);
+				del_from_links(&(EDGE->to->links), EDGE->reverse);
+				free(EDGE->reverse);
+				del_from_links(&(EDGE->from->links), EDGE);
+				free(EDGE);
 			}
 			child = child->next;
 		}
@@ -54,16 +50,53 @@ void	clean_graph(t_node *fin, int iter)
 	ft_vecdel((void **)&que);
 }
 
-void 	move_lems(t_node *fin)
+void		get_aunt(t_vector *que, t_node *cur, t_edge *edge)
 {
-
+	if (edge->to->counter > 0)
+	{
+		edge->from->counter++;
+		edge->to->counter--;
+		que_add(que, cur);
+	}
 }
 
-void	get_all_paths(t_node *start, t_node *fin)
+/*
+** moves aunts towards finish by shortest paths first
+*/
+
+void 		move_lems(t_node *fin)
+{
+	t_vector 	*que;
+	t_node		*cur;
+	t_list		*child;
+
+	que = ft_vecinit(SIZE_OF_QUE);
+	que_add(que, fin);
+	while (que->len != que->offset) {
+		cur = que_popleft(que);
+		child = cur->links;
+		if (cur == fin)
+			while (child) {
+				get_aunt(que, cur, EDGE);
+				child = child->next;
+			}
+		else
+			get_aunt(que, cur, EDGE);
+	}
+	ft_vecdel((void **)&que);
+}
+
+/*
+** overall algorithm
+*/
+
+void	get_all_paths(t_node *start, t_node *fin, int n)
 {
 	int i;
 
 	bfs(start);
 	i = suurballe(start, fin);
 	clean_graph(fin, i - 1);
+	start->counter = n;
+	move_lems(fin);
 }

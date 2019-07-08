@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/08 05:21:55 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/08 20:36:33 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ struct s_node;
 
 typedef struct	s_edge
 {
-	struct s_node	*node1;
-	struct s_node	*node2;
-	int 			wgth12;  // -1 by default
-	int 			wgth21;  // -1 by default
+	struct s_node	*from;
+	struct s_node	*to;
+	int 			wgth;  // -1 by default
+	struct s_edge	*reverse;  // NULL by default
 }				t_edge;
 
 typedef struct s_node
@@ -37,6 +37,7 @@ typedef struct s_node
 
 void			que_add(t_vector *que, t_node *node);
 t_node			*que_popleft(t_vector *que);
+void			set_node_weight(t_vector *que, t_node *node, int weight);
 void 			bfs(t_node *root);
 
 void			del_from_links(t_list **links, t_edge *one);
