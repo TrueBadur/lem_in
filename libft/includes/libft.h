@@ -104,6 +104,7 @@ void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*ft_lstcopy(t_list *lst);
+int					ft_lstlen(t_list *lst);
 size_t				ft_strlcpy(char *dest, const char *src, size_t size);
 void				*ft_lstpop(t_list **lst);
 int					ft_abs(int a);
