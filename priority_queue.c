@@ -6,12 +6,11 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 21:31:08 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/08 01:17:02 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/08 01:55:08 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "pque.h"
 
 void		print_que(t_pque *q, int n)
 {
@@ -118,7 +117,7 @@ int			main(void)
 	vec = ft_vecinit(1000 * sizeof(t_pque));
 	printf("start queue %p\n", vec);
 	i = -1;
-	while (++i < 6)
+	while (++i < 40)
 	{
 		ch = (char *)malloc(1);
 		*ch = 'z' - i;
@@ -130,7 +129,7 @@ int			main(void)
 	print_que((t_pque *)(vec->data), vec->len / sizeof(t_pque));
 	while (vec->len > 0) {
 //		print_que((t_pque *)(vec->data), vec->len / sizeof(t_pque));
-		printf("-|%i|-", *(char *) (pop_que(vec).data));
+		printf("-|%c|-", *(char *) (pop_que(vec).data));
 	}
 	printf("\nend\n");
 	ft_vecdel(((void **)&vec));
