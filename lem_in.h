@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/09 19:18:24 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/09 20:24:15 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,21 @@ typedef struct s_node
 	t_list		*links;  // t_edge
 }				t_node;
 
+typedef enum	e_instuctions
+{
+	NONE,
+	START,
+	FINISH
+}				t_instr;
+
 typedef struct	s_mngr
 {
 	int			flags; //TODO convert to more flags or to bitarray
 	unsigned	ant_num;
 	t_btavl		*all_rooms;
+	t_instr		instr;
+	t_node		*start;
+	t_node		*end;
 }				t_mngr;
 
 typedef enum	e_line_types
@@ -51,6 +61,7 @@ typedef enum	e_line_types
 	LINK,
 	ERROR
 }				t_elt;
+
 
 typedef enum 	e_errors
 {

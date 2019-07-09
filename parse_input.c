@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:58:51 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/09 19:09:26 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/09 20:24:15 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 
 
-t_elt	get_link(t_mngr *mngr, char *line)
-{
-
-}
-
 void get_instruction(t_mngr *mngr, char *line)
 {
-
+	if (ft_strcmp(line + 2, "start"))
+		mngr->instr = START;
+	else if (ft_strcmp(line + 2, "finish"))
+		mngr->instr = FINISH;
+	else
+		mngr->instr = NONE;
 }
 
 void parse_input(t_mngr *mngr)
@@ -40,11 +40,12 @@ void parse_input(t_mngr *mngr)
 			get_instruction(mngr, line);
 		else if (type == ANT_N)
 			mngr->ant_num = ft_atoi(line);
+		mngr->instr = NONE;
 		free(line);
 		if (type == ERROR)
 			break ;
 	}
-	if (!isenoughdata(mngr))
+	if (!mngr->start || !mngr->end)
 		ultimate_exit(&mngr);
 }
 
