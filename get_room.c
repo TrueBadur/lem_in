@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:11:10 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/09 19:13:18 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/09 21:21:11 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ t_elt	get_room(t_mngr *mngr, char *line)
 		ultimate_exit(&mngr);
 	node->links = NULL;
 	node->counter = -1;
-	if (ft_avlsearch(mngr->all_rooms, node->name, 0)) //TODO adapt avl to string keys and compare functions
+	if (ft_avlsearch(mngr->all_rooms, node->name, 0, NULL))
 	{
 		free(node->name);
 		free(node);
 		return (ERROR);
 	}
-	ft_avlins(mngr->all_rooms, ft_avlnew(node, node->name, sizeof(t_node)));
+	ft_avlins(mngr->all_rooms, ft_avlnew_nc(node, node->name, sizeof(t_node),
+			STRING));
 	if (mngr->instr == START)
 		mngr->start = node;
 	if (mngr->instr == FINISH)

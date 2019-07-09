@@ -6,13 +6,11 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:58:51 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/09 20:24:15 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/09 20:34:01 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-
 
 void get_instruction(t_mngr *mngr, char *line)
 {
