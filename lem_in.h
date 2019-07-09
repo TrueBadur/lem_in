@@ -3,30 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/05 17:46:43 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/08 20:36:33 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_LEM_IN_H
 #define LEM_IN_LEM_IN_H
 
+# include "libft.h"
+# include "pque.h"
+#include <stdio.h> // TODO: delete
+
 struct s_node;
 
 typedef struct	s_edge
 {
-	int				wgth;
 	struct s_node	*from;
 	struct s_node	*to;
+	int 			wgth;  // -1 by default
+	struct s_edge	*reverse;  // NULL by default
 }				t_edge;
 
 typedef struct s_node
 {
-	int			wgth;
+	int			counter; // -1 by default
+	t_edge		*path;  // NULL by default
 	char		*name;
-	t_edge		**links;
+	t_list		*links;  // t_edge
 }				t_node;
 
-#endif //LEM_IN_LEM_IN_H
+void			que_add(t_vector *que, t_node *node);
+t_node			*que_popleft(t_vector *que);
+void			set_node_weight(t_vector *que, t_node *node, int weight);
+void 			bfs(t_node *root);
+
+void			del_from_links(t_list **links, t_edge *one);
+int				suurballe(t_node *start, t_node *fin);
+
+void			clean_graph(t_node *fin, int iter);
+
+#endif
