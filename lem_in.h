@@ -48,7 +48,10 @@ typedef enum	e_line_types
 }				t_elt;
 
 void	*parse_flags(int argc, char **argv, t_mngr *mngr);
+
 void	parse_input(t_mngr *mngr);
+t_elt	check_line_type(char *line);
+
 t_mngr	*init_mngr(void);
 void	make_magic(t_mngr *mngr);
 void	print_solution(t_mngr *mngr);
