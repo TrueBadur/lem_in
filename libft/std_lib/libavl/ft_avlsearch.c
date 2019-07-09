@@ -29,8 +29,9 @@ t_btavl	*ft_avlmax(t_btavl *tr)
 /*
 ** @param tr - tree to search through
 ** @param key - what key to find in tree
-** @param ret_d - specifies what to return: data or node assosiated with key
-** @return - if key is found then return ret_d assosiated with this key, NULL
+** @param ret_d - specifies what to return: data(1) or node(0) associated with
+** 						key
+** @return - if key is found then return ret_d associated with this key, NULL
 ** otherwise
 */
 
