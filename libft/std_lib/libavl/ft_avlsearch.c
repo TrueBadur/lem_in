@@ -35,14 +35,17 @@ t_btavl	*ft_avlmax(t_btavl *tr)
 ** otherwise
 */
 
-void	*ft_avlsearch(t_btavl *tr, int key, int ret_d)
+void	*ft_avlsearch(t_btavl *tr, void *key, int ret_d, int (f)(void*, void*))
 {
-	if (!tr)
+	int cmp;
+
+	if (!tr || (tr->key_type == OTHER && !f))
 		return (NULL);
-	if (tr->key == key)
+	cmp = ft_avl_keycmp(tr->key, key, tr->key_type, f)
+	if (cmp == 0)
 		return (ret_d ? tr->data : tr);
-	if (key < tr->key)
-		return (ft_avlsearch(tr->left, key, ret_d));
+	if (cmp == 1)
+		return (ft_avlsearch(tr->left, key, ret_d), f);
 	else
-		return (ft_avlsearch(tr->right, key, ret_d));
+		return (ft_avlsearch(tr->right, key, ret_d), f);
 }
