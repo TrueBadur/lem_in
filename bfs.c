@@ -6,31 +6,31 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/08 18:51:15 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/09 20:41:25 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-#define QUE_SIZE 1000 * sizeof(t_node)
+#define QUE_SIZE 1000 * sizeof(t_node*)
 
 /*
-** push one /node/ to queue
+** push one / node* / to queue
 */
 
 void			que_add(t_vector *que, t_node *node)
 {
-	ft_vecpush(que, node, sizeof(t_node*));
+	ft_vecpush(que, &node, sizeof(t_node*));
 }
 
 /*
-** pop(0) one /node/ from queue
+** pop(0) one / node* / from queue
 */
 
 t_node			*que_popleft(t_vector *que)
 {
 	que->offset += sizeof(t_node*);
-	return (((t_node **)que)[0]);
+	return (((t_node **)que->data)[que->offset / sizeof(t_node*) - 1]);
 }
 
 /*
@@ -59,7 +59,7 @@ void			set_node_weight(t_vector *que, t_node *node, int weight)
 
 #define EDGE ((t_edge *)child->data)
 
-void	bfs(t_node *root)
+void			set_weights(t_node *root)
 {
 	t_vector	*que;
 	t_node		*cur;
