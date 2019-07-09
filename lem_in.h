@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/07 21:43:37 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/09 18:39:53 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct	s_mngr
 {
 	int			flags; //TODO convert to more flags or to bitarray
 	unsigned	ant_num;
+	t_btavl		*all_rooms;
 }				t_mngr;
 
 typedef enum	e_line_types
@@ -47,14 +48,20 @@ typedef enum	e_line_types
 	ERROR
 }				t_elt;
 
+typedef enum 	e_errors
+{
+	INPUT_ERROR
+}				t_err;
+
 void	*parse_flags(int argc, char **argv, t_mngr *mngr);
 
 void	parse_input(t_mngr *mngr);
 t_elt	check_line_type(char *line);
+t_elt	get_room(t_mngr *mngr, char *line);
 
 t_mngr	*init_mngr(void);
 void	make_magic(t_mngr *mngr);
 void	print_solution(t_mngr *mngr);
-void	ultimate_exit(t_mngr *mngr);
+void	ultimate_exit(t_mngr **mngr);
 
 #endif //LEM_IN_LEM_IN_H
