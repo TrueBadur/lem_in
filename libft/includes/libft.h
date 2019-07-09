@@ -57,6 +57,7 @@ int					ft_isascii(int c);
 int					ft_isdigit(int c);
 int					ft_isalpha(int c);
 int					ft_isalnum(int c);
+int					ft_isnumeric(char *line);
 char				*ft_int_to_unicode(int n, char *bytes);
 size_t				ft_strlen(const char *s);
 int					ft_atoi(const char *st);
