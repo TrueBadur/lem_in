@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/08 20:36:33 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/09 19:18:24 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	*parse_flags(int argc, char **argv, t_mngr *mngr);
 void	parse_input(t_mngr *mngr);
 t_elt	check_line_type(char *line);
 t_elt	get_room(t_mngr *mngr, char *line);
+t_elt	get_link(t_mngr *mngr, char *line);
 
 t_mngr	*init_mngr(void);
 void	make_magic(t_mngr *mngr);
