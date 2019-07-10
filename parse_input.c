@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:58:51 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/10 15:36:01 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/10 15:52:44 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void parse_input(t_mngr *mngr)
 		if (type == ERROR)
 			break ;
 	}
-	if (!mngr->start || !mngr->end)
+	if (!mngr->start || !mngr->end || mngr->ant_num < 0)
 		ultimate_exit(&mngr);
 }
 

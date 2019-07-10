@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/09 20:24:15 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/10 14:49:48 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef enum 	e_errors
 typedef struct	s_mngr
 {
 	int			flags; //TODO convert to more flags or to bitarray
-	unsigned	ant_num;
+	int			ant_num;
 	t_btavl		*all_rooms;
 	t_instr		instr;
 	t_node		*start;
