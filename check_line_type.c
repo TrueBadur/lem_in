@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_line_type.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 17:37:45 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/09 17:37:45 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/10 19:18:42 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	islink(char *line)
 	{
 		if (*line == '-' && f)
 			f = 0;
-		else if (!ft_isalnum(*line))
+		else if (!(ft_isalnum(*line) || *line == '_'))
 			return (0);
 		line++;
 	}
@@ -37,7 +37,7 @@ static int 	isroom(char *lin)
 	{
 		if (*lin == ' ' && f)
 			f--;
-		else if (f != 2 ? !ft_isdigit(*lin) : !ft_isalnum(*lin))
+		else if (f != 2 ? !ft_isdigit(*lin) : !(ft_isalnum(*lin) || *lin == '_'))
 			return (0);
 		lin++;
 	}
