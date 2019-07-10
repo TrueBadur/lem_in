@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:12:33 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/05 17:12:33 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/10 18:17:19 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int main(int argc, char **argv)
+#include "lem_in.h"
+
+int main(void)
 {
+
 	return (0);
 }

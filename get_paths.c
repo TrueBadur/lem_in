@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/08 22:33:14 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/10 16:34:53 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 /*
 ** deletes all two-direction edges from graph
-** (walking it by BFS)
+** (walking it by BFS from finish)
 */
 
 void	clean_graph(t_node *fin, int iter)
@@ -40,9 +40,10 @@ void	clean_graph(t_node *fin, int iter)
 			if (EDGE->reverse)
 			{
 				del_from_links(&(EDGE->to->links), EDGE->reverse);
-				free(EDGE->reverse);
+//				free(EDGE->reverse);
 				del_from_links(&(EDGE->from->links), EDGE);
-				free(EDGE);
+//				free(EDGE);
+				print_gr();
 			}
 			child = child->next;
 		}
@@ -94,9 +95,12 @@ void	get_all_paths(t_node *start, t_node *fin, int n)
 {
 	int i;
 
-	bfs(start);
+	set_weights(start); // worked
 	i = suurballe(start, fin);
+	printf("iterator %i\n", i);
 	clean_graph(fin, i - 1);
-	start->counter = n;
-	move_lems(fin);
+	print_gr();
+	n = 0;
+//	start->counter = n;
+//	move_lems(fin);
 }
