@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 21:31:08 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/08 01:55:08 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/09 21:11:30 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,35 +103,7 @@ t_pque		pop_que(t_vector *vec)
 	que[0].priority = que[len].priority;
 	que[0].data = que[len].data;
 	vec->len -= sizeof(t_pque);
-	ft_bzero((void *)(vec + vec->len), sizeof(t_pque));
+	ft_bzero((void *)(vec->data + vec->len), sizeof(t_pque));
 	sift_down(que, 0, len);
 	return (ret);
-}
-
-int			main(void)
-{
-	t_vector	*vec;
-	int			i;
-	char		*ch;
-
-	vec = ft_vecinit(1000 * sizeof(t_pque));
-	printf("start queue %p\n", vec);
-	i = -1;
-	while (++i < 40)
-	{
-		ch = (char *)malloc(1);
-		*ch = 'z' - i;
-		printf("%i | %c \n", 30 - i, *ch);
-		push_que(vec, (void *)ch, 30 - i);
-		printf(" pushed\n");
-//		print_que((t_pque *)(vec->data), vec->len / sizeof(t_pque));
-	}
-	print_que((t_pque *)(vec->data), vec->len / sizeof(t_pque));
-	while (vec->len > 0) {
-//		print_que((t_pque *)(vec->data), vec->len / sizeof(t_pque));
-		printf("-|%c|-", *(char *) (pop_que(vec).data));
-	}
-	printf("\nend\n");
-	ft_vecdel(((void **)&vec));
-	return (0);
 }
