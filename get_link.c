@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 20:17:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/09 20:17:43 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/10 17:06:52 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,18 @@ t_edge	*init_edge(t_node *from, t_node *to)
 void	get_node_avl(t_mngr *mngr, char *line, t_node **from, t_node **to)
 {
 	char	**link;
+	char	**tmp;
 
 	link = ft_strsplit(line, '-');
-	*from = ft_avlsearch(mngr->all_rooms, link[0], 1);
-	*to = ft_avlsearch(mngr->all_rooms, link[1], 1);
+	*from = ft_avlsearch(mngr->all_rooms, link[0], 1, NULL);
+	*to = ft_avlsearch(mngr->all_rooms, link[1], 1, NULL);
+	tmp = link;
 	while (*link)
 	{
 		free(*link);
 		link++;
 	}
+	free(tmp);
 }
 
 t_elt	get_link(t_mngr *mngr, char *line)
@@ -57,5 +60,7 @@ t_elt	get_link(t_mngr *mngr, char *line)
 	edg_t->reverse = edg_f;
 	ft_lstadd(&from->links, ft_lstnew(edg_f, sizeof(t_edge)));
 	ft_lstadd(&to->links, ft_lstnew(edg_t, sizeof(t_edge)));
+	free(edg_f);
+	free(edg_t);
 	return (LINK);
 }
