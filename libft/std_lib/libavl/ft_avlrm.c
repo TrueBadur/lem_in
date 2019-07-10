@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_avldel.c                                        :+:      :+:    :+:   */
+/*   ft_avlrm.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 16:55:58 by ehugh-be          #+#    #+#             */
-/*   Updated: 2018/12/07 02:47:12 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/10 15:18:44 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,16 @@ static t_btavl	*ft_avlrmmin(t_btavl *tr)
 	return (tmp);
 }
 
-t_btavl			*ft_avlrem(t_btavl *tr, int key, void (*f)(void **))
+t_btavl			*ft_avlrem(t_btavl *tr, void *key, void (*f)(void **),
+		int (f_c)(void*, void*))
 {
 	t_btavl *tmp;
+	int		cmp;
 
 	if (!tr)
 		return (NULL);
-	if (key == tr->key)
+	cmp = ft_avl_keycmp(tr->key, key, tr->key_type, f_c);
+	if (cmp == 0)
 	{
 		f(&(tr->data));
 		if (!tr->right)
@@ -45,9 +48,9 @@ t_btavl			*ft_avlrem(t_btavl *tr, int key, void (*f)(void **))
 		free(tr);
 		return (ft_avlbal(tmp));
 	}
-	else if (key < tr->key)
-		tr->left = ft_avlrem(tr->left, key, f);
+	else if (cmp == 1)
+		tr->left = ft_avlrem(tr->left, key, f, f_c);
 	else
-		tr->right = ft_avlrem(tr->right, key, f);
+		tr->right = ft_avlrem(tr->right, key, f, f_c);
 	return (ft_avlbal(tr));
 }

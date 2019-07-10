@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/08 20:36:33 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/10 14:49:48 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define LEM_IN_LEM_IN_H
 
 # include "libft.h"
-# include "pque.h"
+//# include "pque.h"
 #include <stdio.h> // TODO: delete
 
 struct s_node;
@@ -34,6 +34,53 @@ typedef struct s_node
 	char		*name;
 	t_list		*links;  // t_edge
 }				t_node;
+
+typedef enum	e_instuctions
+{
+	INSTR_NONE,
+	START,
+	FINISH
+}				t_instr;
+
+
+typedef enum	e_line_types
+{
+	LT_NONE = -1,
+	ANT_N,
+	ROOM,
+	LINK,
+	COMMENT,
+	INSTRUCTION,
+	ERROR
+}				t_elt;
+
+
+typedef enum 	e_errors
+{
+	INPUT_ERROR
+}				t_err;
+
+typedef struct	s_mngr
+{
+	int			flags; //TODO convert to more flags or to bitarray
+	int			ant_num;
+	t_btavl		*all_rooms;
+	t_instr		instr;
+	t_node		*start;
+	t_node		*end;
+	t_elt		max_lt;
+}				t_mngr;
+
+void	*parse_flags(int argc, char **argv, t_mngr *mngr);
+
+void	parse_input(t_mngr *mngr);
+t_elt	check_line_type(char *line);
+t_elt	get_room(t_mngr *mngr, char *line);
+t_elt	get_link(t_mngr *mngr, char *line);
+
+void	make_magic(t_mngr *mngr);
+void	print_solution(t_mngr *mngr);
+void	ultimate_exit(t_mngr **mngr);
 
 void			que_add(t_vector *que, t_node *node);
 t_node			*que_popleft(t_vector *que);
