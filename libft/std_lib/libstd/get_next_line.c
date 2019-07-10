@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 12:51:25 by ehugh-be          #+#    #+#             */
-/*   Updated: 2018/12/30 03:57:12 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/10 15:07:43 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ static t_vector	*ft_checkfd(t_btavl **tr, int key)
 
 	if (!tr)
 		return (NULL);
-	if (!(tmp = ft_avlsearch(*tr, key, 1)))
+	if (!(tmp = ft_avlsearch(*tr, TO_AVL_KEY(key), 1, NULL)))
 	{
 		if (!(tmp = ft_vecinit(BUFF_SIZE)))
 			return (NULL);
-		if (!(tmtr = ft_avlnew(tmp, key, sizeof(t_vector))))
+		if (!(tmtr = ft_avlnew(tmp, TO_AVL_KEY(key), sizeof(t_vector), NUM32)))
 		{
 			free(tmp);
 			return (NULL);
