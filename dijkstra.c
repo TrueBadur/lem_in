@@ -6,13 +6,13 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/08 18:34:28 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/10 16:08:31 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-#define SIZE_OF_QUE 1000 * sizeof(t_node)
+#define SIZE_OF_QUE 1000 * sizeof(t_pque)
 #define EDGE ((t_edge *)child->data)
 
 /*
@@ -64,12 +64,21 @@ void		del_from_links(t_list **links, t_edge *one)
 	t_list *tmp;
 	t_list *del;
 
+	printf("try to delete %s -> %s ", one->from->name, one->to->name);
 	tmp = *links;
+	if (tmp->data == one)
+	{
+		*links = tmp->next;
+		free(tmp);
+		printf(" - deleted \n");
+		return ;
+	}
 	while (tmp->next->data != one)
 		tmp = tmp->next;
 	del = tmp->next;
 	tmp->next = del->next;
 	free(del);
+	printf(" - deleted \n");
 }
 
 /*
@@ -79,21 +88,22 @@ void		del_from_links(t_list **links, t_edge *one)
 
 void	reverse_path(t_node *fin)
 {
-	t_edge	*edge;
-	t_node	*next;
+	t_edge	*path;
+	t_edge	*del;
 
-	edge = fin->path;
-	while (edge)
+	path = fin->path;
+	while (path)
 	{
-		next = edge->from;
-		if (edge->reverse)
+		path->to->path = NULL;
+		if (path->reverse)
 		{
-			edge->reverse->wgth = edge->wgth;
-			edge->reverse->reverse = NULL;
+			path->reverse->wgth = path->wgth;
+			path->reverse->reverse = NULL;
 		}
-		free(edge);
-		del_from_links(&edge->from->links, edge);
-		edge = next->path;
+		del_from_links(&path->from->links, path);
+		del = path;
+		path = path->from->path;
+		free(del);
 	}
 }
 
@@ -109,9 +119,14 @@ int	suurballe(t_node *start, t_node *fin)
 	while (iter > limit)
 	{
 		--iter;
+		printf("limit %i, iter %i\n", limit, iter);
 		if (dijkstra(start, fin, iter))
 			break ;
+		printf("dijkstra done\n");
+		print_gr();
 		reverse_path(fin);
+		printf("path reversed\n");
+		print_gr();
 	}
 	return (iter);
 }
