@@ -37,28 +37,20 @@ typedef struct s_node
 
 typedef enum	e_instuctions
 {
-	NONE,
+	INSTR_NONE,
 	START,
 	FINISH
 }				t_instr;
 
-typedef struct	s_mngr
-{
-	int			flags; //TODO convert to more flags or to bitarray
-	unsigned	ant_num;
-	t_btavl		*all_rooms;
-	t_instr		instr;
-	t_node		*start;
-	t_node		*end;
-}				t_mngr;
 
 typedef enum	e_line_types
 {
-	COMMENT,
-	INSTRUCTION,
+	LT_NONE = -1,
 	ANT_N,
 	ROOM,
 	LINK,
+	COMMENT,
+	INSTRUCTION,
 	ERROR
 }				t_elt;
 
@@ -68,6 +60,17 @@ typedef enum 	e_errors
 	INPUT_ERROR
 }				t_err;
 
+typedef struct	s_mngr
+{
+	int			flags; //TODO convert to more flags or to bitarray
+	unsigned	ant_num;
+	t_btavl		*all_rooms;
+	t_instr		instr;
+	t_node		*start;
+	t_node		*end;
+	t_elt		max_lt;
+}				t_mngr;
+
 void	*parse_flags(int argc, char **argv, t_mngr *mngr);
 
 void	parse_input(t_mngr *mngr);
@@ -75,7 +78,6 @@ t_elt	check_line_type(char *line);
 t_elt	get_room(t_mngr *mngr, char *line);
 t_elt	get_link(t_mngr *mngr, char *line);
 
-t_mngr	*init_mngr(void);
 void	make_magic(t_mngr *mngr);
 void	print_solution(t_mngr *mngr);
 void	ultimate_exit(t_mngr **mngr);
