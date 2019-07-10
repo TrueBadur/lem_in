@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/09 20:41:25 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/10 19:10:20 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void		set_both_edges_weight(t_edge *edge)
 void			set_node_weight(t_vector *que, t_node *node, int weight)
 {
 	node->counter = weight;
+	print_node(node);
 	que_add(que, node);
 }
 
@@ -65,6 +66,7 @@ void			set_weights(t_node *root)
 	t_node		*cur;
 	t_list		*child;
 
+	print_node(root);
 	que = ft_vecinit(QUE_SIZE);
 	root->counter = 0;
 	que_add(que, root);

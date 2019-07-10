@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:12:33 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/05 18:22:08 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/10 18:29:24 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 //	if (argc > 1)
 //		parse_flags(argc, argv, mngr); //TODO
 	parse_input(mngr); //TODO
-//	make_magic(mngr); //TODO
+	get_all_paths(mngr->start, mngr->end, mngr->ant_num);
 //	print_solution(mngr); //TODO
 //	return (0);
 

@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/10 16:08:31 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/10 16:11:28 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,10 @@ int	suurballe(t_node *start, t_node *fin)
 		if (dijkstra(start, fin, iter))
 			break ;
 		printf("dijkstra done\n");
-		print_gr();
+//		print_gr();
 		reverse_path(fin);
 		printf("path reversed\n");
-		print_gr();
+//		print_gr();
 	}
 	return (iter);
 }
