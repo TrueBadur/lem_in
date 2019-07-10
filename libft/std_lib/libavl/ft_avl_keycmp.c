@@ -12,7 +12,7 @@
 
 #include "btavl.h"
 
-int	ft_avl_keycmp(void *a, void *b, int (f)(void*, void*), t_avl_k_t kt)
+int	ft_avl_keycmp(void *a, void *b, t_avl_k_t kt, int (f)(void*, void*))
 {
 	if (kt < STRING)
 	{

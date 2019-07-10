@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 15:28:41 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/09 21:39:43 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/10 16:24:42 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ t_btavl	*ft_avlins(t_btavl *tr, t_btavl *node, int (f)(void*, void*))
 		return (node);
 	if (tr->key_type != node->key_type)
 		return (NULL);
-	cmp = ft_avl_keycmp(node->key, tr->key, node->key_type, f);
+	cmp = ft_avl_keycmp(tr->key, node->key, tr->key_type, f);
 	if (cmp == 0)
 		return (tr);
-	if (cmp < 0)
+	if (cmp > 0)
 		tr->left = ft_avlins(tr->left, node, f);
 	else
 		tr->right = ft_avlins(tr->right, node, f);
