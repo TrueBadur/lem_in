@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 20:17:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/10 17:06:52 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/10 17:13:21 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ t_elt	get_link(t_mngr *mngr, char *line)
 		free(edg_f);
 		return (ERROR);
 	}
-	edg_f->reverse = edg_t;
-	edg_t->reverse = edg_f;
 	ft_lstadd(&from->links, ft_lstnew(edg_f, sizeof(t_edge)));
 	ft_lstadd(&to->links, ft_lstnew(edg_t, sizeof(t_edge)));
+	((t_edge*)from->links->data)->reverse = (t_edge*)to->links->data;
+	((t_edge*)to->links->data)->reverse = (t_edge*)from->links->data;
 	free(edg_f);
 	free(edg_t);
 	return (LINK);
