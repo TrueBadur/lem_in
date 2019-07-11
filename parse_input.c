@@ -59,6 +59,6 @@ void parse_input(t_mngr *mngr)
 			break ;
 	}
 	if (!mngr->start || !mngr->end || mngr->ant_num < 0)
-		ultimate_exit(mngr, NOT_EBOUGH_DATA);
+		ultimate_exit(mngr, NOT_ENOUGH_DATA);
 }
 

@@ -59,7 +59,8 @@ typedef enum 	e_errors
 {
 	SUCCESS,
 	MALLOC_ERROR,
-	NOT_EBOUGH_DATA,
+	NOT_ENOUGH_DATA,
+	NO_PATHS_FOUND,
 }				t_err;
 
 typedef struct	s_mngr

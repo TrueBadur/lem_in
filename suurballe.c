@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/11 19:00:34 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 19:56:33 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
 			EDGE->to->counter = iter;
 			EDGE->to->path = EDGE;
 			if (EDGE->to == mngr->end)
+			{
+				ft_vecdel((void **)&que);
 				return (NULL);
+			}
 			if (!(que = push_que(que, EDGE->to, cur.priority + EDGE->wgth)))
 				ultimate_exit(mngr, MALLOC_ERROR);
 		}
@@ -60,10 +63,7 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 	mngr->start->path = NULL;
 	while (que->len > 0)
 		if (!(que = dijkstra(mngr, iter, que)))
-		{
-			ft_vecdel((void **)&que);
 			return (0);
-		}
 	ft_vecdel((void **)&que);
 	return (-1);
 }
