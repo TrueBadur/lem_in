@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:58:51 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 15:19:52 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/11 15:20:52 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,14 @@ static t_elt parse_by_type(t_mngr *mngr, char *line, t_elt type)
 void parse_input(t_mngr *mngr)
 {
 	char	*line;
+	char	*tmp;
 	t_elt	type;
 
 	while(get_next_line(STDIN_FILENO, &line) > 0)
 	{
+		tmp = line;
+		line = ft_strtrim(line);
+		free(tmp);
 		type = check_line_type(line);
 		if (type < mngr->max_lt)
 			type = ERROR;
