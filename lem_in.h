@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 15:41:23 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 15:59:12 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct	s_mngr
 	t_elt		max_lt;
 }				t_mngr;
 
-
+# define MIN(x, y) (x < y ? x : y)
 
 void	*parse_flags(int argc, char **argv, t_mngr *mngr);
 
@@ -90,9 +90,9 @@ void			*set_node_weight(t_vector *que, t_node *node, int w, t_mngr *mngr);
 void 			set_weights(t_mngr *mngr);
 
 void			del_from_links(t_list **links, t_edge *one);
-int				suurballe(t_node *start, t_node *fin);
+int				suurballe(t_mngr *mngr);
 
-void			clean_graph(t_node *fin, int iter);
+void			clean_graph(t_mngr *mngr, int iter);
 void			get_all_paths(t_mngr *mngr);
 
 
