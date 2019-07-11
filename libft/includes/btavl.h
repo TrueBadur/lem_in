@@ -57,5 +57,6 @@ void			*ft_avlsearch(t_btavl *tr, void *key, int ret_d,
 t_btavl			*ft_avlmin(t_btavl *tr);
 t_btavl			*ft_avlmax(t_btavl *tr);
 t_vector		*ft_avltovec(t_btavl *tr, t_vector *vec);
+t_btavl			*ft_avlfree_custom(t_btavl *tr, void (f)(void*));
 
 #endif
