@@ -1,5 +1,7 @@
 #include "lem_in.h"
 
+#define QUE_SIZE 100 * sizeof(t_node*)
+
 void	print_edge(t_edge *edge)
 {
 	if (edge->reverse)
@@ -17,5 +19,5 @@ void	print_node(t_node *node)
 		print_edge(((t_edge *)tmp->data));
 		tmp = tmp->next;
 	}
-	printf("\n");
+	printf(" ]\n");
 }

@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/11 16:23:20 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:18:54 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,9 @@ void	get_all_paths(t_mngr *mngr)
 	int i;
 
 	set_weights(mngr);
+	printf("weights set\n\n");
 	i = suurballe(mngr);
-	printf("iterator %i\n", i);
+	printf("dijkstra has %i runs\n", -i-1);
 	clean_graph(mngr, i - 1);
 //	move_lems(fin);
 }

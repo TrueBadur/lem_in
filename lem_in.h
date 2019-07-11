@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 15:59:12 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:06:41 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,5 @@ void			get_all_paths(t_mngr *mngr);
 
 void	print_edge(t_edge *edge);
 void	print_node(t_node *node);
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/11 16:52:47 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:25:19 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,17 +131,18 @@ int				suurballe(t_mngr *mngr)
 	int	limit;
 
 	iter = -1;
-	limit = -MIN(ft_lstlen(mngr->start->links), ft_lstlen(mngr->end->links));
+	limit = MIN(ft_lstlen(mngr->start->links), ft_lstlen(mngr->end->links));
 	limit = -MIN(limit, mngr->ant_num) - 1;
+	printf("limit %i\n\n", -limit); // TODO remove
 	while (iter > limit)
 	{
 		--iter;
-		printf("limit %i, iter %i\n", limit, iter); // TODO remove
+		printf("iter %i\n", iter); // TODO remove
 		if (wrap_dijkstra(mngr, iter))
 			break ;
 		printf("dijkstra done\n"); // TODO remove
 		reverse_path(mngr->end);
-		printf("path reversed\n"); // TODO remove
+		printf("path reversed\n\n"); // TODO remove
 	}
 	return (iter);
 }
