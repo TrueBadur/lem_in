@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/09 20:44:30 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:12:31 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ typedef enum	e_line_types
 
 typedef enum 	e_errors
 {
-	INPUT_ERROR
+	SUCCESS,
+	MALLOC_ERROR,
+	NOT_EBOUGH_DATA,
 }				t_err;
 
 typedef struct	s_mngr
@@ -80,7 +82,7 @@ t_elt	get_link(t_mngr *mngr, char *line);
 
 void	make_magic(t_mngr *mngr);
 void	print_solution(t_mngr *mngr);
-void	ultimate_exit(t_mngr **mngr);
+void ultimate_exit(t_mngr *mngr, int exit_code);
 
 void			que_add(t_vector *que, t_node *node);
 t_node			*que_popleft(t_vector *que);

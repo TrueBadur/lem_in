@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:12:33 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/10 18:29:24 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:26:10 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,12 @@ static t_mngr	*init_mngr(void)
 	return (ret);
 }
 
-//TODO remove placeholder
-void	ultimate_exit(t_mngr **mngr)
-{
-	*mngr = NULL;
-	exit(1);
-}
-
 int main(int argc, char **argv)
 {
 	t_mngr *mngr;
 
 	if (!(mngr = init_mngr()))
-		ultimate_exit(NULL);//TODO
+		ultimate_exit(NULL, MALLOC_ERROR);//TODO
 	argc += 0;
 	argv += 0;
 //	if (argc > 1)
@@ -45,6 +38,8 @@ int main(int argc, char **argv)
 	parse_input(mngr); //TODO
 	get_all_paths(mngr->start, mngr->end, mngr->ant_num);
 //	print_solution(mngr); //TODO
-//	return (0);
-
+	ultimate_exit(mngr, SUCCESS);
 }
+
+
+
