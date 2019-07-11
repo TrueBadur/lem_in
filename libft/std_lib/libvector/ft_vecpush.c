@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vecshrink.c                                     :+:      :+:    :+:   */
+/*   ft_vecpush.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 17:58:28 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/05/28 18:30:20 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/11 15:10:34 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_vector	*ft_vecpush(t_vector *vec, void *data, size_t s)
 	it = vec->cap;
 	while (s > it - vec->len)
 		it *= 2;
-	if (it > vec->cap)
-		vec = ft_vecgrow(vec, it);
+	if ((it > vec->cap) && !(vec = ft_vecgrow(vec, it)))
+		return (NULL);
 	ft_memcpy(vec->data + vec->len, data, s);
 	vec->len += s;
 	vec->cap = it;
