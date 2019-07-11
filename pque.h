@@ -21,8 +21,6 @@ typedef struct	s_pque
 	int		priority;
 }				t_pque;
 
-# define MIN(x, y) (x < y ? x : y)
-
 void			*push_que(t_vector *vec, void *data, int priority);
 t_pque			pop_que(t_vector *vec);
 

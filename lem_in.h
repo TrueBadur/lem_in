@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 18:06:41 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:18:43 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ typedef struct	s_mngr
 	t_node		*end;
 	t_elt		max_lt;
 }				t_mngr;
-
-# define MIN(x, y) (x < y ? x : y)
 
 void	*parse_flags(int argc, char **argv, t_mngr *mngr);
 
