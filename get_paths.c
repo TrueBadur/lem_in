@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/11 18:18:54 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 19:00:34 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	clean_graph(t_mngr *mngr, int iter)
 	ft_vecdel((void **)&que);
 }
 
-//void		get_aunt(t_vector *que, t_node *cur, t_edge *edge)
+//void		get_ant(t_vector *que, t_node *cur, t_edge *edge)
 //{
 //	if (edge->to->counter > 0)
 //	{
@@ -97,8 +97,9 @@ void	get_all_paths(t_mngr *mngr)
 
 	set_weights(mngr);
 	printf("weights set\n\n");
-	i = suurballe(mngr);
-	printf("dijkstra has %i runs\n", -i-1);
+	if ((i = suurballe(mngr)) == -2)
+		ultimate_exit(&mngr); // TODO no paths
+	printf("dijkstra has %i runs\n", -i-2);
 	clean_graph(mngr, i - 1);
 //	move_lems(fin);
 }
