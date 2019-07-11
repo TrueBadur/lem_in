@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:11:10 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/10 15:40:00 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/11 16:22:49 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ t_elt	get_room(t_mngr *mngr, char *line)
 		free(node);
 		return (ERROR);
 	}
-	mngr->all_rooms = ft_avlins(mngr->all_rooms, ft_avlnew_nc(node, node->name,
-			sizeof(t_node),	STRING), NULL);
+	if (!(mngr->all_rooms = ft_avlins(mngr->all_rooms, ft_avlnew_nc(node,
+			node->name,	sizeof(t_node),	STRING), NULL)))
+			ultimate_exit(&mngr);
 	if (mngr->instr == START)
 		mngr->start = node;
 	if (mngr->instr == FINISH)
