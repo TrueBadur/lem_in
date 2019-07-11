@@ -19,6 +19,8 @@ add_executable(lem_in main.c lem_in.h parse_input.c check_line_type.c get_room.c
 				get_link.c test.c get_paths.c suurballe.c set_weights.c
 				priority_queue.c ultimate_exit.c)
 
+add_executable(vizu_hex vizu_hex/vizu_hex_main.c vizu_hex/vizu_hex.h)
+
 include(FindPkgConfig)
 find_package(ft REQUIRED)
 include_directories(${ft_INCLUDE_DIR})
