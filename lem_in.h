@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 15:34:58 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 15:41:23 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void			del_from_links(t_list **links, t_edge *one);
 int				suurballe(t_node *start, t_node *fin);
 
 void			clean_graph(t_node *fin, int iter);
-void			get_all_paths(t_node *start, t_node *fin, int n);
+void			get_all_paths(t_mngr *mngr);
 
 
 void	print_edge(t_edge *edge);
