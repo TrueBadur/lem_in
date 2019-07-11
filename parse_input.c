@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:58:51 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 15:20:52 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:13:11 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ void parse_input(t_mngr *mngr)
 			break ;
 	}
 	if (!mngr->start || !mngr->end || mngr->ant_num < 0)
-		ultimate_exit(&mngr);
+		ultimate_exit(mngr, NOT_EBOUGH_DATA);
 }
 

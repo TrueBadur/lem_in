@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:11:10 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 16:22:49 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:13:11 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ t_elt	get_room(t_mngr *mngr, char *line)
 	t_node	*node;
 
 	if ((node = malloc(sizeof(t_node))) == NULL)
-		ultimate_exit(&mngr);
+		ultimate_exit(mngr, MALLOC_ERROR);
 	ft_bzero(node, sizeof(t_node));
 	if (!(node->name = get_node_name(line)))
-		ultimate_exit(&mngr);
+		ultimate_exit(mngr, MALLOC_ERROR);
 	node->counter = -1;
 	if (ft_avlsearch(mngr->all_rooms, node->name, 0, NULL))
 	{
@@ -44,7 +44,7 @@ t_elt	get_room(t_mngr *mngr, char *line)
 	}
 	if (!(mngr->all_rooms = ft_avlins(mngr->all_rooms, ft_avlnew_nc(node,
 			node->name,	sizeof(t_node),	STRING), NULL)))
-			ultimate_exit(&mngr);
+		ultimate_exit(mngr, MALLOC_ERROR);
 	if (mngr->instr == START)
 		mngr->start = node;
 	if (mngr->instr == FINISH)
