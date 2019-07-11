@@ -27,7 +27,7 @@ void	clean_graph(t_mngr *mngr, int iter)
 	t_list		*child;
 
 	if (!(que = ft_vecinit(SIZE_OF_QUE)))
-		ultimate_exit(&mngr);
+		ultimate_exit(mngr, MALLOC_ERROR);
 	mngr->end->counter = iter;
 	que = que_add(que, mngr->end, mngr);
 	while (que->offset != que->len)

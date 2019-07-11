@@ -19,13 +19,21 @@
 
 t_btavl	*ft_avlfree(t_btavl *tr)
 {
+	return (ft_avlfree_custom(tr, NULL));
+}
+
+t_btavl	*ft_avlfree_custom(t_btavl *tr, void (f)(void*))
+{
 	if (!tr)
 		return (NULL);
 	if (tr->left)
 		ft_avlfree(tr->left);
 	if (tr->right)
 		ft_avlfree(tr->right);
-	free(tr->data);
+	if (!f)
+		free(tr->data);
+	else
+		f(tr->data);
 	free(tr);
 	return (NULL);
 }

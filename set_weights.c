@@ -23,7 +23,7 @@ void		*que_add(t_vector *que, t_node *node, t_mngr *mngr)
 {
 	que = ft_vecpush(que, &node, sizeof(t_node*));
 	if (!que)
-		ultimate_exit(&mngr);
+		ultimate_exit(mngr, MALLOC_ERROR);
 	return (que);
 }
 
@@ -71,7 +71,7 @@ void		set_weights(t_mngr *mngr)
 	t_list		*child;
 
 	if (!(que = ft_vecinit(QUE_SIZE)))
-		ultimate_exit(&mngr);
+		ultimate_exit(mngr, MALLOC_ERROR);
 	mngr->start->counter = 0;
 	que = que_add(que, mngr->start, mngr);
 	while (que->offset != que->len)
