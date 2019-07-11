@@ -37,7 +37,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
 			if (EDGE->to == mngr->end)
 				return (NULL);
 			if (!(que = push_que(que, EDGE->to, cur.priority + EDGE->wgth)))
-				ultimate_exit(&mngr);
+				ultimate_exit(mngr, MALLOC_ERROR);
 		}
 		child = child->next;
 	}
@@ -53,9 +53,9 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 	t_vector	*que;
 
 	if (!(que = ft_vecinit(SIZE_OF_QUE)))
-		ultimate_exit(&mngr);
+		ultimate_exit(mngr, MALLOC_ERROR);
 	if (!(que = push_que(que, mngr->start, 0)))
-		ultimate_exit(&mngr);
+		ultimate_exit(mngr, MALLOC_ERROR);
 	mngr->start->counter = iter;
 	mngr->start->path = NULL;
 	while (que->len > 0)
