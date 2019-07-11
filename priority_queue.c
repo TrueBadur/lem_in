@@ -6,20 +6,15 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 21:31:08 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/09 21:11:30 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 15:10:34 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "pque.h"
 
-void		print_que(t_pque *q, int n)
-{
-	int i;
-
-	i = -1;
-	while (++i < n)
-		printf("priority: %i | %c\n", q[i].priority, *(char *)(q[i].data));
-}
+/*
+** swap two elements in Queue
+*/
 
 static void	swap_pque(t_pque *a, t_pque *b)
 {
@@ -29,6 +24,10 @@ static void	swap_pque(t_pque *a, t_pque *b)
 	*a = *b;
 	*b = tmp;
 }
+
+/*
+** sift minimal element up by PriorityQueue
+*/
 
 static void	sift_up(t_pque *q, unsigned int i)
 {
@@ -42,7 +41,9 @@ static void	sift_up(t_pque *q, unsigned int i)
 	sift_up(q, parent);
 }
 
-#define MIN(x, y) (x < y ? x : y)
+/*
+** sift maximal element down by PriorityQueue
+*/
 
 static void	sift_down(t_pque *q, unsigned int i, unsigned int len)
 {
@@ -77,11 +78,13 @@ static void	sift_down(t_pque *q, unsigned int i, unsigned int len)
 ** append it to the end and then Sift_Up to its place
 */
 
-void		push_que(t_vector *vec, void *data, int priority)
+void		*push_que(t_vector *vec, void *data, int priority)
 {
-	ft_vecpush(vec, (int *[]){(int *)data, (int *)(long)priority},
-			sizeof(t_pque));
+	if (!(vec = ft_vecpush(vec, (int *[]){(int *)data, (int *)(long)priority},
+			sizeof(t_pque))))
+		return (NULL);
 	sift_up((t_pque *)(vec->data), vec->len / sizeof(t_pque) - 1);
+	return (vec);
 }
 
 /*

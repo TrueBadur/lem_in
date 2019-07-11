@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/09 20:44:30 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:06:41 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ typedef struct	s_mngr
 	t_elt		max_lt;
 }				t_mngr;
 
+# define MIN(x, y) (x < y ? x : y)
+
 void	*parse_flags(int argc, char **argv, t_mngr *mngr);
 
 void	parse_input(t_mngr *mngr);
@@ -82,20 +84,19 @@ void	make_magic(t_mngr *mngr);
 void	print_solution(t_mngr *mngr);
 void	ultimate_exit(t_mngr **mngr);
 
-void			que_add(t_vector *que, t_node *node);
+void			*que_add(t_vector *que, t_node *node, t_mngr *mngr);
 t_node			*que_popleft(t_vector *que);
-void			set_node_weight(t_vector *que, t_node *node, int weight);
-void 			set_weights(t_node *root);
+void			*set_node_weight(t_vector *que, t_node *node, int w, t_mngr *mngr);
+void 			set_weights(t_mngr *mngr);
 
 void			del_from_links(t_list **links, t_edge *one);
-int				suurballe(t_node *start, t_node *fin);
+int				suurballe(t_mngr *mngr);
 
-void			clean_graph(t_node *fin, int iter);
-void			get_all_paths(t_node *start, t_node *fin, int n);
+void			clean_graph(t_mngr *mngr, int iter);
+void			get_all_paths(t_mngr *mngr);
 
-void	my_test(void);
+
 void	print_edge(t_edge *edge);
 void	print_node(t_node *node);
-void	print_gr();
 
 #endif
