@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/11 17:54:40 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 18:12:31 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/11 19:16:42 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,9 @@
 void	free_node(void *node)
 {
 	t_node	*nd;
-	t_list	*tmp;
 
 	nd = (t_node*)node;
-	while (nd->links)
-	{
-		tmp = nd->links;
-		nd->links = nd->links->next;
-		free(tmp->data);
-		free(tmp);
-	}
+	ft_lstdel(&nd->links, NULL);
 	free(nd->name);
 	free(node);
 }
