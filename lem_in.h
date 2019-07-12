@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 18:06:41 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/12 16:43:39 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef enum	e_line_types
 	LINK,
 	COMMENT,
 	INSTRUCTION,
+	LEMIN_PATH,
+	EMPTY_LINE,
 	ERROR
 }				t_elt;
 
@@ -59,8 +61,10 @@ typedef enum 	e_errors
 {
 	SUCCESS,
 	MALLOC_ERROR,
-	NOT_EBOUGH_DATA,
+	NOT_ENOUGH_DATA,
 }				t_err;
+
+#ifndef LEM_IN_VIZU_HEX_H
 
 typedef struct	s_mngr
 {
@@ -73,12 +77,14 @@ typedef struct	s_mngr
 	t_elt		max_lt;
 }				t_mngr;
 
+#endif
+
 # define MIN(x, y) (x < y ? x : y)
 
 void	*parse_flags(int argc, char **argv, t_mngr *mngr);
 
 void	parse_input(t_mngr *mngr);
-t_elt	check_line_type(char *line);
+t_elt 	check_line_type(char *line, int viz);
 t_elt	get_room(t_mngr *mngr, char *line);
 t_elt	get_link(t_mngr *mngr, char *line);
 

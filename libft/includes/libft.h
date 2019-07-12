@@ -121,5 +121,6 @@ size_t				ft_strlen_u(const int *s, char f);
 char				ft_unilen(int u);
 int					ft_intlen(long int n);
 char				*ft_itoa_buf(long n, char *res);
+void				*ft_replace_pointer(void *old, void *new);
 
 #endif

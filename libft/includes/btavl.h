@@ -15,13 +15,17 @@
 # include "libft.h"
 # define TO_AVL_KEY(x) ((void*)((long)(x)))
 
-typedef enum		e_avl_key_type
+#ifndef FT_KEY_TYPE
+#define FT_KEY_TYPE
+
+typedef enum		e_key_type
 {
-	NUM32,
-	NUM64,
+	B_32,
+	B_64,
 	STRING,
 	OTHER
 }					t_avl_k_t;
+#endif
 
 typedef struct		s_btavl
 {
