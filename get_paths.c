@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/12 15:38:05 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/12 17:21:11 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,59 @@ void	clean_graph(t_mngr *mngr, int iter)
 //	ft_vecdel((void **)&que);
 //}
 
+//void		calc_aunts(int *ants, int n)
+//{
+//
+//}
+
+t_vector	*get_output(t_mngr *mngr, int size)
+{
+	t_vector	*output;
+	int			ants[size];
+	t_node		*ends[size];
+	t_list		*cur;
+	int 		i;
+
+	i = 0;
+	cur = mngr->end->links;
+	while (cur)
+	{
+		ends[i] = ((t_edge*)cur->data)->to;
+		ants[i] = 1;
+		while (1)
+		{
+			ants[i]++;
+			if (((t_edge *)ends[i]->links->data)->to == mngr->start)
+				break ;
+			ends[i] = ((t_edge *)ends[i]->links->data)->to;
+		}
+		printf("len = %i     ", ants[i]); // TODO remove
+		print_node(ends[i]);  // TODO remove
+		cur = cur->next;
+		i++;
+	}
+//	calc_aunts(ants, mngr->ant_num);
+	if (!(output = ft_vecinit(10 * mngr->ant_num * sizeof(char))))
+		ultimate_exit(mngr, MALLOC_ERROR);
+	return (output);
+}
+
 /*
 ** overall algorithm
 */
 
-void	get_all_paths(t_mngr *mngr)
+void		get_all_paths(t_mngr *mngr)
 {
-	int i;
+	int			i;
+	t_vector	*output;
 
 	set_weights(mngr);
-	printf("weights set\n\n");
+	printf("weights set\n\n"); // TODO remove
 	if ((i = suurballe(mngr)) == -2)
 		ultimate_exit(mngr, NO_PATHS_FOUND);
-	printf("dijkstra has %i runs\n", -i-2);
+	printf("dijkstra has %i runs\n", -i - 2);  // TODO remove
 	clean_graph(mngr, i - 1);
-//	move_lems(fin);
+	output = get_output(mngr, ft_lstlen(mngr->end->links));
+	ft_printf("%s", (char*)output->data);
+	ft_vecdel((void **)&output);
 }
