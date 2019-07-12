@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/07 16:44:14 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/10 15:25:59 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/12 20:50:43 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef enum		e_key_type
 	B_64,
 	STRING,
 	OTHER
-}					t_avl_k_t;
+}					t_keytype;
 #endif
 
 typedef struct		s_btavl

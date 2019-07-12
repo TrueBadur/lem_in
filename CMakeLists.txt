@@ -21,7 +21,7 @@ add_executable(lem_in main.c lem_in.h parse_input.c check_line_type.c get_room.c
 
 add_executable(vizu_hex vizu_hex/vizu_hex_main.c vizu_hex/vizu_hex.h parse_input.c
 		check_line_type.c vizu_hex/vh_parse_input.c vizu_hex/prepare_farm.c vizu_hex/vh_get_room.c
-		libft/includes/htable.h)
+		libft/includes/htable.h libft/std_lib/libhtable/ft_htab_init.c)
 
 include(FindPkgConfig)
 find_package(ft REQUIRED)
