@@ -90,7 +90,7 @@ t_node			*que_popleft(t_vector *que);
 void			*set_node_weight(t_vector *que, t_node *node, int w, t_mngr *mngr);
 void 			set_weights(t_mngr *mngr);
 
-void			del_from_links(t_list **links, t_edge *one);
+void			del_edge(t_list **links, t_edge *one);
 int				suurballe(t_mngr *mngr);
 
 void			clean_graph(t_mngr *mngr, int iter);

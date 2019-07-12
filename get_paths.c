@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/11 19:25:59 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/12 15:38:05 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ void	clean_graph(t_mngr *mngr, int iter)
 				set_node_weight(que, EDGE->to, iter, mngr);
 			if (EDGE->reverse)
 			{
-				del_from_links(&(EDGE->to->links), EDGE->reverse);
-//				free(EDGE->reverse); // TODO free
-				del_from_links(&(EDGE->from->links), EDGE);
-//				free(EDGE); // TODO free
+				del_edge(&(EDGE->to->links), EDGE->reverse);
+				del_edge(&(EDGE->from->links), EDGE);
 			}
 			child = child->next;
 		}

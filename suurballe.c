@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/11 19:56:33 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/12 15:47:36 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 ** delete one link from /node/->/links/
 */
 
-void			del_from_links(t_list **links, t_edge *one)
+void			del_edge(t_list **links, t_edge *one)
 {
 	t_list *tmp;
 	t_list *del;
@@ -82,6 +82,7 @@ void			del_from_links(t_list **links, t_edge *one)
 	if (tmp->data == one)
 	{
 		*links = tmp->next;
+		free(tmp->data);
 		free(tmp);
 		printf(" - deleted \n"); // TODO remove
 		return ;
@@ -90,6 +91,7 @@ void			del_from_links(t_list **links, t_edge *one)
 		tmp = tmp->next;
 	del = tmp->next;
 	tmp->next = del->next;
+	free(del->data);
 	free(del);
 	printf(" - deleted \n"); // TODO remove
 }
@@ -113,10 +115,9 @@ static void		reverse_path(t_node *fin)
 			path->reverse->wgth = path->wgth;
 			path->reverse->reverse = NULL;
 		}
-		del_from_links(&path->from->links, path);
 		del = path;
 		path = path->from->path;
-		free(del);
+		del_edge(&del->from->links, del);
 	}
 }
 
