@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_weights.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/13 01:33:55 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/13 15:08:26 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void		set_edge_weight(t_edge *edge)
 static void		*set_node_weight(t_vector *que, t_node *node, t_node *prev, t_mngr *mngr)
 {
 	node->counter = node->wrap == prev->wrap ? prev->counter : prev->counter + 1;
-	que = que_add(que, node, mngr);
+	que = que_add(que, &(node->wrap->out), mngr);
 	return (que);
 }
 
@@ -84,7 +84,7 @@ void		set_weights(t_mngr *mngr)
 		while (child)
 		{
 			if (EDGE->to->counter == -1)
-				que = set_node_weight(que, EDGE->to, cur, mngr);
+				que = set_node_weight(que, EDGE->to, cur, mngr); //TODO here comes some wrongness
 			if (EDGE->wgth == -1)
 				set_edge_weight(EDGE);
 			child = child->next;

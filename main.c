@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:12:33 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/13 01:58:03 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/13 14:16:03 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int main(int argc, char **argv)
 	argv += 0;
 //	if (argc > 1)
 //		parse_flags(argc, argv, mngr); //TODO
-//	parse_input(mngr); //TODO
-	test(mngr);
+	parse_input(mngr); //TODO
+//	test(mngr);
 	get_all_paths(mngr);
 //	print_solution(mngr); //TODO
 	ultimate_exit(mngr, SUCCESS);

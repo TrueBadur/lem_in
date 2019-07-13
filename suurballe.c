@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   suurballe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/13 04:34:34 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/13 15:23:24 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
 				ft_vecdel((void **)&que);
 				return (NULL);
 			}
-			if (!(que = push_que(que, EDGE->to, cur.priority + EDGE->wgth)))
+			if (!(que = push_que(que, &(EDGE->to->wrap->out), cur.priority + EDGE->wgth)))
 				ultimate_exit(mngr, MALLOC_ERROR);
 		}
 		child = child->next;
@@ -142,7 +142,8 @@ int				suurballe(t_mngr *mngr)
 
 	iter = -2;
 	limit = FT_MIN2(ft_lstlen(mngr->start->links),
-			ft_lstlen(((t_edge *)mngr->end->links->data)->to->links));
+//			ft_lstlen(((t_edge *)mngr->end->links->data)->to->links));
+			ft_lstlen(mngr->end->links));
 	limit = -FT_MIN2(limit, mngr->ant_num) - 1;
 	ft_printf("{Blue}limit %i{eof}\n\n", -limit-1); // TODO remove
 	while (iter > limit - 1)

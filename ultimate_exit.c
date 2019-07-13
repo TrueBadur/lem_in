@@ -14,11 +14,12 @@
 
 void	free_node(void *node)
 {
-	t_node	*nd;
+	t_wnode	*nd;
 
-	nd = (t_node*)node;
-	ft_lstdel(&nd->links, NULL);
-//	free(nd->name);
+	nd = (t_wnode*)node;
+	ft_lstdel(&(nd->in.links), NULL);
+	ft_lstdel(&(nd->out.links), NULL);
+	free(nd->name);
 	free(node);
 }
 
