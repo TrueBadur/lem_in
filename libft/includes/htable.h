@@ -31,7 +31,7 @@ typedef enum		e_key_type
 typedef struct	s_bucket
 {
 	char	*key;
-	t_list	*lst;
+	void	*data;
 }				t_bucket;
 
 typedef struct	s_htable t_htab;
