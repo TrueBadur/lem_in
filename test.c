@@ -144,5 +144,5 @@ void	test_3(t_mngr *mngr)
 
 void	test(t_mngr *mngr)
 {
-	test_2(mngr);
+	test_3(mngr);
 }

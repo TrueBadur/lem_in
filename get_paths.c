@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/13 11:27:24 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/13 13:14:39 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ char 	*print_one_lem(int num, char *name)
 /*
 ** moves ants towards finish by shortest paths first
 */
-
+// TODO: Ants skip start and moves from the next node.. need to fix!
+// TODO: Problems with placing of 'end[i]' - ant don't come from it, but from next node,
+// TODO: I can't move it further because of I need to split it by paths, and its first place of split,
+// TODO: so need change logic of ants. The same reason of latest mess, when 'ends[i]' moves toward finish.
+// TODO: Also needs limit for outcoming ants - should use cur_lem <= mngr->ant_num for it.
 void 		move_lems(t_mngr *mngr, t_vector *output, t_node **ends)
 {
 	int i;
@@ -79,10 +83,9 @@ void 		move_lems(t_mngr *mngr, t_vector *output, t_node **ends)
 	t_edge	*edge;
 	char 	*one;
 
-	output++; // TODO trash
 	count = 0;
 	cur_lem = 1;
-	printf("\n\n");
+	printf("\n\n");  // TODO remove
 	while (count < mngr->ant_num)
 	{
 		i = 0;
@@ -99,18 +102,18 @@ void 		move_lems(t_mngr *mngr, t_vector *output, t_node **ends)
 				while (edge->to != ends[i])
 				{
 					one = print_one_lem(edge->to->counter, edge->from->wrap->name);
-					printf("%s", one); //TODO output
-//					output = ft_vecpush(output, one, ft_strlen(one));
+//					printf("%s", one); //TODO output
+					output = ft_vecpush(output, one, ft_strlen(one));
 					edge->from->counter = edge->to->counter;
 					edge = ((t_edge *)edge->to->links->data);
 				}
-				edge->to->counter--;
+				ends[i]->counter--;
 				edge->from->counter = cur_lem;
 				cur_lem++;
 				one = print_one_lem(edge->from->counter, edge->from->wrap->name);
-				printf("%s", one); //TODO output
-//				output = ft_vecpush(output, one, ft_strlen(one));
-				if (edge->to->counter == 0)
+//				printf("%s", one); //TODO output
+				output = ft_vecpush(output, one, ft_strlen(one));
+				if (ends[i]->counter == 0)
 					ends[i] = edge->from;
 				if (ends[i] == mngr->end)
 					ends[i] = NULL;
@@ -118,7 +121,8 @@ void 		move_lems(t_mngr *mngr, t_vector *output, t_node **ends)
 			i++;
 			cur = cur->next;
 		}
-		printf("\n\n");
+		output = ft_vecpush(output, "\n\n", 2);
+//		printf("\n\n"); // TODO remove
 	}
 }
 
@@ -196,7 +200,7 @@ t_vector	*get_output(t_mngr *mngr, int size)
 	i = -1;          // TODO remove
 	while (++i < size)  // TODO remove
 		print_node(ends[i]); // TODO remove
-	if (!(output = ft_vecinit(10 * mngr->ant_num * sizeof(char))))
+	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
 		ultimate_exit(mngr, MALLOC_ERROR);
 	move_lems(mngr, output, ends);
 	return (output);
