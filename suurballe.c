@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/13 15:23:24 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/13 15:25:18 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
 		{
 			EDGE->to->counter = iter;
 			EDGE->to->path = EDGE;
-			if (EDGE->to == mngr->end)
+			if (EDGE->to == &(mngr->end->wrap->in))
 			{
 				ft_vecdel((void **)&que);
 				return (NULL);

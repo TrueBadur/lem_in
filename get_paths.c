@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_paths.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/13 13:14:39 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/13 15:43:37 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ t_vector	*get_output(t_mngr *mngr, int size)
 
 	i = 0;
 	ft_bzero(ends, sizeof(t_node*) * size);
-	cur = mngr->end->links;
+	cur = mngr->end->wrap->in.links;
 	if (!(que = ft_vecinit(SIZE_OF_QUE)))
 		ultimate_exit(mngr, MALLOC_ERROR);
 	while (cur)
@@ -222,7 +222,7 @@ void		get_all_paths(t_mngr *mngr)
 	ft_printf("{Blue}dijkstra has %i runs{eof}\n\n", -i - 2);  // TODO remove
 	clean_graph(mngr, i - 1);
 	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO remove
-	output = get_output(mngr, ft_lstlen(mngr->end->links));
+	output = get_output(mngr, ft_lstlen(mngr->end->wrap->in.links));
 	ft_printf("%s", (char*)output->data);
 	ft_vecdel((void **)&output);
 }
