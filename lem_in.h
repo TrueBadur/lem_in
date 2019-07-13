@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 18:18:43 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/13 05:04:39 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,30 @@
 #include <stdio.h> // TODO: delete
 
 struct s_node;
+struct s_wnode;
 
 typedef struct	s_edge
 {
 	struct s_node	*from;
 	struct s_node	*to;
 	int 			wgth;  // -1 by default
-	struct s_edge	*reverse;  // NULL by default
+	char			was_rev; // 0 by default
 }				t_edge;
 
 typedef struct s_node
 {
-	int			counter; // -1 by default
-	t_edge		*path;  // NULL by default
-	char		*name;
-	t_list		*links;  // t_edge
+	int				counter; // -1 by default
+	t_edge			*path;  // NULL by default
+	struct s_wnode	*wrap;
+	t_list			*links;  // t_edge
 }				t_node;
+
+typedef struct s_wnode
+{
+	char 	*name;
+	t_node	in;
+	t_node	out;
+}				t_wnode;
 
 typedef enum	e_instuctions
 {
@@ -87,10 +95,9 @@ void ultimate_exit(t_mngr *mngr, int exit_code);
 
 void			*que_add(t_vector *que, t_node *node, t_mngr *mngr);
 t_node			*que_popleft(t_vector *que);
-void			*set_node_weight(t_vector *que, t_node *node, int w, t_mngr *mngr);
 void 			set_weights(t_mngr *mngr);
 
-void			del_edge(t_list **links, t_edge *one);
+t_list			*pop_edge(t_list **links, t_edge *one);
 int				suurballe(t_mngr *mngr);
 
 void			clean_graph(t_mngr *mngr, int iter);
@@ -99,5 +106,6 @@ void			get_all_paths(t_mngr *mngr);
 
 void	print_edge(t_edge *edge);
 void	print_node(t_node *node);
+void	test(t_mngr *mngr);
 
 #endif

@@ -18,7 +18,7 @@ void	free_node(void *node)
 
 	nd = (t_node*)node;
 	ft_lstdel(&nd->links, NULL);
-	free(nd->name);
+//	free(nd->name);
 	free(node);
 }
 

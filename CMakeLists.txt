@@ -15,8 +15,8 @@ FILE(GLOB LIBFT_SRCS ./libft/std_lib/*.c ./libft/std_lib/printf/*.c)  # ADD LIBF
 AUX_SOURCE_DIRECTORY(libft/std_lib/liblist/ TMP)
 
 
-add_executable(lem_in main.c lem_in.h parse_input.c check_line_type.c get_room.c
-				get_link.c test.c get_paths.c suurballe.c set_weights.c
+add_executable(lem_in main.c lem_in.h check_line_type.c
+				test.c get_paths.c suurballe.c set_weights.c
 				priority_queue.c ultimate_exit.c)
 
 include(FindPkgConfig)

@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/12 15:47:36 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/13 04:34:34 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,31 +69,26 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 }
 
 /*
-** delete one link from /node/->/links/
+** return node_of_list contains /one/ edge from /node/->/links/
 */
 
-void			del_edge(t_list **links, t_edge *one)
+t_list		*pop_edge(t_list **links, t_edge *one)
 {
 	t_list *tmp;
-	t_list *del;
+	t_list *ret;
 
-	printf("try to delete %s -> %s ", one->from->name, one->to->name); // TODO remove
+	ft_printf("try to reverse %s -> %s ", one->from->wrap->name, one->to->wrap->name); // TODO remove
 	tmp = *links;
 	if (tmp->data == one)
 	{
 		*links = tmp->next;
-		free(tmp->data);
-		free(tmp);
-		printf(" - deleted \n"); // TODO remove
-		return ;
+		return (tmp);
 	}
 	while (tmp->next->data != one)
 		tmp = tmp->next;
-	del = tmp->next;
-	tmp->next = del->next;
-	free(del->data);
-	free(del);
-	printf(" - deleted \n"); // TODO remove
+	ret = tmp->next;
+	tmp->next = tmp->next->next;
+	return (ret);
 }
 
 /*
@@ -104,20 +99,34 @@ void			del_edge(t_list **links, t_edge *one)
 static void		reverse_path(t_node *fin)
 {
 	t_edge	*path;
-	t_edge	*del;
+	t_edge	*next;
+	t_list	*lst;
+	t_node	*tmp;
 
 	path = fin->path;
 	while (path)
 	{
 		path->to->path = NULL;
-		if (path->reverse)
+		next = path->from->path;
+		lst = pop_edge(&path->from->links, path);
+		if (path->was_rev)
 		{
-			path->reverse->wgth = path->wgth;
-			path->reverse->reverse = NULL;
+			free(path);
+			free(lst);
+			ft_printf(" - {Green}deleted{eof} \n"); // TODO remove
 		}
-		del = path;
-		path = path->from->path;
-		del_edge(&del->from->links, del);
+		else
+		{
+			tmp = path->from;
+			path->from = path->to;
+			path->to = tmp;
+			path->was_rev = 1;
+			ft_lstadd(&path->from->links, lst);
+			ft_printf(" - {Green}reversed{eof} \n"); // TODO remove
+			print_node(path->from);
+			print_node(path->to);
+		}
+		path = next;
 	}
 }
 
@@ -132,17 +141,18 @@ int				suurballe(t_mngr *mngr)
 	int	limit;
 
 	iter = -2;
-	limit = FT_MIN2(ft_lstlen(mngr->start->links), ft_lstlen(mngr->end->links));
+	limit = FT_MIN2(ft_lstlen(mngr->start->links),
+			ft_lstlen(((t_edge *)mngr->end->links->data)->to->links));
 	limit = -FT_MIN2(limit, mngr->ant_num) - 1;
-	printf("limit %i\n\n", -limit); // TODO remove
+	ft_printf("{Blue}limit %i{eof}\n\n", -limit-1); // TODO remove
 	while (iter > limit - 1)
 	{
 		printf("iter %i\n", iter); // TODO remove
 		if (wrap_dijkstra(mngr, iter))
 			break ;
-		printf("dijkstra done\n"); // TODO remove
+		ft_printf("{Green}dijkstra done{eof}\n"); // TODO remove
 		reverse_path(mngr->end);
-		printf("path reversed\n\n"); // TODO remove
+		ft_printf("{Green}path reversed{eof}\n\n"); // TODO remove
 		--iter;
 	}
 	return (iter);
