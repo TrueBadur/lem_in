@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/13 04:34:34 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/16 10:24:37 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,13 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 ** return node_of_list contains /one/ edge from /node/->/links/
 */
 
-t_list		*pop_edge(t_list **links, t_edge *one)
+t_list			*pop_edge(t_list **links, t_edge *one)
 {
 	t_list *tmp;
 	t_list *ret;
 
-	ft_printf("try to reverse %s -> %s ", one->from->wrap->name, one->to->wrap->name); // TODO remove
+	ft_printf("pop %s -> %s\n", one->from->wrap->name,
+			one->to->wrap->name); // TODO remove
 	tmp = *links;
 	if (tmp->data == one)
 	{
@@ -123,8 +124,8 @@ static void		reverse_path(t_node *fin)
 			path->was_rev = 1;
 			ft_lstadd(&path->from->links, lst);
 			ft_printf(" - {Green}reversed{eof} \n"); // TODO remove
-			print_node(path->from);
-			print_node(path->to);
+			print_node(path->from); // TODO remove
+			print_node(path->to); // TODO remove
 		}
 		path = next;
 	}
@@ -144,7 +145,7 @@ int				suurballe(t_mngr *mngr)
 	limit = FT_MIN2(ft_lstlen(mngr->start->links),
 			ft_lstlen(((t_edge *)mngr->end->links->data)->to->links));
 	limit = -FT_MIN2(limit, mngr->ant_num) - 1;
-	ft_printf("{Blue}limit %i{eof}\n\n", -limit-1); // TODO remove
+	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO remove
 	while (iter > limit - 1)
 	{
 		printf("iter %i\n", iter); // TODO remove

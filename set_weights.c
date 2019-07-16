@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/13 01:33:55 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/16 10:15:04 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_node		*que_popleft(t_vector *que)
 ** or 0 for inner edge
 */
 
-static void		set_edge_weight(t_edge *edge)
+static void	set_edge_weight(t_edge *edge)
 {
 	if (edge->from->wrap == edge->to->wrap)
 		edge->wgth = 0;
@@ -54,10 +54,11 @@ static void		set_edge_weight(t_edge *edge)
 ** set weight of /node/ and push it to queue
 */
 
-static void		*set_node_weight(t_vector *que, t_node *node, t_node *prev, t_mngr *mngr)
+static void	*set_node_weight(t_vector *que, t_node *nod, t_node *prev,
+		t_mngr *mngr)
 {
-	node->counter = node->wrap == prev->wrap ? prev->counter : prev->counter + 1;
-	que = que_add(que, node, mngr);
+	nod->counter = nod->wrap == prev->wrap ? prev->counter : prev->counter + 1;
+	que = que_add(que, nod, mngr);
 	return (que);
 }
 
