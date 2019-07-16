@@ -90,7 +90,7 @@ void		set_weights(t_mngr *mngr)
 				set_edge_weight(EDGE);
 			child = child->next;
 		}
-		print_node(cur); // TODO remove
+//		print_node(cur); // TODO remove
 	}
 	ft_vecdel((void **)&que);
 }

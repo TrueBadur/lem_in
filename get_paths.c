@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/16 15:41:03 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/16 17:42:54 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	clean_graph(t_mngr *mngr, int iter)
 			}
 			child = child->next;
 		}
-		print_node(cur); // TODO remove
+//		print_node(cur); // TODO remove
 	}
 	ft_vecdel((void **)&que);
 }
@@ -63,7 +63,7 @@ char 	*print_one_lem(int num, char *name)
 	s = ft_strjoin(s, "-");
 	s = ft_strjoin(s, name);
 	s = ft_strjoin(s, " ");
-//	ft_printf("%s", s);
+//	ft_printf("%s", s); // TODO print
 	return (s);
 }
 
@@ -79,9 +79,8 @@ t_vector	*calc_lens_of_paths(t_vector *que, t_mngr *mngr, t_node **ends)
 	cur = mngr->end->links;
 	while (cur)
 	{
-		print_node(((t_edge*)cur->data)->from);  // TODO remove
+//		print_node(((t_edge*)cur->data)->from);  // TODO remove
 		ends[i] = ((t_edge*)cur->data)->to;
-//		ends[i]->path = NULL;
 		cur_path_len = 2;
 		while (EDGE2->to != mngr->start)
 		{
@@ -91,17 +90,18 @@ t_vector	*calc_lens_of_paths(t_vector *que, t_mngr *mngr, t_node **ends)
 			else
 			{
 				cur_path_len++;
-				print_node(ends[i]); // TODO remove
+//				print_node(ends[i]); // TODO remove
 				ends[i] = EDGE2->to;
 			}
 		}
-		print_node(ends[i]);  // TODO remove
+//		print_node(ends[i]);  // TODO remove
 		if (!(que = push_que(que, ends[i], cur_path_len)))
 			ultimate_exit(mngr, MALLOC_ERROR);
-		printf("len = %i\n\n", cur_path_len); // TODO remove
+//		printf("len = %i\n", cur_path_len); // TODO remove
 		cur = cur->next;
 		i++;
 	}
+//	ft_printf("{Blue}%i ants at all{eof}\n", mngr->ant_num); // TODO remove
 	return (que);
 }
 
@@ -138,7 +138,6 @@ void			move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
 	edge->from->counter = num;
 	one = print_one_lem(num, name);
 	*output = ft_vecpush(*output, one, ft_strlen(one)); // TODO free
-//	edge->from->counter = num;
 }
 
 /*
@@ -158,10 +157,14 @@ t_vector 		*move_lems(t_mngr *mngr, t_vector *output, int size)
 	ft_bzero(ends, sizeof(t_node*) * size);
 	ft_bzero(finishs, sizeof(int) * size);
 	calc_ants(mngr, mngr->ant_num, ends);
-	i = -1;          // TODO remove
-	while (++i < size)  // TODO remove
-		print_node(ends[i]); // TODO remove
-	printf("\n\n");  // TODO remove
+	i = -1;
+	while (++i < size)
+	{
+//		print_node(ends[i]); // TODO remove
+		if (ends[i]->counter == 0)
+			ends[i] = NULL;
+	}
+//	printf("\n\n");  // TODO remove
 	cur_lem = 1;
 	count = 1;
 	while (count)
@@ -189,8 +192,6 @@ t_vector 		*move_lems(t_mngr *mngr, t_vector *output, int size)
 				if (((t_edge*)ends[i]->links->data)->to == mngr->start)
 				{
 					ends[i]->counter--;
-//					edge->from->counter = cur_lem;
-					//cur_lem++;
 					move_one_ant(edge, &output, cur_lem, edge->to->wrap->name);
 					cur_lem++;
 					if (ends[i]->counter == 0)
@@ -204,7 +205,7 @@ t_vector 		*move_lems(t_mngr *mngr, t_vector *output, int size)
 			}
 			cur = cur->next;
 		}
-		output = ft_vecpush(output, "\n\n", 2);
+		output = ft_vecpush(output, "\n", 1);
 	}
 	return (output);
 }
@@ -219,15 +220,15 @@ void		get_all_paths(t_mngr *mngr)
 	t_vector	*output;
 
 	set_weights(mngr);
-	ft_printf("{Green}weights set{eof}\n\n"); // TODO remove
+//	ft_printf("{Green}weights set{eof}\n\n"); // TODO remove
 	if ((i = suurballe(mngr)) == -2)
 		ultimate_exit(mngr, NO_PATHS_FOUND);
-	ft_printf("{Blue}dijkstra has %i runs{eof}\n\n", -i - 2);  // TODO remove
+//	ft_printf("{Blue}dijkstra has %i runs{eof}\n\n", -i - 2);  // TODO remove
 	clean_graph(mngr, i - 1);
-	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO remove
+//	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO remove
 	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
 		ultimate_exit(mngr, MALLOC_ERROR);
 	output = move_lems(mngr, output, ft_lstlen(mngr->end->links));
-	ft_printf("%s", (char*)output->data);
+	ft_printf("\n%s", (char*)output->data);
 	ft_vecdel((void **)&output);
 }

@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/16 10:24:37 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/16 10:34:13 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ t_list			*pop_edge(t_list **links, t_edge *one)
 	t_list *tmp;
 	t_list *ret;
 
-	ft_printf("pop %s -> %s\n", one->from->wrap->name,
-			one->to->wrap->name); // TODO remove
+//	ft_printf("pop %s -> %s\n", one->from->wrap->name,
+//			one->to->wrap->name); // TODO remove
 	tmp = *links;
 	if (tmp->data == one)
 	{
@@ -114,7 +114,7 @@ static void		reverse_path(t_node *fin)
 		{
 			free(path);
 			free(lst);
-			ft_printf(" - {Green}deleted{eof} \n"); // TODO remove
+//			ft_printf(" - {Green}deleted{eof} \n"); // TODO remove
 		}
 		else
 		{
@@ -123,9 +123,9 @@ static void		reverse_path(t_node *fin)
 			path->to = tmp;
 			path->was_rev = 1;
 			ft_lstadd(&path->from->links, lst);
-			ft_printf(" - {Green}reversed{eof} \n"); // TODO remove
-			print_node(path->from); // TODO remove
-			print_node(path->to); // TODO remove
+//			ft_printf(" - {Green}reversed{eof} \n"); // TODO remove
+//			print_node(path->from); // TODO remove
+//			print_node(path->to); // TODO remove
 		}
 		path = next;
 	}
@@ -145,15 +145,15 @@ int				suurballe(t_mngr *mngr)
 	limit = FT_MIN2(ft_lstlen(mngr->start->links),
 			ft_lstlen(((t_edge *)mngr->end->links->data)->to->links));
 	limit = -FT_MIN2(limit, mngr->ant_num) - 1;
-	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO remove
+//	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO remove
 	while (iter > limit - 1)
 	{
-		printf("iter %i\n", iter); // TODO remove
+//		printf("iter %i\n", iter); // TODO remove
 		if (wrap_dijkstra(mngr, iter))
 			break ;
-		ft_printf("{Green}dijkstra done{eof}\n"); // TODO remove
+//		ft_printf("{Green}dijkstra done{eof}\n"); // TODO remove
 		reverse_path(mngr->end);
-		ft_printf("{Green}path reversed{eof}\n\n"); // TODO remove
+//		ft_printf("{Green}path reversed{eof}\n\n"); // TODO remove
 		--iter;
 	}
 	return (iter);

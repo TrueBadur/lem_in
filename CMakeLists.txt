@@ -17,7 +17,8 @@ AUX_SOURCE_DIRECTORY(libft/std_lib/liblist/ TMP)
 
 add_executable(lem_in main.c lem_in.h check_line_type.c
 				test.c get_paths.c suurballe.c set_weights.c
-				priority_queue.c ultimate_exit.c)
+				priority_queue.c ultimate_exit.c
+				get_link.c get_room.c parse_input.c)
 
 include(FindPkgConfig)
 find_package(ft REQUIRED)

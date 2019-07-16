@@ -35,8 +35,8 @@ int main(int argc, char **argv)
 	argv += 0;
 //	if (argc > 1)
 //		parse_flags(argc, argv, mngr); //TODO
-//	parse_input(mngr); //TODO
-	test(mngr);
+	parse_input(mngr); //TODO
+//	test(mngr);
 	get_all_paths(mngr);
 //	print_solution(mngr); //TODO
 	ultimate_exit(mngr, SUCCESS);
