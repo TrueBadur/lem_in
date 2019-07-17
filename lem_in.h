@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/13 05:04:39 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/17 21:26:24 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_node			*que_popleft(t_vector *que);
 void 			set_weights(t_mngr *mngr);
 
 t_list			*pop_edge(t_list **links, t_edge *one);
-int				suurballe(t_mngr *mngr);
+int				suurballe(t_mngr *mngr, t_list **ends);
 
 void			clean_graph(t_mngr *mngr, int iter);
 void			get_all_paths(t_mngr *mngr);

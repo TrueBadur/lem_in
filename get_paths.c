@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/16 17:42:54 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/17 21:31:16 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	clean_graph(t_mngr *mngr, int iter)
 			}
 			child = child->next;
 		}
-//		print_node(cur); // TODO remove
 	}
 	ft_vecdel((void **)&que);
 }
@@ -63,7 +62,7 @@ char 	*print_one_lem(int num, char *name)
 	s = ft_strjoin(s, "-");
 	s = ft_strjoin(s, name);
 	s = ft_strjoin(s, " ");
-//	ft_printf("%s", s); // TODO print
+//	ft_printf("%s", s); // TODO print local movement of ant
 	return (s);
 }
 
@@ -97,11 +96,11 @@ t_vector	*calc_lens_of_paths(t_vector *que, t_mngr *mngr, t_node **ends)
 //		print_node(ends[i]);  // TODO remove
 		if (!(que = push_que(que, ends[i], cur_path_len)))
 			ultimate_exit(mngr, MALLOC_ERROR);
-//		printf("len = %i\n", cur_path_len); // TODO remove
+		printf("len = %i\n", cur_path_len); // TODO remove
 		cur = cur->next;
 		i++;
 	}
-//	ft_printf("{Blue}%i ants at all{eof}\n", mngr->ant_num); // TODO remove
+	ft_printf("{Blue}%i ants at all{eof}\n", mngr->ant_num); // TODO remove
 	return (que);
 }
 
@@ -111,7 +110,6 @@ t_vector	*calc_lens_of_paths(t_vector *que, t_mngr *mngr, t_node **ends)
 ** (in fact it's /mngr->start->child/s)
 */
 
-//TODO fast calculation after all weights are equal
 void		calc_ants(t_mngr *mngr, int n, t_node **ends)
 {
 	t_vector	*que;
@@ -143,26 +141,24 @@ void			move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
 /*
 ** moves ants towards finish by shortest paths first
 */
-
-t_vector 		*move_lems(t_mngr *mngr, t_vector *output, int size)
+// TODO change ends from array to list
+t_vector 		*move_lems(t_mngr *mngr, t_vector *output, t_list *ends, int size)
 {
 	int cur_lem;
 	int count;
 	t_list	*cur;
 	t_edge	*edge;
-	t_node	*ends[size];
 	int		finishs[size];
-	int 	i;
+//	int 	i;
 
-	ft_bzero(ends, sizeof(t_node*) * size);
-	ft_bzero(finishs, sizeof(int) * size);
-	calc_ants(mngr, mngr->ant_num, ends);
-	i = -1;
-	while (++i < size)
+	ft_bzero(finishs, sizeof(int) * ft_lstlen(ends));
+//	calc_ants(mngr, mngr->ant_num, ends);
+	cur = ends;
+	while (cur)
 	{
-//		print_node(ends[i]); // TODO remove
-		if (ends[i]->counter == 0)
-			ends[i] = NULL;
+		print_node((t_node *)cur->data); // TODO print number of ants for each path
+		if (((t_node *)cur->data)->counter == 0)
+			((t_node *)cur->data)->path = NULL;
 	}
 //	printf("\n\n");  // TODO remove
 	cur_lem = 1;
@@ -218,17 +214,20 @@ void		get_all_paths(t_mngr *mngr)
 {
 	int			i;
 	t_vector	*output;
+	t_list		*ends;  // TODO change everywhere array to list
+
 
 	set_weights(mngr);
-//	ft_printf("{Green}weights set{eof}\n\n"); // TODO remove
-	if ((i = suurballe(mngr)) == -2)
+//	ft_printf("{Green}weights set{eof}\n\n"); // TODO print
+	ends = NULL;
+	if ((i = suurballe(mngr, &ends)) == -2)
 		ultimate_exit(mngr, NO_PATHS_FOUND);
-//	ft_printf("{Blue}dijkstra has %i runs{eof}\n\n", -i - 2);  // TODO remove
+//	ft_printf("{Blue}dijkstra has %i runs{eof}\n\n", -i - 2);  // TODO print
 	clean_graph(mngr, i - 1);
-//	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO remove
+//	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO print
 	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
 		ultimate_exit(mngr, MALLOC_ERROR);
-	output = move_lems(mngr, output, ft_lstlen(mngr->end->links));
+	output = move_lems(mngr, output, ends, ft_lstlen(ends));
 	ft_printf("\n%s", (char*)output->data);
 	ft_vecdel((void **)&output);
 }
