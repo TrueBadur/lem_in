@@ -28,6 +28,8 @@ char	*get_node_name(char *line)
 
 static t_elt setup_node(t_mngr *mngr, t_wnode *node, char *line)
 {
+	t_edge *ed;
+
 	ft_bzero(node, sizeof(t_wnode));
 	if (!(node->name = get_node_name(line)))
 		ultimate_exit(mngr, MALLOC_ERROR);
@@ -39,15 +41,8 @@ static t_elt setup_node(t_mngr *mngr, t_wnode *node, char *line)
 	}
 	node->in.wrap = node;
 	node->out.wrap = node;
-	node->in.path = NULL;
-	node->out.path = NULL;
-	node->in.links = NULL;
-	node->out.links = NULL;
 	node->in.counter = -1;
 	node->out.counter = -1;
-
-	t_edge *ed;
-
 	if (!(ed = malloc(sizeof(t_edge))))
 		ultimate_exit(mngr, MALLOC_ERROR);
 	ed->wgth = -1;
@@ -56,7 +51,6 @@ static t_elt setup_node(t_mngr *mngr, t_wnode *node, char *line)
 	ed->was_rev = 0;
 	ft_lstadd(&node->in.links, ft_lstnew(ed, sizeof(t_edge)));
 	free(ed);
-
 	return (ROOM);
 }
 
