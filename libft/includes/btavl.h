@@ -35,7 +35,7 @@ typedef struct		s_btavl
 	struct s_btavl	*left;
 	struct s_btavl	*right;
 	char			copy;
-	t_avl_k_t		key_type;
+	t_keytype		key_type;
 	unsigned char	h;
 }					t_btavl;
 
@@ -48,8 +48,8 @@ t_btavl			*ft_avlbal(t_btavl *tr);
 int	ft_avl_keycmp(void *a, void *b, t_avl_k_t kt, int (f)(void*, void*));
 # endif
 
-t_btavl			*ft_avlnew(void *data, void *key, size_t size, t_avl_k_t kt);
-t_btavl			*ft_avlnew_nc(void *data, void *key, size_t size, t_avl_k_t kt);
+t_btavl			*ft_avlnew(void *data, void *key, size_t size, t_keytype kt);
+t_btavl			*ft_avlnew_nc(void *data, void *key, size_t size, t_keytype kt);
 unsigned char	ft_avlh(t_btavl *tr);
 int				ft_avlbfact(t_btavl *node);
 t_btavl			*ft_avlins(t_btavl *tr, t_btavl *node, int (f)(void*, void*));

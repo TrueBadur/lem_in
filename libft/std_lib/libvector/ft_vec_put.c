@@ -26,7 +26,7 @@ t_vector	*ft_vecput(t_vector *vec, size_t pos, size_t size, void *data)
 {
 	if (pos + size > vec->cap)
 		vec = ft_vecgrow(vec, vec->cap * 2);
-	ft_memcpy(vec + pos, data, size);
+	ft_memcpy(vec->data + pos, data, size);
 	if (pos + size > vec->len)
 		vec->len = pos + size;
 	return (vec);
