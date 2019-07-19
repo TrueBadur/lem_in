@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 19:06:54 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/19 22:03:16 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/19 22:24:14 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ int			calc_len_of_output(t_list *ends, int size, int ants, t_node *start)
 		lens[i] = max - lens[i];
 		sum += lens[i];
 	}
-	if (sum > ants)
-		return (0);  // TODO if number of ants less then sum of bonus slots
-	ants = (ants - sum) / size; // TODO +1
+	ants = (ants - sum) % size == 0 ? (ants - sum) / size : (ants - sum) / size + 1;
 	return (max + ants - 1);
 }
