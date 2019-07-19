@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/19 23:03:11 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/19 23:20:23 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char 	*print_one_lem(int num, char *name)
 ** write it down to /node->counter/ for start of path
 ** (in fact it's /mngr->start->child/s)
 */
-
+// TODO delete inner edges from final graph
 void		calc_ants(t_list *ends, t_node *start, int ants)
 {
 	t_list	*tmp;
@@ -82,7 +82,7 @@ void		calc_ants(t_list *ends, t_node *start, int ants)
 	tmp = ends;
 	while (tmp)
 	{
-		((t_node *) tmp->data)->counter = get_path_len((t_node *) tmp->data, start);
+		((t_node *) tmp->data)->counter = get_path_len((t_node *) tmp->data, start, 1);
 		max = ((t_node *) tmp->data)->counter > max ? ((t_node *) tmp->data)->counter : max;
 		tmp = tmp->next;
 	}
@@ -137,15 +137,6 @@ void			move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
 ////	int 	i;
 //
 //	ft_bzero(finishs, sizeof(int) * ft_lstlen(ends));
-////	calc_ants(mngr, mngr->ant_num, ends);
-//	cur = ends;
-//	while (cur)
-//	{
-//		print_node((t_node *)cur->data); // TODO print number of ants for each path
-//		if (((t_node *)cur->data)->counter == 0)
-//			((t_node *)cur->data)->path = NULL;
-//	}
-////	printf("\n\n");  // TODO remove
 //	cur_lem = 1;
 //	count = 1;
 //	while (count)

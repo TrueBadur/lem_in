@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/19 20:05:33 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/19 20:53:09 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void			get_all_paths(t_mngr *mngr);
 */
 
 t_list			*pop_edge(t_list **links, t_edge *one);
-int			get_path_len(t_node *node, t_node *start);
+int			get_path_len(t_node *node, t_node *start, char to_relink);
 int			calc_len_of_output(t_list *ends, int size, int ants, t_node *start);
 
 void	print_edge(t_edge *edge);
