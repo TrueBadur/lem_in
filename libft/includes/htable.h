@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 20:22:47 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/18 21:04:56 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/19 17:18:08 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,21 @@ struct s_htable
 	t_vector	*table;
 	int			count;
 	size_t		tabsize;
+	size_t		iter;
 	void		*(*get)(t_htab*, char *key);
 	int 		(*isin)(t_htab*, char *key);
 	t_htab		*(*add)(t_htab *self, char *key, void *data);
 	void		*(*pop)(t_htab**, char *key);
-	t_htab		*(*rem)(t_htab*, char *key, void (*f)(void*, size_t));
+	t_htab		*(*rem)(t_htab*, char *key, void (*del)(void*));
+	int 		(*next)(t_htab*, char **key, void **value);
 };
 
 #ifdef FT_HTABLE_MISC
-float	ft_ht_get_load_factor(t_htab *htab);
-unsigned long		hash(char *str);
-t_list	*htab_get_lst(t_htab *htab, char *key);
-t_list	*htab_get_lst_strt(t_htab *htab, size_t pos);
+float			ft_ht_get_load_factor(t_htab *htab);
+unsigned long	hash(char *str);
+t_list			*htab_get_lst(t_htab *htab, char *key);
+t_list			*htab_get_lst_strt(t_htab *htab, size_t pos);
+t_htab			*ft_htab_rehash(t_htab *htab, int side);
 #endif
 
 /* init with key aka char*, value aka void* */
@@ -70,14 +73,14 @@ t_list	*htab_get_lst_strt(t_htab *htab, size_t pos);
  * @param ...
  * @return
  */
-t_htab	*ft_htab_init(int count, ...);
+t_htab		*ft_htab_init(int count, ...);
 /**
 ** Checks if key is in htable.
 ** @param self - htable to check in
 ** @param key - key to check for
 ** @return - 1 in case if key already in htable or 0 if not.
 */
-int 	ft_htab_isin(t_htab *self, char *key);
+int 		ft_htab_isin(t_htab *self, char *key);
 /**
 ** Add or replace key-value pair in htab. Be careful: it will replace data if
 ** key already in array, what may cause leaks.
@@ -87,12 +90,17 @@ int 	ft_htab_isin(t_htab *self, char *key);
 ** @return - Return the same htab or NULL if something went wrong. errno set to
 ** corresponding value.
 */
-t_htab *ft_htab_add(t_htab *self, char *key, void *data);
-//TODO t_htab	*ft_htab_addwithfree();
-void	*ft_htab_pop(t_htab **htab, char *key);
-void	*ft_htab_get(t_htab *htab, char *key);
-t_htab	*ft_htab_rem(t_htab *htab, char *key, void (*f)(void*, size_t));
-void	ft_htab_free(t_htab *htab);
+t_htab 		*ft_htab_add(t_htab *self, char *key, void *data);
+void		*ft_htab_get(t_htab *htab, char *key);
+void		*ft_htab_pop(t_htab **self, char *key);
+t_htab		*ft_htab_rem(t_htab *self, char *key, void (*del)(void*));
+/*
+** Frees htab assuming that all data in it, keys as well as values, are already
+** freed, so it doesn't manage those.
+** @param htab - table to be freed
+*/
+void		ft_htab_free(t_htab *htab);
+int 		ft_htab_generator(t_htab *htab, char **key, void **value);
 
 #endif //LEM_IN_HTABLE_H
 
