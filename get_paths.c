@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/19 23:35:17 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/19 23:53:59 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,20 @@ char 	*print_one_lem(int num, char *name)
 void		calc_ants(t_list *ends, t_node *start, int ants)
 {
 	t_list	*tmp;
+//	t_node	*move;
 	int 	max;
 	int 	sum;
+
+	// TODO move ends towards start
+//	tmp = ends;
+//	while (tmp)
+//	{
+//		move = (t_node *)tmp->data;
+//		while (((t_edge *)move->links->data)->to != start)
+//			move = ((t_edge *)((t_node *)tmp->data)->links->data)->to;
+//		tmp->data = move;
+//		tmp = tmp->next;
+//	}
 
 	max = 0;
 	tmp = ends;
