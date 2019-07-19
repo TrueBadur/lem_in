@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/19 21:21:27 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/19 21:34:20 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ static t_node	*reverse_path(t_node *fin)
 		}
 		path = next;
 	}
-	print_node(ret);
 	return (ret);
 }
 
@@ -152,7 +151,6 @@ int				suurballe(t_mngr *mngr, t_list **ends)
 	iter = -2;
 	limit = -FT_MIN2(ft_lstlen(mngr->start->links),
 			ft_lstlen(((t_edge *)mngr->end->links->data)->to->links)) - 1;
-//	limit = -FT_MIN2(limit, mngr->ant_num) - 1;
 	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO print
 	len_of_output = 0;
 	while (iter > limit - 1)

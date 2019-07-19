@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 19:06:54 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/19 22:24:14 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/19 22:28:15 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int			calc_len_of_output(t_list *ends, int size, int ants, t_node *start)
 	i = -1;
 	tmp = ends;
 	max = 0;
+	ft_bzero(lens, size * sizeof(int));
 	while (++i < size)
 	{
 		lens[i] = get_path_len((t_node *)tmp->data, start);

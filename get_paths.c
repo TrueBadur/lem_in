@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/19 19:12:29 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/19 23:01:34 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,39 +20,39 @@
 ** (walking it by BFS from finish)
 */
 
-//void	clean_graph(t_mngr *mngr, int iter)
-//{
-//	t_vector	*que;
-//	t_node		*cur;
-//	t_list		*child;
-//	t_list		*tmp;
-//
-//	if (!(que = ft_vecinit(SIZE_OF_QUE)))
-//		ultimate_exit(mngr, MALLOC_ERROR);
-//	mngr->end->counter = iter;
-//	que = que_add(que, mngr->end, mngr);
-//	while (que->offset != que->len)
-//	{
-//		cur = que_popleft(que);
-//		child = cur->links;
-//		while (child)
-//		{
-//			if (EDGE->to->counter != iter)
-//			{
-//				EDGE->to->counter = iter;
-//				que = que_add(que, EDGE->to, mngr);
-//			}
-//			if (!EDGE->was_rev)
-//			{
-//				tmp = pop_edge(&(EDGE->from->links), EDGE);
-//				free(tmp->data);
-//				free(tmp);
-//			}
-//			child = child->next;
-//		}
-//	}
-//	ft_vecdel((void **)&que);
-//}
+void	clean_graph(t_mngr *mngr, int iter)
+{
+	t_vector	*que;
+	t_node		*cur;
+	t_list		*child;
+	t_list		*tmp;
+
+	if (!(que = ft_vecinit(SIZE_OF_QUE)))
+		ultimate_exit(mngr, MALLOC_ERROR);
+	mngr->end->counter = iter;
+	que = que_add(que, mngr->end, mngr);
+	while (que->offset != que->len)
+	{
+		cur = que_popleft(que);
+		child = cur->links;
+		while (child)
+		{
+			if (EDGE->to->counter != iter)
+			{
+				EDGE->to->counter = iter;
+				que = que_add(que, EDGE->to, mngr);
+			}
+			if (!EDGE->was_rev)
+			{
+				tmp = pop_edge(&(EDGE->from->links), EDGE);
+				free(tmp->data);
+				free(tmp);
+			}
+			child = child->next;
+		}
+	}
+	ft_vecdel((void **)&que);
+}
 
 //char 	*print_one_lem(int num, char *name)
 //{
@@ -66,68 +66,53 @@
 //	return (s);
 //}
 
-#define EDGE2 ((t_edge *)ends[i]->links->data)
-
-//t_vector	*calc_lens_of_paths(t_vector *que, t_mngr *mngr, t_node **ends)
-//{
-//	int			cur_path_len;
-//	t_list		*cur;
-//	int 		i;
-//
-//	i = 0;
-//	cur = mngr->end->links;
-//	while (cur)
-//	{
-////		print_node(((t_edge*)cur->data)->from);  // TODO remove
-//		ends[i] = ((t_edge*)cur->data)->to;
-//		cur_path_len = 2;
-//		while (EDGE2->to != mngr->start)
-//		{
-//			ends[i]->counter = 0;
-//			if (EDGE2->from->wrap == EDGE2->to->wrap)
-//				EDGE2->to = ((t_edge *)EDGE2->to->links->data)->to;
-//			else
-//			{
-//				cur_path_len++;
-////				print_node(ends[i]); // TODO remove
-//				ends[i] = EDGE2->to;
-//			}
-//		}
-////		print_node(ends[i]);  // TODO remove
-//		if (!(que = push_que(que, ends[i], cur_path_len)))
-//			ultimate_exit(mngr, MALLOC_ERROR);
-//		printf("len = %i\n", cur_path_len); // TODO remove
-//		cur = cur->next;
-//		i++;
-//	}
-//	ft_printf("{Blue}%i ants at all{eof}\n", mngr->ant_num); // TODO remove
-//	return (que);
-//}
-
 /*
 ** calculate total number of ants for every path,
 ** write it down to /node->counter/ for start of path
 ** (in fact it's /mngr->start->child/s)
 */
 
-//void		calc_ants(t_mngr *mngr, int n, t_node **ends)
-//{
-//	t_vector	*que;
-//	t_pque		cur;
-//
-//	if (!(que = ft_vecinit(SIZE_OF_QUE)))
-//		ultimate_exit(mngr, MALLOC_ERROR);
-//	que = calc_lens_of_paths(que, mngr, ends);
-//	while (n > 0)
-//	{
-//		cur = pop_que(que);
-//		((t_node *)cur.data)->counter++;
-//		n--;
-//		if (!(que = push_que(que, cur.data, cur.priority + 1)))
-//			ultimate_exit(mngr, MALLOC_ERROR);
-//	}
-//	ft_vecdel((void **)&que);
-//}
+void		calc_ants(t_list *ends, t_node *start, int ants)
+{
+	t_list	*tmp;
+	int 	max;
+	int 	sum;
+
+	max = 0;
+	tmp = ends;
+	while (tmp)
+	{
+		((t_node *) tmp->data)->counter = get_path_len((t_node *) tmp->data, start);
+		max = ((t_node *) tmp->data)->counter > max ? ((t_node *) tmp->data)->counter : max;
+		tmp = tmp->next;
+	}
+	sum = 0;
+	tmp = ends;
+	while (tmp)
+	{
+		((t_node *) tmp->data)->counter = max - ((t_node *) tmp->data)->counter;
+		sum += ((t_node *) tmp->data)->counter;
+		print_node(((t_node *) tmp->data));
+		tmp = tmp->next;
+	}
+	sum = ants - sum;
+	ft_printf("sum %i\n", sum);
+	tmp = ends;
+	max = sum % ft_lstlen(ends); // ostatok
+	sum = sum / ft_lstlen(ends); // po skolko v kazdoe
+	ft_printf("v kazdoe %i, ostatok %i\n", sum, max);
+	while (tmp)
+	{
+		((t_node *) tmp->data)->counter += sum;
+		if (max > 0)
+		{
+			((t_node *) tmp->data)->counter += 1;
+			max--;
+		}
+		print_node(((t_node *) tmp->data));
+		tmp = tmp->next;
+	}
+}
 
 //void			move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
 //{
@@ -213,21 +198,22 @@
 void		get_all_paths(t_mngr *mngr)
 {
 	int			i;
-//	t_vector	*output;
+	t_vector	*output;
 	t_list		*ends;  // TODO change everywhere array to list
 
 
 	set_weights(mngr);
-//	ft_printf("{Green}weights set{eof}\n\n"); // TODO print
+	ft_printf("{Green}weights set{eof}\n\n"); // TODO print
 	ends = NULL;
 	if ((i = suurballe(mngr, &ends)) == -2)
 		ultimate_exit(mngr, NO_PATHS_FOUND);
 	ft_printf("{Blue}dijkstra has %i runs{eof}\n\n", -i - 2);  // TODO print
-//	clean_graph(mngr, i - 1);
-//	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO print
-//	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
-//		ultimate_exit(mngr, MALLOC_ERROR);
+	clean_graph(mngr, i - 1);
+	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO print
+	calc_ants(ends, mngr->start, mngr->ant_num);
+	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
+		ultimate_exit(mngr, MALLOC_ERROR);
 //	output = move_lems(mngr, output, ends, ft_lstlen(ends));
-//	ft_printf("\n%s", (char*)output->data);
-//	ft_vecdel((void **)&output);
+	ft_printf("\n%s", (char*)output->data);
+	ft_vecdel((void **)&output);
 }
