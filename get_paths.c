@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/19 23:01:34 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/19 23:03:11 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,17 @@ void	clean_graph(t_mngr *mngr, int iter)
 	ft_vecdel((void **)&que);
 }
 
-//char 	*print_one_lem(int num, char *name)
-//{
-//	char *s;
-//
-//	s = ft_strjoin("L", ft_itoa(num));
-//	s = ft_strjoin(s, "-");
-//	s = ft_strjoin(s, name);
-//	s = ft_strjoin(s, " ");
-////	ft_printf("%s", s); // TODO print local movement of ant
-//	return (s);
-//}
+char 	*print_one_lem(int num, char *name)
+{
+	char *s;
+
+	s = ft_strjoin("L", ft_itoa(num));
+	s = ft_strjoin(s, "-");
+	s = ft_strjoin(s, name);
+	s = ft_strjoin(s, " ");
+//	ft_printf("%s", s); // TODO print local movement of ant
+	return (s);
+}
 
 /*
 ** calculate total number of ants for every path,
@@ -114,14 +114,14 @@ void		calc_ants(t_list *ends, t_node *start, int ants)
 	}
 }
 
-//void			move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
-//{
-//	char 	*one;
-//
-//	edge->from->counter = num;
-//	one = print_one_lem(num, name);
-//	*output = ft_vecpush(*output, one, ft_strlen(one)); // TODO free
-//}
+void			move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
+{
+	char 	*one;
+
+	edge->from->counter = num;
+	one = print_one_lem(num, name);
+	*output = ft_vecpush(*output, one, ft_strlen(one)); // TODO free
+}
 
 /*
 ** moves ants towards finish by shortest paths first
