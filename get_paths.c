@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/19 23:20:23 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/19 23:35:17 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char 	*print_one_lem(int num, char *name)
 	s = ft_strjoin(s, "-");
 	s = ft_strjoin(s, name);
 	s = ft_strjoin(s, " ");
-//	ft_printf("%s", s); // TODO print local movement of ant
+//	ft_printf("%s", s); // TODO print
 	return (s);
 }
 
@@ -71,7 +71,7 @@ char 	*print_one_lem(int num, char *name)
 ** write it down to /node->counter/ for start of path
 ** (in fact it's /mngr->start->child/s)
 */
-// TODO delete inner edges from final graph
+
 void		calc_ants(t_list *ends, t_node *start, int ants)
 {
 	t_list	*tmp;
@@ -126,61 +126,73 @@ void			move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
 /*
 ** moves ants towards finish by shortest paths first
 */
-// TODO change ends from array to list
-//t_vector 		*move_lems(t_mngr *mngr, t_vector *output, t_list *ends, int size)
-//{
-//	int cur_lem;
-//	int count;
-//	t_list	*cur;
-//	t_edge	*edge;
-//	int		finishs[size];
-////	int 	i;
-//
-//	ft_bzero(finishs, sizeof(int) * ft_lstlen(ends));
-//	cur_lem = 1;
-//	count = 1;
-//	while (count)
-//	{
-//		i = -1;
-//		cur = mngr->end->links;
-//		count = 0;
-//		while (++i < size)
-//		{
-//			if (finishs[i])
-//				move_one_ant((t_edge *)cur->data, &output, finishs[i], mngr->end->wrap->name);
-//			if (ends[i] && ++count)
-//			{
-//				edge = (t_edge *)cur->data;
-//				if (edge->to->counter != 0)
-//					finishs[i] = edge->to->counter;
-//				else
-//					while (edge->to->counter == 0)  // just pass
-//						edge = ((t_edge *)edge->to->links->data);
-//				while (edge->to != ends[i]) // move ants while dont reach local end
-//				{
-//					move_one_ant(edge, &output, edge->to->counter, edge->to->wrap->name);
-//					edge = (t_edge *)edge->to->links->data;
-//				}
-//				if (((t_edge*)ends[i]->links->data)->to == mngr->start)
-//				{
-//					ends[i]->counter--;
-//					move_one_ant(edge, &output, cur_lem, edge->to->wrap->name);
-//					cur_lem++;
-//					if (ends[i]->counter == 0)
-//						ends[i] = edge->from;
-//				}
-//				else
-//				{
-//					move_one_ant(edge, &output, edge->to->counter, edge->to->wrap->name);
-//					ends[i] = edge->from == mngr->end ? NULL : edge->from;
-//				}
-//			}
-//			cur = cur->next;
-//		}
-//		output = ft_vecpush(output, "\n", 1);
-//	}
-//	return (output);
-//}
+// TODO make ends array from list
+t_vector 		*move_lems(t_mngr *mngr, t_vector *output, t_list *end, int size)
+{
+	int cur_lem;
+	int count;
+	t_list	*cur;
+	t_edge	*edge;
+	int		finishs[size];
+	t_node	*ends[size];
+	int 	i;
+
+	cur = end;
+	i = 0;
+	while (cur)
+	{
+		ends[i] = (t_node *)cur->data;
+		i++;
+		cur = cur->next;
+	}
+//	i = -1;
+//	while (++i < size)
+//		print_node(ends[i]);
+	ft_bzero(finishs, sizeof(int) * size);
+	cur_lem = 1;
+	count = 1;
+	while (count)
+	{
+		i = -1;
+		cur = mngr->end->links;
+		count = 0;
+		while (++i < size)
+		{
+			if (finishs[i])
+				move_one_ant((t_edge *)cur->data, &output, finishs[i], mngr->end->wrap->name);
+			if (ends[i] && ++count)
+			{
+				edge = (t_edge *)cur->data;
+				if (edge->to->counter != 0)
+					finishs[i] = edge->to->counter;
+				else
+					while (edge->to->counter == 0)  // just pass
+						edge = ((t_edge *)edge->to->links->data);
+				while (edge->to != ends[i]) // move ants while dont reach local end
+				{
+					move_one_ant(edge, &output, edge->to->counter, edge->to->wrap->name);
+					edge = (t_edge *)edge->to->links->data;
+				}
+				if (((t_edge*)ends[i]->links->data)->to == mngr->start)
+				{
+					ends[i]->counter--;
+					move_one_ant(edge, &output, cur_lem, edge->to->wrap->name);
+					cur_lem++;
+					if (ends[i]->counter == 0)
+						ends[i] = edge->from;
+				}
+				else
+				{
+					move_one_ant(edge, &output, edge->to->counter, edge->to->wrap->name);
+					ends[i] = edge->from == mngr->end ? NULL : edge->from;
+				}
+			}
+			cur = cur->next;
+		}
+		output = ft_vecpush(output, "\n", 1);
+	}
+	return (output);
+}
 
 /*
 ** overall algorithm
@@ -190,7 +202,7 @@ void		get_all_paths(t_mngr *mngr)
 {
 	int			i;
 	t_vector	*output;
-	t_list		*ends;  // TODO change everywhere array to list
+	t_list		*ends;
 
 
 	set_weights(mngr);
@@ -204,7 +216,7 @@ void		get_all_paths(t_mngr *mngr)
 	calc_ants(ends, mngr->start, mngr->ant_num);
 	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
 		ultimate_exit(mngr, MALLOC_ERROR);
-//	output = move_lems(mngr, output, ends, ft_lstlen(ends));
+	output = move_lems(mngr, output, ends, ft_lstlen(ends));
 	ft_printf("\n%s", (char*)output->data);
 	ft_vecdel((void **)&output);
 }
