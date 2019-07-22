@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 13:48:21 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/22 19:06:32 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/22 21:38:05 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@
 ** went wrong. Corresponding errno set.
 */
 
-t_htab *ft_htab_add(t_htab *self, char *key, void *data)
+t_htab	*ft_htab_add(t_htab *self, char *key, void *data)
 {
 	long		pos;
 	t_list		*lst;
-	t_bucket	bckt;
 
 	if (((self->count + 1)) / (float)self->tabsize > 0.75)
 		self = ft_htab_grow(self);
@@ -37,11 +36,9 @@ t_htab *ft_htab_add(t_htab *self, char *key, void *data)
 		((t_bucket*)lst->data)->data = data;
 		return (self);
 	}
-	bckt.data = data;
-	bckt.key = key;
-	pos = hash(bckt.key) % self->tabsize;
+	pos = hash(key) % self->tabsize;
 	lst = htab_get_lst_strt(self->table, pos);
-	ft_lstadd(&lst, ft_lstnew(&bckt, sizeof(t_bucket)));
+	ft_lstadd(&lst, ft_lstnew(&(t_bucket){key, data}, sizeof(t_bucket)));
 	if (!(self->table = ft_vecput(self->table, pos * sizeof(void*),
 			sizeof(t_list*), &lst)))
 	{

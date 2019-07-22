@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 17:28:16 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/22 20:02:46 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/22 21:34:46 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,12 @@
 ** @return - 0 if iteration is complete and 1 if it is still going
 */
 
-//TODO dive into list
-
 int			ft_htab_generator(t_htab *htab, char **key, void **value)
 {
-	t_list *lst;
-	t_bucket *bckt;
+	t_list		*lst;
+	t_bucket	*bckt;
 
-	lst = htab->__iterator_list;
+	lst = htab->iterator_list;
 	while (htab->iter < htab->tabsize)
 	{
 		if (!lst)
@@ -43,7 +41,7 @@ int			ft_htab_generator(t_htab *htab, char **key, void **value)
 					*value = bckt->data;
 				if (key)
 					*key = bckt->key;
-				htab->__iterator_list = lst->next;
+				htab->iterator_list = lst->next;
 				return (1);
 			}
 		}

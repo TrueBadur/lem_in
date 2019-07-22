@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 23:32:36 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/22 15:42:49 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/22 20:56:19 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	set_htab_functions(t_htab *htab)
 	htab->next = ft_htab_generator;
 }
 
-t_htab	*ft_htab_init_empty(size_t count)
+t_htab		*ft_htab_init_empty(size_t count)
 {
 	t_htab	*ret;
 	int		tmp;
@@ -58,4 +58,3 @@ t_htab		*ft_htab_init(int count, ...)
 	va_end(ap);
 	return (ret);
 }
-

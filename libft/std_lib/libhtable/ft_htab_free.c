@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 17:22:17 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/19 17:23:39 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/22 21:23:29 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	ft_htab_free(t_htab *htab)
 	free(htab);
 }
 
-void ft_htab_free_helper(t_htab *htab, void (*key_free)(void*), void (*val_free)(void*))
+void	ft_htab_free_helper(t_htab *htab, void (*key_free)(void*),
+		void (*val_free)(void*))
 {
 	char	*key;
 	void	*val;
