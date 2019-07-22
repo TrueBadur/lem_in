@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:58:51 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/12 16:43:39 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/11 18:26:10 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static t_elt parse_by_type(t_mngr *mngr, char *line, t_elt type)
 		get_instruction(mngr, line);
 	else if (type == ANT_N)
 		mngr->ant_num = ft_atoi(line);
-	if (!(type == ERROR || type == COMMENT || type == EMPTY_LINE))
-		ft_printf("%s\n", line);
+	if (!(type == ERROR || type == COMMENT))
+		ft_printf("{Red}%s{eof}\n", line);
 	return (type);
 }
 
