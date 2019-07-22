@@ -13,15 +13,9 @@
 #define FT_HTABLE_MISC
 #include "htable.h"
 
-t_list *htab_get_lst_strt(t_htab *htab, size_t pos)
+t_list *htab_get_lst_strt(t_vector *table, size_t pos)
 {
-	t_list	*lst;
-
-	lst = *(t_list**)(htab->table->data + pos * sizeof(void*));
-	if (lst)
-		return (lst);
-	else
-		return (NULL);
+	return  (*(t_list**)(table->data + pos * sizeof(void*)));
 }
 
 t_list	*htab_get_lst(t_htab *htab, char *key)
@@ -29,7 +23,7 @@ t_list	*htab_get_lst(t_htab *htab, char *key)
 	t_list *lst;
 	t_bucket *bckt;
 
-	lst = htab_get_lst_strt(htab, hash(key) % htab->tabsize);
+	lst = htab_get_lst_strt(htab->table, hash(key) % htab->tabsize);
 	while(lst)
 	{
 		bckt = ((t_bucket*)lst->data);

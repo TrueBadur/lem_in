@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 13:49:40 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/19 17:26:26 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/22 16:45:23 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	*ft_htab_pop(t_htab **self, char *key)
 	pos = hash(key) % (*self)->tabsize;
 	if (!((*self)->table = ft_vecput((*self)->table, pos * sizeof(void*),
 									sizeof(t_list*), &(void*){htab_rem_lst(
-					htab_get_lst_strt((*self), pos), key, &data)})))
+					htab_get_lst_strt((*self)->table, pos), key, &data)})))
 	{
 		ft_htab_free((*self));
 		perror("ft_htab_add: vector reallocation failed table set to NULL");
@@ -58,9 +58,10 @@ void	*ft_htab_pop(t_htab **self, char *key)
 		return (data);
 	}
 	(*self)->count = (*self)->count ? (*self)->count - 1 : (*self)->count;
-	if ((*self)->count && (((*self)->count - 1)) /
-											(float)(*self)->tabsize < 0.05)
-		(*self) = ft_htab_rehash((*self), -1);
+	//TODO ft_htab_shrink
+//	if ((*self)->count && (((*self)->count - 1)) /
+//											(float)(*self)->tabsize < 0.05)
+//		(*self) = ft_htab_grow((*self), -1);
 	data = ft_replace_pointer(data, ((t_bucket*)data)->data);
 	return (data);
 }

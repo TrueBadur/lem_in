@@ -33,3 +33,20 @@ void	ft_htab_free(t_htab *htab)
 	ft_vecdel((void*)&(htab->table));
 	free(htab);
 }
+
+void ft_htab_free_helper(t_htab *htab, void (*key_free)(void*), void (*val_free)(void*))
+{
+	char	*key;
+	void	*val;
+
+	if (!key_free && !val_free)
+		return (ft_htab_free(htab));
+	while (htab->next(htab, &key, &val))
+	{
+		if (key_free)
+			key_free(key);
+		if (val_free)
+			val_free(val);
+	}
+	ft_htab_free(htab);
+}

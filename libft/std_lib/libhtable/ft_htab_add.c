@@ -6,22 +6,32 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 13:48:21 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/19 13:48:21 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/22 19:06:32 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define FT_HTABLE_MISC
 #include "htable.h"
 
+/*
+** Adds key-value pair to table. If given key is already exists in table,
+** corresponding value will be replaced with new one and old value will be lost.
+** That may cause memory leaks, so use pop or rem or isin methods of htab.
+** @param self - htable to add key-value pair to.
+** @param key - key with which to add value to table.
+** @param data - value to add to table.
+** @return - the same htab if everything went well and NULL if memory allocation
+** went wrong. Corresponding errno set.
+*/
+
 t_htab *ft_htab_add(t_htab *self, char *key, void *data)
 {
 	long		pos;
 	t_list		*lst;
 	t_bucket	bckt;
-	char 		*tst;
 
 	if (((self->count + 1)) / (float)self->tabsize > 0.75)
-		self = ft_htab_rehash(self, 0);
+		self = ft_htab_grow(self);
 	if ((lst = htab_get_lst(self, key)))
 	{
 		((t_bucket*)lst->data)->data = data;
@@ -30,12 +40,12 @@ t_htab *ft_htab_add(t_htab *self, char *key, void *data)
 	bckt.data = data;
 	bckt.key = key;
 	pos = hash(bckt.key) % self->tabsize;
-	lst = htab_get_lst_strt(self, pos);
+	lst = htab_get_lst_strt(self->table, pos);
 	ft_lstadd(&lst, ft_lstnew(&bckt, sizeof(t_bucket)));
-	tst = ((t_bucket*)lst->data)->key;
-	if (!(self->table = ft_vecput(self->table, pos * sizeof(void*), sizeof(t_list*), &lst)))
+	if (!(self->table = ft_vecput(self->table, pos * sizeof(void*),
+			sizeof(t_list*), &lst)))
 	{
-//		ft_htab_free(self);
+		ft_htab_free(self);
 		perror("ft_htab_add: vector reallocation failed");
 		return (NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 20:22:47 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/19 17:18:08 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/22 21:16:24 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef enum		e_key_type
 	OTHER
 }					t_keytype;
 #endif
+#define HTAB_MIN_SIZE 3
 
 typedef struct	s_bucket
 {
@@ -48,6 +49,7 @@ struct s_htable
 	t_vector	*table;
 	int			count;
 	size_t		tabsize;
+	t_list		*__iterator_list;
 	size_t		iter;
 	void		*(*get)(t_htab*, char *key);
 	int 		(*isin)(t_htab*, char *key);
@@ -61,8 +63,8 @@ struct s_htable
 float			ft_ht_get_load_factor(t_htab *htab);
 unsigned long	hash(char *str);
 t_list			*htab_get_lst(t_htab *htab, char *key);
-t_list			*htab_get_lst_strt(t_htab *htab, size_t pos);
-t_htab			*ft_htab_rehash(t_htab *htab, int side);
+t_list			*htab_get_lst_strt(t_vector *table, size_t pos);
+t_htab *ft_htab_grow(t_htab *htab);
 #endif
 
 /* init with key aka char*, value aka void* */
@@ -74,6 +76,7 @@ t_htab			*ft_htab_rehash(t_htab *htab, int side);
  * @return
  */
 t_htab		*ft_htab_init(int count, ...);
+t_htab		*ft_htab_init_empty(size_t count);
 /**
 ** Checks if key is in htable.
 ** @param self - htable to check in
@@ -100,6 +103,8 @@ t_htab		*ft_htab_rem(t_htab *self, char *key, void (*del)(void*));
 ** @param htab - table to be freed
 */
 void		ft_htab_free(t_htab *htab);
+void		ft_htab_free_helper(t_htab *htab, void (*key_free)(void*),
+		void (*val_free)(void*));
 int 		ft_htab_generator(t_htab *htab, char **key, void **value);
 
 #endif //LEM_IN_HTABLE_H
