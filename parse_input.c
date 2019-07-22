@@ -32,8 +32,8 @@ static t_elt parse_by_type(t_mngr *mngr, char *line, t_elt type)
 		get_instruction(mngr, line);
 	else if (type == ANT_N)
 		mngr->ant_num = ft_atoi(line);
-	if (!(type == ERROR || type == COMMENT || type == EMPTY_LINE))
-		ft_printf("%s\n", line);
+	if (!(type == ERROR || type == COMMENT))
+		ft_printf("{Red}%s{eof}\n", line);
 	return (type);
 }
 
