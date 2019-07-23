@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/19 20:53:09 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/23 19:13:50 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,14 @@ void 			set_weights(t_mngr *mngr);
 
 int				suurballe(t_mngr *mngr, t_list **ends);
 
-void			clean_graph(t_mngr *mngr, int iter);
-void			get_all_paths(t_mngr *mngr);
+t_vector 		*move_ants(t_mngr *mngr, t_vector *output, int size);
 
-/*
-** utils
-*/
+void			do_all_job(t_mngr *mngr);
 
 t_list			*pop_edge(t_list **links, t_edge *one);
-int			get_path_len(t_node *node, t_node *start, char to_relink);
-int			calc_len_of_output(t_list *ends, int size, int ants, t_node *start);
+void			swap_nodes(t_node **a, t_node **b);
+int				get_path_len(t_node *node, t_node *start, char to_relink, t_node **to_set);
+int				calc_len_of_output(t_list *ends, int size, int ants, t_node *start);
 
 void	print_edge(t_edge *edge);
 void	print_node(t_node *node);

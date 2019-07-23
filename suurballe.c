@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/19 21:34:20 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:39:08 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,32 +79,24 @@ static t_node	*reverse_path(t_node *fin)
 	t_edge	*path;
 	t_edge	*next;
 	t_list	*lst;
-	t_node	*tmp;
 	t_node	*ret;
 
 	ret = fin->path->from;
 	path = fin->path;
-	while (path)
+	while (path && !(path->to->path = NULL))
 	{
-		path->to->path = NULL;
 		next = path->from->path;
 		lst = pop_edge(&path->from->links, path);
-//		print_node(path->from); // TODO print
-//		print_node(path->to); // TODO print
 		if (path->was_rev)
 		{
 			free(path);
 			free(lst);
-//			ft_printf(" - {Green}deleted{eof} \n"); // TODO print
 		}
 		else
 		{
-			tmp = path->from;
-			path->from = path->to;
-			path->to = tmp;
+			swap_nodes(&path->from, &path->to);
 			path->was_rev = 1;
 			ft_lstadd(&path->from->links, lst);
-//			ft_printf(" - {Green}reversed{eof} \n"); // TODO print
 		}
 		path = next;
 	}
@@ -118,17 +110,14 @@ static t_node	*reverse_path(t_node *fin)
 static int		get_new_path_len(t_node *fin)
 {
 	t_edge	*path;
-	int 	len;
+	int		len;
 
 	len = 0;
 	path = fin->path;
 	while (path)
 	{
 		if (path->from->wrap != path->to->wrap)
-		{
-//			print_node(path->to); // TODO print
 			len++;
-		}
 		path = path->from->path;
 	}
 	return (len);
@@ -141,34 +130,32 @@ static int		get_new_path_len(t_node *fin)
 
 int				suurballe(t_mngr *mngr, t_list **ends)
 {
-	int	iter;
-	int	limit;
-	int len_of_output;
-	int new_len;
-	t_node *tmp;
+	int		iter;
+	int		limit;
+	int		len_of_output;
+	t_node	*tmp;
 	t_list	*lst;
 
 	iter = -2;
 	limit = -FT_MIN2(ft_lstlen(mngr->start->links),
 			ft_lstlen(((t_edge *)mngr->end->links->data)->to->links)) - 1;
-	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO print
+//	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO print
 	len_of_output = 0;
 	while (iter > limit - 1)
 	{
-		printf("iter %i\n", iter); // TODO print
+//		printf("iter %i\n", iter); // TODO print
 		if (wrap_dijkstra(mngr, iter))
 			break ;
-		ft_printf("{Green}dijkstra done{eof}, "); // TODO print
-		new_len = get_new_path_len(mngr->end);
-		ft_printf("length of new path {Green}%i{eof}\n", new_len); // TODO print
-		if (len_of_output && new_len >= len_of_output)
+//		ft_printf("{Green}dijkstra done{eof}, "); // TODO print
+		if (len_of_output && (get_new_path_len(mngr->end) >= len_of_output))
 			break ;
 		tmp = reverse_path(mngr->end);
 		lst = ft_lstnew(&tmp, sizeof(t_node*));
-				ft_printf("{Green}path reversed{eof}\n\n"); // TODO print
+//		ft_printf("{Green}path reversed{eof}\n\n"); // TODO print
 		ft_lstadd(ends, lst);
-		len_of_output = calc_len_of_output(*ends, ft_lstlen(*ends), mngr->ant_num, mngr->start); // TODO fast calculation of current length of output
-		ft_printf("recalculate length of output {Green}%i{eof}\n\n", len_of_output); // TODO print
+		len_of_output = calc_len_of_output(*ends, ft_lstlen(*ends),
+				mngr->ant_num, mngr->start);
+//		ft_printf("recalculate length of output {Green}%i{eof}\n\n", len_of_output); // TODO print
 		--iter;
 	}
 	return (iter);
