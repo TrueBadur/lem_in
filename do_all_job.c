@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/23 21:11:46 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/24 19:01:37 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ static t_vector	*move_ants(t_mngr *mngr, t_vector *output, int size)
 	t_node	*ends[size];
 
 	calc_ants(mngr, ft_lstlen(mngr->end->links), ends);
+//	int i = -1;  // TODO print
+//	while (++i < size)  // TODO print
+//		print_node(ends[i]);  // TODO print
 	ft_bzero(finishs, sizeof(int) * size);
 	cur_lem = 1;
 	count = 1;

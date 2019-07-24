@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/24 17:42:20 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/24 20:41:29 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static int	move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
 	*output = ft_vecpush(*output, "-", 1);
 	*output = ft_vecpush(*output, name, ft_strlen(name));
 	*output = ft_vecpush(*output, " ", 1);
+//	ft_printf("%s\n\n", (char *)(*output)->data); // TODO print
 	return (1);
 }
 
@@ -132,8 +133,11 @@ int			get_one_line(int **params, t_vector **output, t_mngr *mngr,
 	while (cur && ++i > -1)
 	{
 		if (fins[i])
-			move_one_ant((t_edge *)cur->data, output, fins[i],
-					mngr->end->wrap->name);
+		{
+			move_one_ant((t_edge *) cur->data, output, fins[i],
+						 mngr->end->wrap->name);
+			fins[i] = 0;
+		}
 		if (ends[i] && ++count)
 		{
 			get_one_line_hlper((int *[]){&fins[i], (int *)&ends[i], (int *)cur},

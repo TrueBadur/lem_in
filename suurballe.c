@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/23 18:39:08 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/24 19:23:07 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ static t_node	*reverse_path(t_node *fin)
 static int		get_new_path_len(t_node *fin)
 {
 	t_edge	*path;
+	t_list	*child;
 	int		len;
 
 	len = 0;
@@ -117,9 +118,22 @@ static int		get_new_path_len(t_node *fin)
 	while (path)
 	{
 		if (path->from->wrap != path->to->wrap)
+		{
 			len++;
+			child = path->from->links;
+			while (child)
+			{
+				if (EDGE == path && EDGE->was_rev)
+				{
+					len -= 2;
+					break ;
+				}
+				child = child->next;
+			}
+		}
 		path = path->from->path;
 	}
+//	ft_printf("len of new path %i\n", len);
 	return (len);
 }
 
