@@ -50,6 +50,30 @@ static void	clean_graph(t_mngr *mngr, int iter)
 }
 
 /*
+** moves ants towards finish by shortest paths first
+*/
+
+static t_vector	*move_ants(t_mngr *mngr, t_vector *output, int size)
+{
+	int		cur_lem;
+	int		count;
+	int		finishs[size];
+	t_node	*ends[size];
+
+	calc_ants(mngr, ft_lstlen(mngr->end->links), ends);
+	ft_bzero(finishs, sizeof(int) * size);
+	cur_lem = 1;
+	count = 1;
+	while (count)
+	{
+		count = get_one_line((int*[]){(int *)finishs, (int *)ends}, &output,
+							 mngr, &cur_lem);
+		output = ft_vecpush(output, "\n", 1);
+	}
+	return (output);
+}
+
+/*
 ** overall algorithm
 */
 
