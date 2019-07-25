@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 18:06:41 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/24 17:45:42 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,30 @@
 #include <stdio.h> // TODO: delete
 
 struct s_node;
+struct s_wnode;
 
 typedef struct	s_edge
 {
 	struct s_node	*from;
 	struct s_node	*to;
 	int 			wgth;  // -1 by default
-	struct s_edge	*reverse;  // NULL by default
+	char			was_rev; // 0 by default
 }				t_edge;
 
 typedef struct s_node
 {
-	int			counter; // -1 by default
-	t_edge		*path;  // NULL by default
-	char		*name;
-	t_list		*links;  // t_edge
+	int				counter; // -1 by default
+	t_edge			*path;  // NULL by default
+	struct s_wnode	*wrap;
+	t_list			*links;  // t_edge
 }				t_node;
+
+typedef struct s_wnode
+{
+	char 	*name;
+	t_node	in;
+	t_node	out;
+}				t_wnode;
 
 typedef enum	e_instuctions
 {
@@ -59,7 +67,8 @@ typedef enum 	e_errors
 {
 	SUCCESS,
 	MALLOC_ERROR,
-	NOT_EBOUGH_DATA,
+	NOT_ENOUGH_DATA,
+	NO_PATHS_FOUND,
 }				t_err;
 
 typedef struct	s_mngr
@@ -73,8 +82,6 @@ typedef struct	s_mngr
 	t_elt		max_lt;
 }				t_mngr;
 
-# define MIN(x, y) (x < y ? x : y)
-
 void	*parse_flags(int argc, char **argv, t_mngr *mngr);
 
 void	parse_input(t_mngr *mngr);
@@ -86,19 +93,30 @@ void	make_magic(t_mngr *mngr);
 void	print_solution(t_mngr *mngr);
 void ultimate_exit(t_mngr *mngr, int exit_code);
 
+
 void			*que_add(t_vector *que, t_node *node, t_mngr *mngr);
 t_node			*que_popleft(t_vector *que);
-void			*set_node_weight(t_vector *que, t_node *node, int w, t_mngr *mngr);
 void 			set_weights(t_mngr *mngr);
 
-void			del_from_links(t_list **links, t_edge *one);
-int				suurballe(t_mngr *mngr);
+int				suurballe(t_mngr *mngr, t_list **ends);
 
-void			clean_graph(t_mngr *mngr, int iter);
-void			get_all_paths(t_mngr *mngr);
+void			do_all_job(t_mngr *mngr);
+
+t_list			*pop_edge(t_list **links, t_edge *one);
+void			swap_nodes(t_node **a, t_node **b);
+int				get_path_len(t_node *node, t_node *start, char to_relink,
+								t_node **to_set);
+int				calc_len_of_output(t_list *ends, int size, int ants,
+									t_node *start);
+
+void			calc_ants(t_mngr *mngr, int size, t_node **ends);
+int				get_one_line(int **params, t_vector **output, t_mngr *mngr,
+								int *cur_lem);
+
 
 
 void	print_edge(t_edge *edge);
 void	print_node(t_node *node);
+void	test(t_mngr *mngr);
 
 #endif
