@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/24 19:01:37 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/25 22:16:44 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ static void	clean_graph(t_mngr *mngr, int iter)
 			if (!EDGE->was_rev)
 			{
 				tmp = pop_edge(&(EDGE->from->links), EDGE);
-				free(tmp->data);
-				free(tmp);
+				ft_lstdelone(&tmp, NULL);
+				break ;
+//				free(tmp->data);
+//				free(tmp);
 			}
 			child = child->next;
 		}
