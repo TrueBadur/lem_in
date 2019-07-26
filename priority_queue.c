@@ -54,11 +54,11 @@ static void	sift_down(t_pque *q, unsigned int i, unsigned int len)
 		return ;
 	if ((rght = 2 * i + 2) >= len)
 	{
-		if (q[lft].priority < q[rght].priority)
-			swap_pque(&q[lft], &q[rght]);
+		if (q[lft].priority < q[i].priority)
+			swap_pque(&q[lft], &q[i]);
 		return ;
 	}
-	if (q[i].priority > MIN(q[lft].priority, q[rght].priority))
+	if (q[i].priority > FT_MIN2(q[lft].priority, q[rght].priority))
 	{
 		if (q[lft].priority <= q[rght].priority)
 		{

@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/11 18:20:26 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/16 10:15:04 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,27 @@ t_node		*que_popleft(t_vector *que)
 }
 
 /*
-** set weight of /edge/ and /edge->reverse/ by weight of its /nodes/
+** set weight of /edge/ by weight of its /nodes/
+** or 0 for inner edge
 */
 
-static void	set_both_edges_weight(t_edge *edge)
+static void	set_edge_weight(t_edge *edge)
 {
-	edge->wgth = edge->from->counter - edge->to->counter + 1;
-	edge->reverse->wgth = edge->to->counter - edge->from->counter + 1;
+	if (edge->from->wrap == edge->to->wrap)
+		edge->wgth = 0;
+	else
+		edge->wgth = edge->from->counter - edge->to->counter + 1;
 }
 
 /*
 ** set weight of /node/ and push it to queue
 */
 
-void		*set_node_weight(t_vector *que, t_node *node, int w, t_mngr *mngr)
+static void	*set_node_weight(t_vector *que, t_node *nod, t_node *prev,
+		t_mngr *mngr)
 {
-	node->counter = w;
-	que = que_add(que, node, mngr);
+	nod->counter = nod->wrap == prev->wrap ? prev->counter : prev->counter + 1;
+	que = que_add(que, nod, mngr);
 	return (que);
 }
 
@@ -81,12 +85,12 @@ void		set_weights(t_mngr *mngr)
 		while (child)
 		{
 			if (EDGE->to->counter == -1)
-				que = set_node_weight(que, EDGE->to, cur->counter + 1, mngr);
+				que = set_node_weight(que, EDGE->to, cur, mngr);
 			if (EDGE->wgth == -1)
-				set_both_edges_weight(EDGE);
+				set_edge_weight(EDGE);
 			child = child->next;
 		}
-		print_node(cur); // TODO remove
+//		print_node(cur); // TODO remove
 	}
 	ft_vecdel((void **)&que);
 }

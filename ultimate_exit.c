@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/11 17:54:40 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 19:16:42 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/07/25 20:38:49 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	free_node(void *node)
 {
-	t_node	*nd;
+	t_wnode	*nd;
 
-	nd = (t_node*)node;
-	ft_lstdel(&nd->links, NULL);
+	nd = (t_wnode*)node;
+	ft_lstdel(&nd->in.links, NULL);
+	ft_lstdel(&nd->out.links, NULL);
 	free(nd->name);
 	free(node);
 }
@@ -33,4 +34,6 @@ void ultimate_exit(t_mngr *mngr, int exit_code)
 		ft_printf("ERROR");
 	exit(exit_code);
 }
+
+
 
