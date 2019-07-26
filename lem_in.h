@@ -59,6 +59,8 @@ typedef enum	e_line_types
 	LINK,
 	COMMENT,
 	INSTRUCTION,
+	LEMIN_PATH,
+	EMPTY_LINE,
 	ERROR
 }				t_elt;
 
@@ -71,6 +73,8 @@ typedef enum 	e_errors
 	NO_PATHS_FOUND,
 }				t_err;
 
+#ifndef LEM_IN_VIZU_HEX_H
+
 typedef struct	s_mngr
 {
 	int			flags; //TODO convert to more flags or to bitarray
@@ -82,10 +86,14 @@ typedef struct	s_mngr
 	t_elt		max_lt;
 }				t_mngr;
 
+#endif
+
+# define MIN(x, y) (x < y ? x : y)
+
 void	*parse_flags(int argc, char **argv, t_mngr *mngr);
 
 void	parse_input(t_mngr *mngr);
-t_elt	check_line_type(char *line);
+t_elt 	check_line_type(char *line, int viz);
 t_elt	get_room(t_mngr *mngr, char *line);
 t_elt	get_link(t_mngr *mngr, char *line);
 
