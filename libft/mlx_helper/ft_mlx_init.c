@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_mlx_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/26 14:59:11 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/22 19:01:29 by ehugh-be         ###   ########.fr       */
+/*   Created: 2019/07/12 15:56:33 by ehugh-be          #+#    #+#             */
+/*   Updated: 2019/07/12 15:56:33 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "mlx_helper.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+t_mlx	*ft_mlx_init(char *main_wndw_name)
 {
-	if (!alst || !new)
-		return ;
-	new->next = *alst;
-	*alst = new;
-}
+	t_mlx	*mlx;
 
-t_list	*ft_lstadd_ret(t_list *alst, t_list *new)
-{
-	if (!alst)
-		return (new);
-	if (!new)
-		return (alst);
-	new->next = alst;
-	return (new);
+	if (!(mlx = malloc(sizeof(t_mlx))))
+		return (NULL);
+	ft_bzero(mlx, sizeof(t_mlx));
+	mlx->mlx = mlx_init();
+	mlx->interval = SPEED;
+	mlx->pause = 0;
+	mlx->active = 0;
+	mlx->win_ptr = mlx_new_window(mlx->mlx, W_WIDTH, W_HEIGHT, main_wndw_name);
+	return (mlx);
 }

@@ -102,6 +102,7 @@ t_list				*ft_lstfindlast(t_list *lst);
 t_list				*ft_lstfind_v(t_list *lst, void *val, size_t s);
 void				ft_lstaddlast(t_list **alst, t_list *new);
 void				ft_lstadd(t_list **alst, t_list *new);
+t_list				*ft_lstadd_ret(t_list *alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*ft_lstcopy(t_list *lst);
@@ -121,5 +122,6 @@ size_t				ft_strlen_u(const int *s, char f);
 char				ft_unilen(int u);
 int					ft_intlen(long int n);
 char				*ft_itoa_buf(long n, char *res);
+void				*ft_replace_pointer(void *old, void *new);
 
 #endif

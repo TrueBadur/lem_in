@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   prepare_farm.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/26 14:59:11 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/22 19:01:29 by ehugh-be         ###   ########.fr       */
+/*   Created: 2019/07/12 16:58:46 by ehugh-be          #+#    #+#             */
+/*   Updated: 2019/07/12 16:58:46 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <htable.h>
+#include "vizu_hex.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+void	prepare_farm(t_mngr *mngr)
 {
-	if (!alst || !new)
-		return ;
-	new->next = *alst;
-	*alst = new;
-}
+	t_htab *htab;
 
-t_list	*ft_lstadd_ret(t_list *alst, t_list *new)
-{
-	if (!alst)
-		return (new);
-	if (!new)
-		return (alst);
-	new->next = alst;
-	return (new);
+	(int ()(int))(htab->isin);
 }
