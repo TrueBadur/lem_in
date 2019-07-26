@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/24 19:23:07 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/26 20:20:50 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,38 +103,61 @@ static t_node	*reverse_path(t_node *fin)
 	return (ret);
 }
 
+static int      get_length_from_ends(t_list *ends, t_node *node)
+{
+    t_list  *lst;
+    t_node  *end;
+
+    lst = ends;
+    while (lst)
+    {
+        end = (t_node *)lst->data;
+        if (end->wrap == node->wrap)
+            return (lst->content_size);
+        lst = lst->next;
+    }
+    return (0);
+}
+
 /*
 ** goes by /path/s from finish up to start and return its length
 */
 
-static int		get_new_path_len(t_node *fin)
+static int		get_new_path_len(t_node *fin, t_node *start, t_list *ends)
 {
 	t_edge	*path;
-	t_list	*child;
+	t_edge  *anth_path;
 	int		len;
+	int     anth_len;
+	int     new_len;
 
 	len = 0;
 	path = fin->path;
+	new_len = 0;
 	while (path)
 	{
 		if (path->from->wrap != path->to->wrap)
 		{
-			len++;
-			child = path->from->links;
-			while (child)
-			{
-				if (EDGE == path && EDGE->was_rev)
-				{
-					len -= 2;
-					break ;
-				}
-				child = child->next;
-			}
+            if (path->was_rev)
+            {
+                anth_path = (t_edge *)path->to->links->data;
+                anth_len = 1;
+                while (anth_path->to != start)
+                {
+                    if (anth_path->from->wrap != anth_path->to->wrap)
+                        anth_len++;
+                    anth_path = (t_edge *)anth_path->to->links->data;
+                }
+                new_len = anth_len + len;
+                len = get_length_from_ends(ends, anth_path->from) - anth_len - 1;
+            }
+            else
+			    len++;
 		}
 		path = path->from->path;
 	}
-//	ft_printf("len of new path %i\n", len);
-	return (len);
+	ft_printf("len %i | another len %i\n", len, new_len);
+	return (FT_MAX2(len, new_len));
 }
 
 /*
@@ -161,7 +184,7 @@ int				suurballe(t_mngr *mngr, t_list **ends)
 		if (wrap_dijkstra(mngr, iter))
 			break ;
 //		ft_printf("{Green}dijkstra done{eof}, "); // TODO print
-		if (len_of_output && (get_new_path_len(mngr->end) >= len_of_output))
+		if (len_of_output && (get_new_path_len(mngr->end, mngr->start, *ends) >= len_of_output))
 			break ;
 		tmp = reverse_path(mngr->end);
 		lst = ft_lstnew(&tmp, sizeof(t_node*));
@@ -172,5 +195,11 @@ int				suurballe(t_mngr *mngr, t_list **ends)
 //		ft_printf("recalculate length of output {Green}%i{eof}\n\n", len_of_output); // TODO print
 		--iter;
 	}
+	lst = *ends;
+	while (lst)
+    {
+	    lst->content_size = sizeof(void *);
+	    lst = lst->next;
+    }
 	return (iter);
 }

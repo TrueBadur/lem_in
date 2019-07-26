@@ -100,6 +100,7 @@ int			calc_len_of_output(t_list *ends, int size, int ants, t_node *start)
 	while (++i < size)
 	{
 		lens[i] = get_path_len((t_node *)tmp->data, start, 0, NULL);
+		tmp->content_size = lens[i];
 		max = lens[i] > max ? lens[i] : max;
 		tmp = tmp->next;
 	}
