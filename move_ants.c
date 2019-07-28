@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/24 20:41:29 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/07/28 23:51:11 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 	{
 		ends[i]->counter = max - ends[i]->counter;
 		sum -= ends[i]->counter;
-//		print_node(ends[i]); // TODO print
+		print_node(ends[i]); // TODO print
 	}
 //	ft_printf("sum %i\n", sum); // TODO print
 	max = sum % size; // ostatok

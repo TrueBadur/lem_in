@@ -63,9 +63,9 @@ static t_vector	*move_ants(t_mngr *mngr, t_vector *output, int size)
 	t_node	*ends[size];
 
 	calc_ants(mngr, ft_lstlen(mngr->end->links), ends);
-//	int i = -1;  // TODO print
-//	while (++i < size)  // TODO print
-//		print_node(ends[i]);  // TODO print
+	int i = -1;  // TODO print
+	while (++i < size)  // TODO print
+		print_node(ends[i]);  // TODO print
 	ft_bzero(finishs, sizeof(int) * size);
 	cur_lem = 1;
 	count = 1;

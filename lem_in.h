@@ -106,6 +106,7 @@ t_list			*pop_edge(t_list **links, t_edge *one);
 void			swap_nodes(t_node **a, t_node **b);
 int				get_path_len(t_node *node, t_node *start, char to_relink,
 								t_node **to_set);
+int			set_path_len(t_node *node, t_node *start, char to_relink, t_node **to_set);
 int				calc_len_of_output(t_list *ends, int size, int ants,
 									t_node *start);
 
