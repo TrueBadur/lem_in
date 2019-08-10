@@ -133,7 +133,6 @@ int			calc_len_of_output(t_list *ends, int size, int ants, t_node *start)
 	t_list	*tmp;
 	int 	max;
 	int		sum;
-//	t_node  *smth;
 
 	i = -1;
 	tmp = ends;

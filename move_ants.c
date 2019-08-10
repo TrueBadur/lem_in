@@ -61,7 +61,7 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 //	ft_printf("sum %i\n", sum); // TODO print
 	max = sum % size; // ostatok
 	sum = sum / size; // po skolko v kazdoe
-//	ft_printf("v kazdoe %i, ostatok %i\n", sum, max); // TODO print
+	ft_printf("v kazdoe %i, ostatok %i\n", sum, max); // TODO print
 	i = -1;
 	while (++i < size)
 	{

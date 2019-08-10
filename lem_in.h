@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/24 17:45:42 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/10 22:04:38 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct	s_edge
 	char			was_rev; // 0 by default
 }				t_edge;
 
-typedef struct s_node
+typedef struct  s_node
 {
 	int				counter; // -1 by default
 	t_edge			*path;  // NULL by default
@@ -36,12 +36,18 @@ typedef struct s_node
 	t_list			*links;  // t_edge
 }				t_node;
 
-typedef struct s_wnode
+typedef struct  s_wnode
 {
 	char 	*name;
 	t_node	in;
 	t_node	out;
 }				t_wnode;
+
+typedef struct  s_log
+{
+    char    type;
+    void    *address;
+}               t_log;
 
 typedef enum	e_instuctions
 {
@@ -98,7 +104,7 @@ void			*que_add(t_vector *que, t_node *node, t_mngr *mngr);
 t_node			*que_popleft(t_vector *que);
 void 			set_weights(t_mngr *mngr);
 
-int				suurballe(t_mngr *mngr, t_list **ends);
+int				suurballe(t_mngr *mngr, t_list **ends, int limit);
 
 void			do_all_job(t_mngr *mngr);
 
@@ -106,7 +112,7 @@ t_list			*pop_edge(t_list **links, t_edge *one);
 void			swap_nodes(t_node **a, t_node **b);
 int				get_path_len(t_node *node, t_node *start, char to_relink,
 								t_node **to_set);
-int			set_path_len(t_node *node, t_node *start, char to_relink, t_node **to_set);
+//int			set_path_len(t_node *node, t_node *start, char to_relink, t_node **to_set);
 int				calc_len_of_output(t_list *ends, int size, int ants,
 									t_node *start);
 

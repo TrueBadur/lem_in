@@ -74,94 +74,34 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 ** return first t_node* (after start) of this path
 */
 
-static t_node	*reverse_path(t_node *fin)
+static t_node	*reverse_path(t_node *fin, t_log **log)
 {
-	t_edge	*path;
-	t_edge	*next;
-	t_list	*lst;
-	t_node	*ret;
+    t_edge	*path;
+    t_edge	*next;
+    t_list	*lst;
+    t_node	*ret;
 
-	ret = fin->path->from;
-	path = fin->path;
-	while (path && !(path->to->path = NULL))
-	{
-		next = path->from->path;
-		lst = pop_edge(&path->from->links, path);
-		if (path->was_rev)
-		{
-			free(path);
-			free(lst);
-		}
-		else
-		{
-			swap_nodes(&path->from, &path->to);
-			path->was_rev = 1;
-			ft_lstadd(&path->from->links, lst);
-		}
-		path = next;
-	}
-	return (ret);
-}
-
-static t_edge      *get_reversed_edge(t_list *links)
-{
-    t_list  *lst;
-
-    lst = links;
-    while (lst)
+    log++; //TODO del
+    ret = fin->path->from;
+    path = fin->path;
+    while (path && !(path->to->path = NULL))
     {
-        if (((t_edge *)lst->data)->was_rev)
-            return ((t_edge *)lst->data);
-        lst = lst->next;
+        next = path->from->path;
+        lst = pop_edge(&path->from->links, path);
+        if (path->was_rev)
+        {
+            free(path);
+            free(lst);
+        }
+        else
+        {
+            swap_nodes(&path->from, &path->to);
+            path->was_rev = 1;
+            ft_lstadd(&path->from->links, lst);
+        }
+        path = next;
     }
-    return (NULL);
-}
-
-/*
-** goes by /path/s from finish up to start and return its length
-*/
-
-static int		get_new_path_len(t_node *fin, t_node *start)
-{
-	t_edge	*path;
-	t_edge  *anth_path;
-	int		len;
-	int     anth_len;
-	int     new_len;
-
-	len = 0;
-	path = fin->path;
-	new_len = 0;
-	while (path)
-	{
-		if (path->from->wrap != path->to->wrap)
-		{
-            if (path->was_rev)
-            {
-                anth_path = (t_edge *)path->to->links->data;
-                anth_len = 1;
-                int stop = 0;
-                while (anth_path->to != start && stop < 100)
-                {
-                    stop++;
-                    if (anth_path->from->wrap != anth_path->to->wrap)
-                        anth_len++;
-                    anth_path = get_reversed_edge(anth_path->to->links);
-//                    print_node(anth_path->to);
-                    ft_printf("/ %s /", anth_path->to->wrap->name); //TODO print
-//                    anth_path = (t_edge *)anth_path->to->links->data;
-                }
-                new_len = anth_len + len;
-                ft_printf("{Magenta}old len %i | anth_len %i\n{eof}", anth_path->from->counter, anth_len); //TODO print
-                len = anth_path->from->counter - anth_len - 1;
-            }
-            else
-			    len++;
-		}
-		path = path->from->path;
-	}
-	ft_printf("len %i | another len %i\n", len, new_len); //TODO print
-	return (FT_MAX2(len, new_len));
+    return (ret);
 }
 
 /*
@@ -170,45 +110,32 @@ static int		get_new_path_len(t_node *fin, t_node *start)
  * /ends/ - last (before start) nodes of reversed accepted paths
 */
 
-int				suurballe(t_mngr *mngr, t_list **ends)
+int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 {
 	int		iter;
-	int		limit;
 	int		len_of_output;
 	int     prev_len_of_output;
 	t_node	*tmp;
-	t_list	*lst;
+	t_log   log[mngr->ant_num];
 
 	iter = -2;
-	limit = -FT_MIN2(ft_lstlen(mngr->start->links),
-			ft_lstlen(((t_edge *)mngr->end->links->data)->to->links)) - 1;
-//	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO print
-	len_of_output = 0;
 	prev_len_of_output = 0;
 	while (iter > limit - 1)
 	{
 		if (wrap_dijkstra(mngr, iter))
 			break ;
-		lst = *ends;
-		while (lst)
-        {
-//            set_path_len((t_node *)lst->data, mngr->start, 0, &tmp);
-            ft_printf("{Yellow}local len = %i (%s){eof}\n", set_path_len((t_node *)lst->data, mngr->start, 0, &tmp),
-                    ((t_node *)tmp)->wrap->name);
-		    lst = lst->next;
-        }
-		if (len_of_output && (get_new_path_len(mngr->end, mngr->start) >= len_of_output))
-			break ;
-        if (prev_len_of_output && (len_of_output > prev_len_of_output))
-            break ;
-        prev_len_of_output = len_of_output;
-		tmp = reverse_path(mngr->end);
-		lst = ft_lstnew(&tmp, sizeof(t_node*));
-		ft_printf("{Green}path reversed{eof}\n\n"); // TODO print
-		ft_lstadd(ends, lst);
+		tmp = reverse_path(mngr->end, (t_log**)&log);
+        ft_lstadd(ends, ft_lstnew(&tmp, sizeof(t_node*)));
+        ft_printf("{Green}path reversed{eof}\n\n"); // TODO print
 		len_of_output = calc_len_of_output(*ends, ft_lstlen(*ends),
 				mngr->ant_num, mngr->start);
-		ft_printf("recalculate length of output {Green}%i{eof}\n\n", len_of_output); // TODO print
+        ft_printf("recalculate length of output {Green}%i{eof}\n\n", len_of_output); // TODO print
+        if (prev_len_of_output && (len_of_output > prev_len_of_output))
+        {
+//            undo();
+            break ;
+        }
+        prev_len_of_output = len_of_output;
 		--iter;
 	}
 	return (iter);

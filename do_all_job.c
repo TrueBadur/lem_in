@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/08/10 19:59:29 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/10 22:29:03 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,44 @@ static t_vector	*move_ants(t_mngr *mngr, t_vector *output, int size)
 	return (output);
 }
 
+static void	set_path_len(t_list *starts, t_node *start)
+{
+    int 	len;
+    t_node	*cur;
+    t_list	*child;
+
+    while (starts)
+    {
+        len = 1;
+        cur = (t_node *)starts->data;
+        while (cur != start) {
+            cur->counter = 0;
+            child = cur->links;
+            while (!EDGE->was_rev)
+                child = child->next;
+            if (EDGE->from->wrap != EDGE->to->wrap) {
+//                ft_printf("/ {Green}%s{eof} /", cur->wrap->name); // TODO print
+                len++;
+            }
+            cur = EDGE->to;
+//        if (EDGE->from->wrap == EDGE->to->wrap && to_relink)
+//        {
+//            EDGE->to = ((t_edge *) EDGE->to->links->data)->to;
+//        }
+            if (EDGE->to == start)
+//        {
+                EDGE->from->counter = len;
+//            ft_printf("{Yellow}%s - %i\n{eof}", EDGE->from->wrap->name, EDGE->from->counter);
+//            *to_set = EDGE->from;
+//        }
+        }
+    ft_printf("local len = %i (%s)\n", len, EDGE->from->wrap->name); // TODO print
+        starts = starts->next;
+    }
+//    return (len);
+}
+
+
 /*
 ** overall algorithm
 ** /starts/ - first (after start) nodes of accepted paths
@@ -92,19 +130,21 @@ void		do_all_job(t_mngr *mngr)
 	set_weights(mngr);
 //	ft_printf("{Green}weights set{eof}\n\n"); // TODO print
 	starts = NULL;
-	if ((i = suurballe(mngr, &starts)) == -2)
+    size = -FT_MIN2(ft_lstlen(mngr->start->links),
+                     ft_lstlen(((t_edge *)mngr->end->links->data)->to->links)) - 1;
+    //	ft_printf("{Blue}limit %i{eof}\n\n", -size - 1); // TODO print
+	if ((i = suurballe(mngr, &starts, size)) == -2)
 		ultimate_exit(mngr, NO_PATHS_FOUND);
+    set_path_len(starts, mngr->start);
 	ft_lstdel(&starts, NULL);
 	ft_printf("{Blue}dijkstra has %i runs{eof}\n\n", -i - 2);  // TODO print
 	clean_graph(mngr, i - 1);
 	size = ft_lstlen(mngr->end->links);
-//	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO print
-//	calc_ants(mngr->end, mngr->start, mngr->ant_num, size);
+	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO print
 	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
 		ultimate_exit(mngr, MALLOC_ERROR);
 //	ft_printf("#num of paths %i\n", size);
-//	calc_ants(mngr->end, mngr->start, mngr->ant_num, size);
 	output = move_ants(mngr, output, size);
-//	ft_printf("\n%s", (char*)output->data);
+	ft_printf("\n%s", (char*)output->data);
 	ft_vecdel((void **)&output);
 }
