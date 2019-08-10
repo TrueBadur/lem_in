@@ -56,7 +56,7 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 	{
 		ends[i]->counter = max - ends[i]->counter;
 		sum -= ends[i]->counter;
-		print_node(ends[i]); // TODO print
+//		print_node(ends[i]); // TODO print
 	}
 //	ft_printf("sum %i\n", sum); // TODO print
 	max = sum % size; // ostatok

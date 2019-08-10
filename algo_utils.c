@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 19:06:54 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/29 00:03:04 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/10 18:45:40 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int			get_path_len(t_node *node, t_node *start, char to_relink, t_node **to_set)
 			if (EDGE->to == start && to_set)
 			{
 				EDGE->from->counter = len;
-				ft_printf("{Yellow}%s - %i\n{eof}", EDGE->from->wrap->name, EDGE->from->counter);
+//				ft_printf("{Yellow}%s - %i\n{eof}", EDGE->from->wrap->name, EDGE->from->counter);
 				*to_set = EDGE->from;
 			}
 		}
@@ -88,7 +88,7 @@ int			get_path_len(t_node *node, t_node *start, char to_relink, t_node **to_set)
 //            *to_set = EDGE->from;
 //        }
 	}
-	ft_printf("local len = %i (%s)\n", len, EDGE->from->wrap->name); // TODO print
+//	ft_printf("local len = %i (%s)\n", len, EDGE->from->wrap->name); // TODO print
 	return (len);
 }
 
@@ -106,8 +106,10 @@ int			set_path_len(t_node *node, t_node *start, char to_relink, t_node **to_set)
         child = cur->links;
         while (!EDGE->was_rev)
             child = child->next;
-        if (EDGE->from->wrap != EDGE->to->wrap)
+        if (EDGE->from->wrap != EDGE->to->wrap) {
+            ft_printf("/ {Green}%s{eof} /", cur->wrap->name); // TODO print
             len++;
+        }
         cur = EDGE->to;
         if (EDGE->from->wrap == EDGE->to->wrap && to_relink)
         {
