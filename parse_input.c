@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:58:51 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 18:26:10 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/08/11 20:20:50 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_elt parse_by_type(t_mngr *mngr, char *line, t_elt type)
 		get_instruction(mngr, line);
 	else if (type == ANT_N)
 		mngr->ant_num = ft_atoi(line);
-	if (!(type == ERROR || type == COMMENT))
+	if (!(type == ERROR))
 		ft_printf("%s\n", line);
 	return (type);
 }
@@ -61,4 +61,3 @@ void parse_input(t_mngr *mngr)
 	if (!mngr->start || !mngr->end || mngr->ant_num < 0)
 		ultimate_exit(mngr, NOT_ENOUGH_DATA);
 }
-
