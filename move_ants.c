@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/24 20:41:29 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/11 19:22:22 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	longest_path(t_node *start, t_node *end, t_node **ends)
 		max = len > max ? len : max;
 		child = child->next;
 	}
+	ft_printf("longest path: %d\n", max);
 	return (max);
 }
 
@@ -54,14 +55,15 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 	i = -1;
 	while (++i < size)
 	{
+//	    print_node(ends[i]); // TODO print
 		ends[i]->counter = max - ends[i]->counter;
 		sum -= ends[i]->counter;
 //		print_node(ends[i]); // TODO print
 	}
-//	ft_printf("sum %i\n", sum); // TODO print
+	ft_printf("sum %i\n", sum); // TODO print
 	max = sum % size; // ostatok
 	sum = sum / size; // po skolko v kazdoe
-//	ft_printf("v kazdoe %i, ostatok %i\n", sum, max); // TODO print
+	ft_printf("v kazdoe %i, ostatok %i\n", sum, max); // TODO print
 	i = -1;
 	while (++i < size)
 	{

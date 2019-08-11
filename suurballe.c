@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/24 19:23:07 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/11 18:56:57 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,35 +107,35 @@ static t_node	*reverse_path(t_node *fin)
 ** goes by /path/s from finish up to start and return its length
 */
 
-static int		get_new_path_len(t_node *fin)
-{
-	t_edge	*path;
-	t_list	*child;
-	int		len;
-
-	len = 0;
-	path = fin->path;
-	while (path)
-	{
-		if (path->from->wrap != path->to->wrap)
-		{
-			len++;
-			child = path->from->links;
-			while (child)
-			{
-				if (EDGE == path && EDGE->was_rev)
-				{
-					len -= 2;
-					break ;
-				}
-				child = child->next;
-			}
-		}
-		path = path->from->path;
-	}
-//	ft_printf("len of new path %i\n", len);
-	return (len);
-}
+//static int		get_new_path_len(t_node *fin)
+//{
+//	t_edge	*path;
+//	t_list	*child;
+//	int		len;
+//
+//	len = 0;
+//	path = fin->path;
+//	while (path)
+//	{
+//		if (path->from->wrap != path->to->wrap)
+//		{
+//			len++;
+//			child = path->from->links;
+//			while (child)
+//			{
+//				if (EDGE == path && EDGE->was_rev)
+//				{
+//					len -= 2;
+//					break ;
+//				}
+//				child = child->next;
+//			}
+//		}
+//		path = path->from->path;
+//	}
+////	ft_printf("len of new path %i\n", len);
+//	return (len);
+//}
 
 /*
 ** run Dijkstra and reversing paths while can or while it has sense
@@ -147,29 +147,33 @@ int				suurballe(t_mngr *mngr, t_list **ends)
 	int		iter;
 	int		limit;
 	int		len_of_output;
+	int     prev_len;
 	t_node	*tmp;
-	t_list	*lst;
+//	t_list	*lst;
 
 	iter = -2;
 	limit = -FT_MIN2(ft_lstlen(mngr->start->links),
 			ft_lstlen(((t_edge *)mngr->end->links->data)->to->links)) - 1;
 //	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO print
-	len_of_output = 0;
+	prev_len = 0;
 	while (iter > limit - 1)
 	{
 //		printf("iter %i\n", iter); // TODO print
 		if (wrap_dijkstra(mngr, iter))
 			break ;
 //		ft_printf("{Green}dijkstra done{eof}, "); // TODO print
-		if (len_of_output && (get_new_path_len(mngr->end) >= len_of_output))
-			break ;
+//		if (len_of_output && (get_new_path_len(mngr->end) >= len_of_output))
+//			break ;
 		tmp = reverse_path(mngr->end);
-		lst = ft_lstnew(&tmp, sizeof(t_node*));
-//		ft_printf("{Green}path reversed{eof}\n\n"); // TODO print
-		ft_lstadd(ends, lst);
+//		lst = ft_lstnew(&tmp, sizeof(t_node*));
+		ft_printf("{Green}path reversed{eof}\n\n"); // TODO print
+		ft_lstadd(ends, ft_lstnew(&tmp, sizeof(t_node*)));
 		len_of_output = calc_len_of_output(*ends, ft_lstlen(*ends),
 				mngr->ant_num, mngr->start);
-//		ft_printf("recalculate length of output {Green}%i{eof}\n\n", len_of_output); // TODO print
+        ft_printf("recalculate length of output {Green}%i{eof}\n\n", len_of_output); // TODO print
+		if (prev_len && (len_of_output >= prev_len || len_of_output < 0))
+		    break ;
+		prev_len = len_of_output;
 		--iter;
 	}
 	return (iter);

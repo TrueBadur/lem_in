@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 19:06:54 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/23 20:59:10 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/11 19:37:34 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,13 @@ int			get_path_len(t_node *node, t_node *start, char to_relink, t_node **to_set)
 			EDGE->to = ((t_edge *) EDGE->to->links->data)->to;
 			if (EDGE->to == start && to_set)
 			{
-				EDGE->from->counter = len;
+				EDGE->from->counter = len + 1;
 				*to_set = EDGE->from;
+                ft_printf("{Light green}local len = %i (%s){eof}\n", EDGE->from->counter, EDGE->from->wrap->name); // TODO print
 			}
 		}
 	}
-//	ft_printf("local len = %i\n", len); // TODO print
+
 	return (len);
 }
 
@@ -110,6 +111,8 @@ int			calc_len_of_output(t_list *ends, int size, int ants, t_node *start)
 		lens[i] = max - lens[i];
 		sum += lens[i];
 	}
+	if (sum >= ants)
+	    return (-1);
 	ants = (ants - sum) % size == 0 ? (ants - sum) / size : (ants - sum) / size + 1;
 	return (max + ants - 1);
 }
