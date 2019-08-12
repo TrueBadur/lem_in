@@ -92,7 +92,9 @@ void		do_all_job(t_mngr *mngr)
 	set_weights(mngr);
 //	ft_printf("{Green}weights set{eof}\n\n"); // TODO print
 	ends = NULL;
-	if ((i = suurballe(mngr, &ends)) == -2)
+	size = -FT_MIN2(ft_lstlen(mngr->start->links),
+                    ft_lstlen(((t_edge *)mngr->end->links->data)->to->links)) - 1;
+	if ((i = suurballe(mngr, &ends, size)) == -2)
 		ultimate_exit(mngr, NO_PATHS_FOUND);
 	ft_lstdel(&ends, NULL);
 	ft_printf("{Blue}dijkstra has %i runs{eof}\n\n", -i - 2);  // TODO print

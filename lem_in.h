@@ -98,7 +98,7 @@ void			*que_add(t_vector *que, t_node *node, t_mngr *mngr);
 t_node			*que_popleft(t_vector *que);
 void 			set_weights(t_mngr *mngr);
 
-int				suurballe(t_mngr *mngr, t_list **ends);
+int				suurballe(t_mngr *mngr, t_list **ends, int limit);
 
 void			do_all_job(t_mngr *mngr);
 

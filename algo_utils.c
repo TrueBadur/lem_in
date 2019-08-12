@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 19:06:54 by mbartole          #+#    #+#             */
-/*   Updated: 2019/08/11 19:37:34 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/12 18:04:30 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ t_list		*pop_edge(t_list **links, t_edge *one)
 		*links = tmp->next;
 		return (tmp);
 	}
-	while (tmp->next->data != one)
+	while (tmp && tmp->next && tmp->next->data != one)
 		tmp = tmp->next;
+	if (!tmp || !tmp->next)
+	    return (NULL);
 	ret = tmp->next;
 	tmp->next = tmp->next->next;
 	return (ret);
