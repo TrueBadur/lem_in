@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/16 10:15:04 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/13 15:35:24 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void		set_weights(t_mngr *mngr)
 				set_edge_weight(EDGE);
 			child = child->next;
 		}
-//		print_node(cur); // TODO remove
 	}
 	ft_vecdel((void **)&que);
 }

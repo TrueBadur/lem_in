@@ -6,12 +6,12 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/08/13 13:41:34 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/13 15:42:06 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_LEM_IN_H
-#define LEM_IN_LEM_IN_H
+# define LEM_IN_LEM_IN_H
 
 # include "libft.h"
 # include "pque.h"
@@ -23,11 +23,11 @@ typedef struct	s_edge
 {
 	struct s_node	*from;
 	struct s_node	*to;
-	int 			wgth;  // -1 by default
+	int             wgth;  // -1 by default
 	char			was_rev; // 0 by default
 }				t_edge;
 
-typedef struct s_node
+typedef struct  s_node
 {
 	int				counter; // -1 by default
 	t_edge			*path;  // NULL by default
@@ -35,16 +35,15 @@ typedef struct s_node
 	t_list			*links;  // t_edge
 }				t_node;
 
-typedef struct s_wnode
+typedef struct  s_wnode
 {
-	char 	*name;
+	char    *name;
 	t_node	in;
 	t_node	out;
 }				t_wnode;
 
 typedef struct  s_log
 {
-    char   type;
     t_edge  *edge;
     t_node  *from;
     t_node  *to;
@@ -57,7 +56,6 @@ typedef enum	e_instuctions
 	FINISH
 }				t_instr;
 
-
 typedef enum	e_line_types
 {
 	LT_NONE = -1,
@@ -69,8 +67,7 @@ typedef enum	e_line_types
 	ERROR
 }				t_elt;
 
-
-typedef enum 	e_errors
+typedef enum    e_errors
 {
 	SUCCESS,
 	MALLOC_ERROR,
@@ -89,17 +86,14 @@ typedef struct	s_mngr
 	t_elt		max_lt;
 }				t_mngr;
 
-void	*parse_flags(int argc, char **argv, t_mngr *mngr);
+void	        *parse_flags(int argc, char **argv, t_mngr *mngr);
 
-void	parse_input(t_mngr *mngr);
-t_elt	check_line_type(char *line);
-t_elt	get_room(t_mngr *mngr, char *line);
-t_elt	get_link(t_mngr *mngr, char *line);
+void	        parse_input(t_mngr *mngr);
+t_elt	        check_line_type(char *line);
+t_elt	        get_room(t_mngr *mngr, char *line);
+t_elt	        get_link(t_mngr *mngr, char *line);
 
-void	make_magic(t_mngr *mngr);
-void	print_solution(t_mngr *mngr);
-void ultimate_exit(t_mngr *mngr, int exit_code);
-
+void            ultimate_exit(t_mngr *mngr, int exit_code);
 
 void			*que_add(t_vector *que, t_node *node, t_mngr *mngr);
 t_node			*que_popleft(t_vector *que);
@@ -122,8 +116,7 @@ int				get_one_line(int **params, t_vector **output, t_mngr *mngr,
 
 
 
-void	print_edge(t_edge *edge);
-void	print_node(t_node *node);
-void	test(t_mngr *mngr);
+void	        print_edge(t_edge *edge);
+void	        print_node(t_node *node);
 
 #endif

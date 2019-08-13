@@ -91,13 +91,13 @@ static t_node	*reverse_path(t_mngr *mngr, t_node *fin, t_vector **log)
 		lst = pop_edge(&path->from->links, path);
 		if (path->was_rev)
 		{
-		    one_log = (t_log){'d', NULL, path->from, path->to};
+		    one_log = (t_log){NULL, path->from, path->to};
 			free(path);
 			free(lst);
 		}
 		else
 		{
-            one_log = (t_log){'e', path, path->from, path->to};
+            one_log = (t_log){path, path->from, path->to};
 			swap_nodes(&path->from, &path->to);
 			path->was_rev = 1;
 			ft_lstadd(&path->from->links, lst);
@@ -118,22 +118,12 @@ static void     undo_reverse_path(t_mngr *mngr, t_vector *log)
 {
     int     i;
     t_log   *logs;
-//    t_edge	*path;
-//    t_edge	*next;
-//    t_list	*lst;
     t_edge  *ed;
 //
     logs = (t_log*)log->data;
     i = -1;
 //    ft_printf("{Blue}LOG: {eof}");
     while (++i < (int)(log->len / sizeof(t_log))) {
-//        ft_printf("\n[%c]\n", logs[i].type);
-//        print_node(logs[i].from);
-//        print_node(logs[i].to);
-//        if (logs[i].edge)
-//            print_edge(logs[i].edge);
-//        else
-//            ft_printf("edge deleted\n");
         if (logs[i].edge)
         {
             pop_edge(&logs[i].edge->from->links, logs[i].edge);
@@ -150,44 +140,6 @@ static void     undo_reverse_path(t_mngr *mngr, t_vector *log)
             free(ed);
         }
     }
-//    path = fin->path;
-//    int i = 0;
-//    while (path && path->to->path && ++i < 10)
-//    {
-//        next = path->to->path;
-//        ft_printf("{Green}next %p{eof}\n", next);
-//        print_edge(next);
-//        lst = pop_edge(&path->from->links, path);
-//        ft_printf("{Red}pop edge %p{eof}\n", lst);
-//        if (!lst)
-//        {
-//            if (!(ed = malloc(sizeof(t_edge))))
-//                ultimate_exit(mngr, MALLOC_ERROR);
-//            ed->wgth = -1;
-//            ed->from = path->to;
-//            ed->to = path->from;
-//            ed->was_rev = 1;
-//            ft_lstadd(&path->to->links, ft_lstnew(ed, sizeof(t_edge)));
-//            free(ed);
-//        }
-//        else
-//        {
-//            ft_printf("{Magenta}before\n{eof}");
-//            print_node(path->from);
-//            print_node(path->to);
-//            swap_nodes(&path->from, &path->to);
-//            path->was_rev = 0;
-//            ft_lstadd(&path->from->links, lst);
-//            ft_printf("{Magenta}after\n{eof}");
-//            print_node(path->to);
-//            print_node(path->from);
-//        }
-//        path = next;
-//    }
-//    lst = *ends;
-//    *ends = (*ends)->next;
-//    ft_lstdelone(&lst, NULL);
-
 }
 
 /*

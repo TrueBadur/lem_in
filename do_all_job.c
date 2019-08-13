@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/08/13 14:51:54 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/13 15:46:48 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 ** (walking it by BFS from finish)
 */
 
-static void	clean_graph(t_mngr *mngr, int iter)
+static void     clean_graph(t_mngr *mngr, int iter)
 {
 	t_vector	*que;
 	t_list		*child;
@@ -43,8 +43,6 @@ static void	clean_graph(t_mngr *mngr, int iter)
 				tmp = pop_edge(&(EDGE->from->links), EDGE);
 				ft_lstdelone(&tmp, NULL);
 				break ;
-//				free(tmp->data);
-//				free(tmp);
 			}
 			child = child->next;
 		}
@@ -55,7 +53,7 @@ static void	clean_graph(t_mngr *mngr, int iter)
 ** moves ants towards finish by shortest paths first
 */
 
-static t_vector	*move_ants(t_mngr *mngr, t_vector *output, int size)
+static t_vector *move_ants(t_mngr *mngr, t_vector *output, int size)
 {
 	int		cur_lem;
 	int		count;
@@ -71,8 +69,8 @@ static t_vector	*move_ants(t_mngr *mngr, t_vector *output, int size)
 	count = 1;
 	while (count)
 	{
-		count = get_one_line((int*[]){(int *)finishs, (int *)ends}, &output,
-							 mngr, &cur_lem);
+		count = get_one_line((int*[]){(int *)finishs, (int *)ends}, &output,\
+		mngr, &cur_lem);
 		output = ft_vecpush(output, "\n", 1);
 	}
 	return (output);
@@ -82,7 +80,7 @@ static t_vector	*move_ants(t_mngr *mngr, t_vector *output, int size)
 ** overall algorithm
 */
 
-void		do_all_job(t_mngr *mngr)
+void            do_all_job(t_mngr *mngr)
 {
 	int			i;
 	int			size;
@@ -93,8 +91,8 @@ void		do_all_job(t_mngr *mngr)
 	set_weights(mngr);
 //	ft_printf("{Green}weights set{eof}\n\n"); // TODO print
 	ends = NULL;
-	size = -FT_MIN2(ft_lstlen(mngr->start->links),
-                    ft_lstlen(((t_edge *)mngr->end->links->data)->to->links)) - 1;
+	size = -FT_MIN2(ft_lstlen(mngr->start->links),\
+	ft_lstlen(((t_edge *)mngr->end->links->data)->to->links)) - 1;
 	if ((i = suurballe(mngr, &ends, size)) == -2)
 		ultimate_exit(mngr, NO_PATHS_FOUND);
 	ft_lstdel(&ends, NULL);
