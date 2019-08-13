@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/24 17:45:42 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/13 13:41:34 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "libft.h"
 # include "pque.h"
-#include <stdio.h> // TODO: delete
 
 struct s_node;
 struct s_wnode;
@@ -42,6 +41,14 @@ typedef struct s_wnode
 	t_node	in;
 	t_node	out;
 }				t_wnode;
+
+typedef struct  s_log
+{
+    char   type;
+    t_edge  *edge;
+    t_node  *from;
+    t_node  *to;
+}               t_log;
 
 typedef enum	e_instuctions
 {

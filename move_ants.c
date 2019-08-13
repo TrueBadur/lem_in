@@ -34,7 +34,7 @@ static int	longest_path(t_node *start, t_node *end, t_node **ends)
 		max = len > max ? len : max;
 		child = child->next;
 	}
-	ft_printf("longest path: %d\n", max);
+//	ft_printf("longest path: %d\n", max);
 	return (max);
 }
 
@@ -60,10 +60,10 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 		sum -= ends[i]->counter;
 //		print_node(ends[i]); // TODO print
 	}
-	ft_printf("sum %i\n", sum); // TODO print
+//	ft_printf("sum %i\n", sum); // TODO print
 	max = sum % size; // ostatok
 	sum = sum / size; // po skolko v kazdoe
-	ft_printf("v kazdoe %i, ostatok %i\n", sum, max); // TODO print
+//	ft_printf("v kazdoe %i, ostatok %i\n", sum, max); // TODO print
 	i = -1;
 	while (++i < size)
 	{
