@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   suurballe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/08/13 14:45:02 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/31 22:02:23 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-#define SIZE_OF_QUE 100 * sizeof(t_pque)
+#define SIZE_OF_QUE 10000 * sizeof(t_pque)
 #define EDGE ((t_edge *)child->data)
 
 /*
@@ -26,21 +26,30 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
 	t_pque		cur;
 	t_list		*child;
 
+//	for (size_t i = 0; i < que->len / sizeof(t_pque); i++)
+//		ft_printf("{\\68} %s {\\69}%d", ((t_node*)((t_pque*)que->data)[i].data)->wrap->name, ((t_pque*)que->data)[i].priority);
+
 	cur = pop_que(que);
+	if (((t_node*)cur.data)->counter == iter)
+		return (que);
+	((t_node*)cur.data)->counter = iter;
+//	ft_printf("{\\202} %s {\\207}%d{eof}", ((t_node*)cur.data)->wrap->name, cur.priority);
 	child = ((t_node *)cur.data)->links;
 	while (child)
 	{
 		if (EDGE->to->counter != iter)
 		{
-			EDGE->to->counter = iter;
 			EDGE->to->path = EDGE;
 			if (EDGE->to == mngr->end)
 			{
+				ft_printf("{\\200}Price: %d {eof}\n", cur.priority);
 				ft_vecdel((void **)&que);
 				return (NULL);
 			}
-			if (!(que = push_que(que, EDGE->to, cur.priority + EDGE->wgth)))
+			if (!(que = push_que(que, EDGE->to, (t_int2){cur.priority.x + EDGE->wgth, cur.priority.y + 1})))
 				ultimate_exit(mngr, MALLOC_ERROR);
+//			print_edge(EDGE);
+//			ft_printf("\n");
 		}
 		child = child->next;
 	}
@@ -55,11 +64,12 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 {
 	t_vector	*que;
 
+
 	if (!(que = ft_vecinit(SIZE_OF_QUE)))
 		ultimate_exit(mngr, MALLOC_ERROR);
-	if (!(que = push_que(que, mngr->start, 0)))
+	if (!(que = push_que(que, mngr->start, (t_int2){0, 0})))
 		ultimate_exit(mngr, MALLOC_ERROR);
-	mngr->start->counter = iter;
+//	mngr->start->counter = iter;
 	mngr->start->path = NULL;
 	while (que->len > 0)
 		if (!(que = dijkstra(mngr, iter, que)))
@@ -157,11 +167,13 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 	t_node	    *tmp;
 	t_vector   *log;
 
+
 	iter = -2;
 	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO print
 	prev_len = 0;
 	if (!(log = ft_vecinit(SIZE_OF_LOG * sizeof(t_log))))
 	    ultimate_exit(mngr, MALLOC_ERROR);
+//	int count = 5;
 	while (iter > limit - 1)
 	{
 //		printf("iter %i\n", iter); // TODO print

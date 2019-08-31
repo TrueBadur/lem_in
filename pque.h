@@ -17,11 +17,11 @@
 
 typedef struct	s_pque
 {
-	void	*data;
-	int		priority;
+	void		*data;
+	t_int2		priority;
 }				t_pque;
 
-void			*push_que(t_vector *vec, void *data, int priority);
+void			*push_que(t_vector *vec, void *data, t_int2 priority);
 t_pque			pop_que(t_vector *vec);
 
 #endif
