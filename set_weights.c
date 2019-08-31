@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_weights.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/08/13 15:35:24 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/08/31 21:31:28 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,13 @@ void		set_weights(t_mngr *mngr)
 				que = set_node_weight(que, EDGE->to, cur, mngr);
 			if (EDGE->wgth == -1)
 				set_edge_weight(EDGE);
+
+//			ft_printf(" | %s - %d | ", EDGE->to->wrap->name, EDGE->to->counter);
 			child = child->next;
 		}
 	}
+//	t_wnode* tmp = ft_avlsearch(mngr->all_rooms, "Vlj6", 1, NULL);
+//	print_node(&tmp->in);
+//	print_node(&tmp->out);
 	ft_vecdel((void **)&que);
 }

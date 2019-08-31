@@ -87,7 +87,7 @@ void            do_all_job(t_mngr *mngr)
 	t_vector	*output;
 	t_list		*ends;
 
-	ft_printf("{Blue}ants: %d\n\n{eof}", mngr->ant_num); // TODO print
+//	ft_printf("{Blue}ants: %d\n\n{eof}", mngr->ant_num); // TODO print
 	set_weights(mngr);
 //	ft_printf("{Green}weights set{eof}\n\n"); // TODO print
 	ends = NULL;
@@ -104,6 +104,6 @@ void            do_all_job(t_mngr *mngr)
 		ultimate_exit(mngr, MALLOC_ERROR);
 //	ft_printf("#num of paths %i\n", size);
 	output = move_ants(mngr, output, size);
-//	ft_printf("\n%s", (char*)output->data);
+	ft_printf("\n%s", (char*)output->data);
 	ft_vecdel((void **)&output);
 }

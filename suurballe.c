@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/08/31 22:02:23 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/08/31 22:29:47 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
 	if (((t_node*)cur.data)->counter == iter)
 		return (que);
 	((t_node*)cur.data)->counter = iter;
-//	ft_printf("{\\202} %s {\\207}%d{eof}", ((t_node*)cur.data)->wrap->name, cur.priority);
+//	ft_printf("{\\202} %s {\\207}%d, %d{eof}", ((t_node*)cur.data)->wrap->name, cur.priority.x, cur.priority.y);
 	child = ((t_node *)cur.data)->links;
 	while (child)
 	{
@@ -42,11 +42,11 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
 			EDGE->to->path = EDGE;
 			if (EDGE->to == mngr->end)
 			{
-				ft_printf("{\\200}Price: %d {eof}\n", cur.priority);
+//				ft_printf("{\\200}Price: [%d, %d] {eof}\n", cur.priority, cur.priority.y);
 				ft_vecdel((void **)&que);
 				return (NULL);
 			}
-			if (!(que = push_que(que, EDGE->to, (t_int2){cur.priority.x + EDGE->wgth, cur.priority.y + 1})))
+			if (!(que = push_que(que, EDGE->to, (t_int2){cur.priority.x + EDGE->wgth, cur.priority.y + (EDGE->was_rev ? 0 : 1)})))
 				ultimate_exit(mngr, MALLOC_ERROR);
 //			print_edge(EDGE);
 //			ft_printf("\n");
@@ -75,7 +75,7 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 		if (!(que = dijkstra(mngr, iter, que)))
 			return (0);
 	ft_vecdel((void **)&que);
-	ft_printf("{Light red}cant find another way\n{eof}");
+//	ft_printf("{Light red}cant find another way\n{eof}");
 	return (-1);
 }
 
@@ -169,7 +169,7 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 
 
 	iter = -2;
-	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO print
+//	ft_printf("{Blue}limit %i{eof}\n\n", -limit - 1); // TODO print
 	prev_len = 0;
 	if (!(log = ft_vecinit(SIZE_OF_LOG * sizeof(t_log))))
 	    ultimate_exit(mngr, MALLOC_ERROR);
@@ -185,11 +185,11 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 		ft_lstadd(ends, ft_lstnew(&tmp, sizeof(t_node*)));
 		len_of_output = calc_len_of_output(*ends, ft_lstlen(*ends),
 				mngr->ant_num, mngr->start);
-        ft_printf("recalculate length of output {Green}%i{eof}\n\n", len_of_output); // TODO print
+//        ft_printf("recalculate length of output {Green}%i{eof}\n\n", len_of_output); // TODO print
 		if (prev_len && (len_of_output > prev_len || len_of_output < 0))
 		{
 		    undo_reverse_path(mngr, log);
-            ft_printf("\n{Green}reverse undone{eof}\n\n"); // TODO print
+//            ft_printf("\n{Green}reverse undone{eof}\n\n"); // TODO print
             break;
         }
         log->len = 0;
