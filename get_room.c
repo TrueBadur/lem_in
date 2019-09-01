@@ -41,6 +41,8 @@ static t_elt setup_node(t_mngr *mngr, t_wnode *node, char *line)
 	}
 	node->in.wrap = node;
 	node->out.wrap = node;
+	node->in.path_priority = (t_int2){INT32_MAX, INT32_MAX};
+	node->out.path_priority = (t_int2){INT32_MAX, INT32_MAX};
 	node->in.counter = -1;
 	node->out.counter = -1;
 	if (!(ed = malloc(sizeof(t_edge))))

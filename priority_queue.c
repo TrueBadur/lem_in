@@ -27,7 +27,7 @@ static void	swap_pque(t_pque *a, t_pque *b)
 
 int ft_int2lt(t_int2 a, t_int2 b)
 {
-	return (a.x < b.x || (a.x == b.x && a.y < b.y));
+	return (a.y < b.y || (a.y == b.y && a.x < b.x));
 }
 
 t_int2 ft_int2_min(t_int2 a, t_int2 b){
@@ -36,7 +36,7 @@ t_int2 ft_int2_min(t_int2 a, t_int2 b){
 
 int ft_int2gt(t_int2 a, t_int2 b)
 {
-	return (a.x > b.x || (a.x == b.x && a.y > b.y));
+	return (a.y > b.y || (a.y == b.y && a.x > b.x));
 }
 
 int ft_int2eq(t_int2 a, t_int2 b)

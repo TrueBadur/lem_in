@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/08/31 22:29:47 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/01 19:11:07 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,28 @@
 ** and sets /counter/ field of /node/ to /iter/ (markdown of walk)
 */
 
-static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
+static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int prohod)
 {
 	t_pque		cur;
 	t_list		*child;
 
-//	for (size_t i = 0; i < que->len / sizeof(t_pque); i++)
-//		ft_printf("{\\68} %s {\\69}%d", ((t_node*)((t_pque*)que->data)[i].data)->wrap->name, ((t_pque*)que->data)[i].priority);
 
 	cur = pop_que(que);
-	if (((t_node*)cur.data)->counter == iter)
-		return (que);
+	prohod += 0;
+//	if (((t_node*)cur.data)->counter == iter)
+//		return (que);
+//	if (prohod == 2 && ft_strcmp())
+//	{
+////		ft_printf("\n");
+////		for (size_t i = 0; i < que->len / sizeof(t_pque); i++)
+////			ft_printf("{\\68} %s {\\69}[%d, %d]",
+////					  ((t_node *) ((t_pque *) que->data)[i].data)->wrap->name,
+////					  ((t_pque *) que->data)[i].priority.x,
+////					  ((t_pque *) que->data)[i].priority.y);
+////		ft_printf("\n");
+//	}
+//	if (prohod == 3)
+//		ultimate_exit(mngr, NO_PATHS_FOUND);
 	((t_node*)cur.data)->counter = iter;
 //	ft_printf("{\\202} %s {\\207}%d, %d{eof}", ((t_node*)cur.data)->wrap->name, cur.priority.x, cur.priority.y);
 	child = ((t_node *)cur.data)->links;
@@ -39,7 +50,8 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
 	{
 		if (EDGE->to->counter != iter)
 		{
-			EDGE->to->path = EDGE;
+			if (ft_int2lt(cur.priority, EDGE->to->path_priority))
+				EDGE->to->path = EDGE;
 			if (EDGE->to == mngr->end)
 			{
 //				ft_printf("{\\200}Price: [%d, %d] {eof}\n", cur.priority, cur.priority.y);
@@ -60,7 +72,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
 ** make and remove queue for Dijkstra
 */
 
-static int		wrap_dijkstra(t_mngr *mngr, int iter)
+static int		wrap_dijkstra(t_mngr *mngr, int iter, int proh)
 {
 	t_vector	*que;
 
@@ -72,7 +84,7 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 //	mngr->start->counter = iter;
 	mngr->start->path = NULL;
 	while (que->len > 0)
-		if (!(que = dijkstra(mngr, iter, que)))
+		if (!(que = dijkstra(mngr, iter, que, proh)))
 			return (0);
 	ft_vecdel((void **)&que);
 //	ft_printf("{Light red}cant find another way\n{eof}");
@@ -173,11 +185,11 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 	prev_len = 0;
 	if (!(log = ft_vecinit(SIZE_OF_LOG * sizeof(t_log))))
 	    ultimate_exit(mngr, MALLOC_ERROR);
-//	int count = 5;
+	int p = 1;
 	while (iter > limit - 1)
 	{
 //		printf("iter %i\n", iter); // TODO print
-		if (wrap_dijkstra(mngr, iter))
+		if (wrap_dijkstra(mngr, iter, p++))
 			break ;
 //		ft_printf("{Green}dijkstra done{eof}, "); // TODO print
 		tmp = reverse_path(mngr, mngr->end, &log);
@@ -185,7 +197,7 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 		ft_lstadd(ends, ft_lstnew(&tmp, sizeof(t_node*)));
 		len_of_output = calc_len_of_output(*ends, ft_lstlen(*ends),
 				mngr->ant_num, mngr->start);
-//        ft_printf("recalculate length of output {Green}%i{eof}\n\n", len_of_output); // TODO print
+        ft_printf("#recalculate length of output {Green}%i{eof}\n", len_of_output); // TODO print
 		if (prev_len && (len_of_output > prev_len || len_of_output < 0))
 		{
 		    undo_reverse_path(mngr, log);

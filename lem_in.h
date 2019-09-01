@@ -31,6 +31,7 @@ typedef struct  s_node
 {
 	int				counter; // -1 by default
 	t_edge			*path;  // NULL by default
+	t_int2			path_priority;
 	struct s_wnode	*wrap;
 	t_list			*links;  // t_edge
 }				t_node;
