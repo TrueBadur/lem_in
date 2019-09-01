@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/01 19:11:07 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/01 20:53:52 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int prohod)
 				ft_vecdel((void **)&que);
 				return (NULL);
 			}
-			if (!(que = push_que(que, EDGE->to, (t_int2){cur.priority.x + EDGE->wgth, cur.priority.y + (EDGE->was_rev ? 0 : 1)})))
+			if (!(que = push_que(que, EDGE->to, (t_int2){cur.priority.x + EDGE->wgth, cur.priority.y + (EDGE->was_rev ? -1 : 1)})))
 				ultimate_exit(mngr, MALLOC_ERROR);
 //			print_edge(EDGE);
 //			ft_printf("\n");
@@ -87,7 +87,7 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter, int proh)
 		if (!(que = dijkstra(mngr, iter, que, proh)))
 			return (0);
 	ft_vecdel((void **)&que);
-//	ft_printf("{Light red}cant find another way\n{eof}");
+	ft_printf("{Light red}#cant find another way\n{eof}");
 	return (-1);
 }
 

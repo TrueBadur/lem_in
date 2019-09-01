@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   priority_queue.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 21:31:08 by mbartole          #+#    #+#             */
-/*   Updated: 2019/07/11 15:10:34 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/01 20:41:23 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	swap_pque(t_pque *a, t_pque *b)
 
 int ft_int2lt(t_int2 a, t_int2 b)
 {
-	return (a.y < b.y || (a.y == b.y && a.x < b.x));
+	return a.y < b.y;
+//	return (a.x < b.x || (a.x == b.x && a.y < b.y));
 }
 
 t_int2 ft_int2_min(t_int2 a, t_int2 b){
@@ -36,7 +37,8 @@ t_int2 ft_int2_min(t_int2 a, t_int2 b){
 
 int ft_int2gt(t_int2 a, t_int2 b)
 {
-	return (a.y > b.y || (a.y == b.y && a.x > b.x));
+	return a.y > b.y;
+//	return (a.x > b.x || (a.x == b.x && a.y > b.y));
 }
 
 int ft_int2eq(t_int2 a, t_int2 b)

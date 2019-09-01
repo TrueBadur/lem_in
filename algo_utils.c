@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 19:06:54 by mbartole          #+#    #+#             */
-/*   Updated: 2019/08/13 14:58:54 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/01 19:11:29 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,15 @@ int			calc_len_of_output(t_list *ends, int size, int ants, t_node *start)
 	tmp = ends;
 	max = 0;
 	ft_bzero(lens, size * sizeof(int));
+	ft_printf("#");
 	while (++i < size)
 	{
 		lens[i] = get_path_len((t_node *)tmp->data, start, 0, NULL);
-//		ft_printf("%s (%d) / ", ((t_node *)tmp->data)->wrap->name, lens[i]); // TODO print
+		ft_printf("%s (%d) / ", ((t_node *)tmp->data)->wrap->name, lens[i]); // TODO print
 		max = lens[i] > max ? lens[i] : max;
 		tmp = tmp->next;
 	}
-//	ft_printf("\n"); // TODO print
+	ft_printf("\n"); // TODO print
 	i = -1;
 	sum = 0;
 	while (++i < size)
