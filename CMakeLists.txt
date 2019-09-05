@@ -5,7 +5,7 @@ set(CMAKE_C_STANDARD 99)
 find_library(OPEN_GL OpenGl)
 find_library(APP_KIT AppKit)
 
-add_compile_options(-Wall -Wextra -Werror) # flags
+#add_compile_options(-Wall -Wextra -Werror) # flags
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake") # CMAKE_CURRENT_LIST_DIR is the directory holding the CMakeLists.txt we are currently using
 include_directories(libft/includes/ ./) # directory with headers
 link_directories(/usr/local/lib libft/lib)

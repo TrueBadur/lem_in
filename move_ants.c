@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_ants.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/08/13 15:33:59 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/05 23:17:49 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	longest_path(t_node *start, t_node *end, t_node **ends)
 	i = -1;
 	while (child)
 	{
+		t_edge *tmp = EDGE;
 		len = get_path_len(EDGE->to, start, 1, &ends[++i]);
 		max = len > max ? len : max;
 		child = child->next;
@@ -83,7 +84,7 @@ static int	move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
 	*output = ft_vecpush(*output, "-", 1);
 	*output = ft_vecpush(*output, name, ft_strlen(name));
 	*output = ft_vecpush(*output, " ", 1);
-//	ft_printf("%s\n\n", (char *)(*output)->data); // TODO print
+	ft_printf("%s\n\n", (char *)(*output)->data); // TODO print
 	return (1);
 }
 
@@ -130,7 +131,7 @@ int			get_one_line(int **params, t_vector **output, t_mngr *mngr,
 	i = -1;
 	cur = mngr->end->links;
 	count = 0;
-	while (cur && ++i > -1)
+	while (cur && ++i > -1) //TODO Here infinite loop because of changes in undone_reverse
 	{
 		if (fins[i])
 		{

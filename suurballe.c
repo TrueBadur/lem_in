@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/05 21:42:43 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/05 23:27:07 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int prohod)
 			tmp2 = EDGE;
 			if(!ft_strcmp("Oxc9", EDGE->to->wrap->name))
 				ft_printf("{Green} [%d, %d]{eof}", EDGE->to->path_priority.x,  EDGE->to->path_priority.y);
-			if (ft_int2lt(cur.priority, EDGE->to->path_priority)) //TODO reset path_priority for all nodes set to max on extraction from queue and run through rest of the queue after path is found
+			if (ft_int2lt(cur.priority, EDGE->to->path_priority))
 			{
 				EDGE->to->path = EDGE;
 				EDGE->to->path_priority = cur.priority;
@@ -164,7 +164,7 @@ static t_node	*reverse_path(t_mngr *mngr, t_node *fin, t_vector **log)
 		lst = pop_edge(&path->from->links, path);
 		if (path->was_rev)
 		{
-			if (path->to->wrap == path->from->wrap)  // TODO think about log
+			if (path->to->wrap == path->from->wrap)  // TODO think about all because now it causes infinite loop
 			{
 				one_log = (t_log){path, path->from, path->to};
 				swap_nodes(&path->from, &path->to);
@@ -200,6 +200,7 @@ static void     undo_reverse_path(t_mngr *mngr, t_vector *log)
     int     i;
     t_log   *logs;
     t_edge  *ed;
+    t_list	*lst;
 //
     logs = (t_log*)log->data;
     i = -1;
@@ -207,7 +208,10 @@ static void     undo_reverse_path(t_mngr *mngr, t_vector *log)
     while (++i < (int)(log->len / sizeof(t_log))) {
         if (logs[i].edge)
         {
-            pop_edge(&logs[i].edge->from->links, logs[i].edge);
+            lst = pop_edge(&logs[i].edge->from->links, logs[i].edge); // TODO or think about all here because now it causes infinite loop
+			swap_nodes(&logs[i].edge->from, &logs[i].edge->to);
+			logs[i].edge->was_rev = 1;
+			ft_lstadd(&logs[i].edge->from->links, lst);
         }
         else
         {
