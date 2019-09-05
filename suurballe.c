@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/01 23:03:39 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/05 21:42:43 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@
 ** and sets /counter/ field of /node/ to /iter/ (markdown of walk)
 */
 
+void	deprioritize_queue(t_vector *vec)
+{
+	int i;
+	t_pque *pque;
+
+	pque = (t_pque*)vec->data;
+	i = -1;
+	while(++i < (int)(vec->len / sizeof(t_pque)))
+		((t_node*)pque[i].data)->path_priority = (t_int2){INT32_MAX, INT32_MAX};
+}
+
 static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int prohod)
 {
 	t_pque		cur;
@@ -29,41 +40,57 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int prohod)
 
 	cur = pop_que(que);
 	prohod += 0;
+	t_node *tmp;
+	tmp =((t_node*)cur.data);
+	tmp->path_priority = (t_int2){INT32_MAX, INT32_MAX};
+//	t_wnode *wnode = ft_avlsearch(mngr->all_rooms, "Fny7", 1, NULL);
+//	if (wnode->in.path != NULL || wnode->out.path != NULL)
+//		wnode += 0;
+//	if (!ft_strcmp(tmp->wrap->name, "Bya9") || !ft_strcmp(tmp->wrap->name, "Oxc9"))
+//		prohod += 0;
 	if (((t_node*)cur.data)->counter == iter)
 		return (que);
-//	if (!ft_strcmp(((t_node*)cur.data)->wrap->name, "Bcv5"))
-//	{
-//		ft_printf("\n");
-//		for (size_t i = 0; i < que->len / sizeof(t_pque); i++)
-//			ft_printf("{\\68} %s {\\69}[%d, %d]",
-//					  ((t_node *) ((t_pque *) que->data)[i].data)->wrap->name,
-//					  ((t_pque *) que->data)[i].priority.x,
-//					  ((t_pque *) que->data)[i].priority.y);
-//		ft_printf("\n");
-//		ft_printf("{\\202} %d %s {\\207}%d, %d{eof}", prohod, ((t_node*)cur.data)->wrap->name, cur.priority.x, cur.priority.y);
-//	}
+	if (!ft_strcmp(((t_node*)cur.data)->wrap->name, "Bcv5"))
+	{
+		ft_printf("\n");
+		for (size_t i = 0; i < que->len / sizeof(t_pque); i++)
+			ft_printf("{\\68} %s {\\69}[%d, %d]",
+					  ((t_node *) ((t_pque *) que->data)[i].data)->wrap->name,
+					  ((t_pque *) que->data)[i].priority.x,
+					  ((t_pque *) que->data)[i].priority.y);
+		ft_printf("\n");
+		ft_printf("{\\202} %d %s {\\207}%d, %d{eof}", prohod, ((t_node*)cur.data)->wrap->name, cur.priority.x, cur.priority.y);
+	}
 //	if (prohod == 3)
 //		ultimate_exit(mngr, NO_PATHS_FOUND);
 	((t_node*)cur.data)->counter = iter;
-//	ft_printf("{\\202} %s {\\207}%d, %d{eof}", ((t_node*)cur.data)->wrap->name, cur.priority.x, cur.priority.y);
+	ft_printf("{\\202} %s {\\207}%d, %d{eof}", ((t_node*)cur.data)->wrap->name, cur.priority.x, cur.priority.y);
 	child = ((t_node *)cur.data)->links;
 	while (child)
 	{
 		if (EDGE->to->counter != iter)
 		{
-
-			if (ft_int2lt(cur.priority, EDGE->to->path_priority))
+			t_edge * tmp2;
+			tmp2 = EDGE;
+			if(!ft_strcmp("Oxc9", EDGE->to->wrap->name))
+				ft_printf("{Green} [%d, %d]{eof}", EDGE->to->path_priority.x,  EDGE->to->path_priority.y);
+			if (ft_int2lt(cur.priority, EDGE->to->path_priority)) //TODO reset path_priority for all nodes set to max on extraction from queue and run through rest of the queue after path is found
+			{
 				EDGE->to->path = EDGE;
+				EDGE->to->path_priority = cur.priority;
+			}
 			if (EDGE->to == mngr->end)
 			{
-//				ft_printf("\n");
-//				for (size_t i = 0; i < que->len / sizeof(t_pque); i++)
-//					ft_printf("{\\68} %s {\\69}[%d, %d]",
-//							  ((t_node *) ((t_pque *) que->data)[i].data)->wrap->name,
-//							  ((t_pque *) que->data)[i].priority.x,
-//							  ((t_pque *) que->data)[i].priority.y);
-//				ft_printf("\n");
-//				ft_printf("{\\200}Price: [%d, %d] {eof}\n", cur.priority, cur.priority.y);
+				ft_printf("\n");
+				for (size_t i = 0; i < que->len / sizeof(t_pque); i++)
+					ft_printf("{\\68} %s {\\69}[%d, %d]",
+							  ((t_node *) ((t_pque *) que->data)[i].data)->wrap->name,
+							  ((t_pque *) que->data)[i].priority.x,
+							  ((t_pque *) que->data)[i].priority.y);
+				ft_printf("\n");
+				ft_printf("{\\200}Price: [%d, %d] {eof}\n", cur.priority, cur.priority.y);
+				deprioritize_queue(que);
+				mngr->end->path_priority = (t_int2){INT32_MAX, INT32_MAX};
 				ft_vecdel((void **)&que);
 				return (NULL);
 			}
@@ -87,7 +114,6 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int prohod)
 	}
 	return (que);
 }
-
 /*
 ** make and remove queue for Dijkstra
 */
@@ -130,14 +156,17 @@ static t_node	*reverse_path(t_mngr *mngr, t_node *fin, t_vector **log)
 
 	ret = fin->path->from;
 	path = fin->path;
+	int i = 0;
     while (path && path->to->path)
 	{
-		next = path->from->path;
+		i++;
+    	next = path->from->path;
 		lst = pop_edge(&path->from->links, path);
 		if (path->was_rev)
 		{
 			if (path->to->wrap == path->from->wrap)  // TODO think about log
 			{
+				one_log = (t_log){path, path->from, path->to};
 				swap_nodes(&path->from, &path->to);
 				path->was_rev = 0;
 				ft_lstadd(&path->from->links, lst);
@@ -200,7 +229,17 @@ static void     undo_reverse_path(t_mngr *mngr, t_vector *log)
 */
 
 #define SIZE_OF_LOG 200
-
+//5
+//##start
+//a 0 0
+//b 0 0
+//c 0 0
+//##end
+//d 0 0
+//a-b
+//a-c
+//c-d
+//b-d
 int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 {
 	int		    iter;
@@ -221,7 +260,6 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 //		printf("iter %i\n", iter); // TODO print
 		if (wrap_dijkstra(mngr, iter, p++))
 			break ;
-//		ft_printf("{Green}dijkstra done{eof}, "); // TODO print
 		tmp = reverse_path(mngr, mngr->end, &log);
 //		ft_printf("{Green}path reversed{eof}\n\n"); // TODO print
 		ft_lstadd(ends, ft_lstnew(&tmp, sizeof(t_node*)));
@@ -231,7 +269,7 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 		if (prev_len && (len_of_output > prev_len || len_of_output < 0))
 		{
 		    undo_reverse_path(mngr, log);
-//            ft_printf("\n{Green}reverse undone{eof}\n\n"); // TODO print
+            ft_printf("\n{Green}reverse undone{eof}\n\n"); // TODO print
             break;
         }
         log->len = 0;

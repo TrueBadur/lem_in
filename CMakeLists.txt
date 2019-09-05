@@ -15,7 +15,7 @@ FILE(GLOB LIBFT_SRCS ./libft/std_lib/*.c ./libft/std_lib/printf/*.c)  # ADD LIBF
 AUX_SOURCE_DIRECTORY(libft/std_lib/liblist/ TMP)
 
 
-add_executable(main.c lem_in.h check_line_type.c
+add_executable(lem_in main.c lem_in.h check_line_type.c
 				test.c do_all_job.c suurballe.c set_weights.c
 				priority_queue.c ultimate_exit.c
 				get_link.c get_room.c parse_input.c algo_utils.c move_ants.c)
@@ -23,4 +23,4 @@ add_executable(main.c lem_in.h check_line_type.c
 include(FindPkgConfig)
 find_package(ft REQUIRED)
 include_directories(${ft_INCLUDE_DIR})
-target_link_libraries (lem-in ft ${OPEN_GL} ${APP_KIT})
+target_link_libraries (lem_in ft ${OPEN_GL} ${APP_KIT})
