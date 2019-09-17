@@ -103,7 +103,7 @@ void            do_all_job(t_mngr *mngr)
 	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
 		ultimate_exit(mngr, MALLOC_ERROR);
 //	ft_printf("#num of paths %i\n", size);
-	output = move_ants(mngr, output, size);
-	ft_printf("\n%s", (char*)output->data);
+//	output = move_ants(mngr, output, size);
+//	ft_printf("\n%s", (char*)output->data);
 	ft_vecdel((void **)&output);
 }

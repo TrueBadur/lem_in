@@ -21,7 +21,9 @@ t_list		*pop_edge(t_list **links, t_edge *one)
 	t_list *tmp;
 	t_list *ret;
 
+	//------------------------------------------------------------------------//
 //	ft_printf("pop %s -> %s\n", one->from->wrap->name, one->to->wrap->name); // TODO print
+	//------------------------------------------------------------------------//
 	tmp = *links;
 	if (tmp->data == one)
 	{

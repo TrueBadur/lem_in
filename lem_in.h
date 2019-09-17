@@ -74,6 +74,7 @@ typedef enum    e_errors
 	MALLOC_ERROR,
 	NOT_ENOUGH_DATA,
 	NO_PATHS_FOUND,
+	INTERRUPTED_BY_PROGRAMMER
 }				t_err;
 
 typedef struct	s_mngr
