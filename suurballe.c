@@ -338,14 +338,14 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 		    undo_reverse_path(mngr, log);
 			//------------------------------------------------------------------------//
             ft_printf("\n{Green}reverse undone{eof}\n\n"); // TODO print
+//			if (p == 16)
+//			{
+//				ft_printf("{Red} Trying dijkstra after undone\n");
+//				log->len = 0;
+//				--iter;
+//				continue;
+//			}
 			//------------------------------------------------------------------------//
-			if (p == 16)
-			{
-				ft_printf("{Red} Trying dijkstra after undone\n");
-				log->len = 0;
-				--iter;
-				continue;
-			}
             break;
         }
         log->len = 0;

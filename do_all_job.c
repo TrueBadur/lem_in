@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_all_job.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/08/13 15:46:48 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/17 21:06:19 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void     clean_graph(t_mngr *mngr, int iter)
 		ultimate_exit(mngr, MALLOC_ERROR);
 	mngr->end->counter = iter;
 	que = que_add(que, mngr->end, mngr);
-	while (que->offset != que->len && (child = que_popleft(que)->links))
+	while (que->offset < que->len && (child = que_popleft(que)->links))
 		while (child)
 		{
 			if (EDGE->to->counter != iter)
@@ -38,7 +38,7 @@ static void     clean_graph(t_mngr *mngr, int iter)
 				EDGE->to->counter = iter;
 				que = que_add(que, EDGE->to, mngr);
 			}
-			if (!EDGE->was_rev)
+			if (!EDGE->was_rev && EDGE->from->wrap != EDGE->to->wrap)
 			{
 				tmp = pop_edge(&(EDGE->from->links), EDGE);
 				ft_lstdelone(&tmp, NULL);
@@ -103,7 +103,7 @@ void            do_all_job(t_mngr *mngr)
 	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
 		ultimate_exit(mngr, MALLOC_ERROR);
 //	ft_printf("#num of paths %i\n", size);
-//	output = move_ants(mngr, output, size);
+	output = move_ants(mngr, output, size);
 //	ft_printf("\n%s", (char*)output->data);
 	ft_vecdel((void **)&output);
 }
