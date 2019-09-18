@@ -16,7 +16,7 @@ void	print_node(t_node *node)
 {
 	if ((t_edge *)node->links && (node->wrap == ((t_edge *)node->links->data)->to->wrap))
 		ft_printf("{Yellow}");
-	ft_printf("/%s/{Red}%p{eof} w=%i {eof}[ ", node->wrap->name, node, node->counter);
+	ft_printf("#/%s/{Red}%p{eof} w=%i {eof}[ ", node->wrap->name, node, node->counter);
 	t_list* tmp = node->links;
 	while (tmp)
 	{
