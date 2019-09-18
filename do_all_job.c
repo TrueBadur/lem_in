@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/18 20:42:09 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/18 23:07:51 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void            do_all_job(t_mngr *mngr)
 //	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO print
 	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
 		ultimate_exit(mngr, MALLOC_ERROR);
-	ft_printf("#num of paths %i\n", size);
+//	ft_printf("#num of paths %i\n", size);
 	output = move_ants(mngr, output, size);
 	ft_printf("\n%s", (char*)output->data);
 	ft_vecdel((void **)&output);

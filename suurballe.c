@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/18 21:17:00 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/19 00:06:43 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,35 +188,47 @@ static t_node	*reverse_path(t_mngr *mngr, t_node *fin, t_vector **log)
 	t_list	*lst;
 	t_node	*ret;
 	t_log   one_log;
+	char	to_del;
 
 	ret = fin->path->from;
 	path = fin->path;
-	int i = 0; //
+	to_del = 0;
     while (path && path->to->path)
 	{
-		i++; //
     	next = path->from->path;
 		lst = pop_edge(&path->from->links, path);
-		if (path->was_rev && path->to->wrap != path->from->wrap)
+		//TODO TODO TODO TODO
+		if (path->to->wrap != path->from->wrap && next && next->from->wrap != next->to->wrap)
+			to_del = path->was_rev ? 0 : 2;
+		if (to_del && next)
 		{
-//			ft_printf("{\\78}[%s - %s]{eof} ", path->from->wrap->name, path->to->wrap->name);
-			one_log = (t_log){NULL, path->from, path->to};
-			free(path);
-			free(lst);
+			ft_printf("#{\\78}[%s - %s]{eof} ", path->from->wrap->name, path->to->wrap->name);
+			if (to_del < 0){
+				t_edge *tmp = next->from->path;
+				one_log = (t_log){NULL, next->from, next->to, to_del};
+				free(next);
+				next = tmp;
+			}
+			else
+			{
+				one_log = (t_log) {NULL, path->from, path->to, to_del};
+				free(path);
+				free(lst);
+			}
 		}
 		else
 		{
 //			ft_printf("{\\76}(%s - %s){eof} ", path->from->wrap->name, path->to->wrap->name);
-            one_log = (t_log){path, path->from, path->to};
-			swap_nodes(&path->from, &path->to);
-			path->was_rev = path->was_rev == 1 ? 0 : 1;
-			ft_lstadd(&path->from->links, lst);
+		one_log = (t_log){path, path->from, path->to, to_del};
+		swap_nodes(&path->from, &path->to);
+		path->was_rev = path->was_rev == 1 ? 0 : 1;
+		ft_lstadd(&path->from->links, lst);
 		}
 		path = next;
 		if (!(*log = ft_vecpush(*log, &one_log, sizeof(t_log))))
 		    ultimate_exit(mngr, MALLOC_ERROR);
 	}
-//    ft_printf("\n");
+    ft_printf("\n");
 	return (ret);
 }
 

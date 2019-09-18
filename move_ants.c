@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/18 21:13:50 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/18 23:49:31 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 		ends[i]->counter += sum;
 		if (max-- > 0)
 			ends[i]->counter += 1;
-	}
-	--i;
-	for (;i;--i)
 		print_node(ends[i]);
+	}
 }
 
 static int	move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
@@ -142,7 +140,6 @@ int			get_one_line(int **params, t_vector **output, t_mngr *mngr,
 			fins[i], mngr->end->wrap->name);
 			fins[i] = 0;
 		}
-//		print_node(ends[i]);
 		if (ends[i] && ++count)
 			get_one_line_hlper((int *[]){&fins[i], (int *)&ends[i], (int *)cur},
 					output, mngr, cur_lem);

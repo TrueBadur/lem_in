@@ -48,6 +48,7 @@ typedef struct  s_log
     t_edge  *edge;
     t_node  *from;
     t_node  *to;
+    char	to_del;
 }               t_log;
 
 typedef enum	e_instuctions
