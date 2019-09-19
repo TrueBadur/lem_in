@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/08/13 15:42:06 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/19 13:42:34 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,23 @@ typedef struct  s_wnode
 	t_node	out;
 }				t_wnode;
 
+typedef enum	e_edge_zone
+{
+	NORMAL_ZONE,
+	IN_DARK_ZONE,
+	ENTERING_DARK_ZONE,
+	ENTRANCE_DARK_ZONE,
+	EXITING_DARK_ZONE,
+}				t_edgzone;
+
 typedef struct  s_log
 {
-    t_edge  *edge;
-    t_node  *from;
-    t_node  *to;
-    char	to_del;
+    t_edge		*edge;
+    t_node		*from;
+    t_node		*to;
+    t_edgzone	zone;
 }               t_log;
+
 
 typedef enum	e_instuctions
 {
