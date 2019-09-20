@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/19 13:42:34 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/20 22:42:10 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int prohod)
 				ft_vecdel((void **)&que);
 				return (NULL);
 			}
-			if (!(que = push_que(que, EDGE->to, (t_int2){cur.priority.x + EDGE->wgth, cur.priority.y + (EDGE->from->wrap == EDGE->to->wrap ? 0 : (EDGE->was_rev ? -1 : 1))})))
+			if (!(que = push_que(que, EDGE->to, (t_int2){cur.priority.x + 0 * EDGE->wgth, cur.priority.y + (EDGE->was_rev ? -1 : 1)})))
 				ultimate_exit(mngr, MALLOC_ERROR);
 			//------------------------------------------------------------------------//
 //			if (!ft_strcmp(EDGE->to->wrap->name, "Frb3"))
@@ -143,7 +143,7 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter, int proh)
 //	mngr->start->counter = iter;
 	mngr->start->path = NULL;
 	while (que->len > 0)
-		if (!(que = dijkstra(mngr, iter, que, proh))){
+		if (!(que = dijkstra(mngr, iter, que, proh))){ //todo free vector
 			//------------------------------------------------------------------------//
 //			t_wnode* tmp = ft_avlsearch(mngr->all_rooms, "Frb3", 1, NULL);
 //			print_node(&tmp->in);
