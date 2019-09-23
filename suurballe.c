@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/20 22:42:10 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/23 20:20:31 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int prohod)
 				ft_vecdel((void **)&que);
 				return (NULL);
 			}
-			if (!(que = push_que(que, EDGE->to, (t_int2){cur.priority.x + 0 * EDGE->wgth, cur.priority.y + (EDGE->was_rev ? -1 : 1)})))
+			if (!(que = push_que(que, EDGE->to, (t_int2){cur.priority.x + EDGE->wgth, cur.priority.y + (EDGE->was_rev ? -1 : 1)})))
 				ultimate_exit(mngr, MALLOC_ERROR);
 			//------------------------------------------------------------------------//
 //			if (!ft_strcmp(EDGE->to->wrap->name, "Frb3"))
@@ -198,25 +198,30 @@ static t_node	*reverse_path(t_mngr *mngr, t_node *fin, t_vector **log)
     	next = path->from->path;
 		lst = pop_edge(&path->from->links, path);
 		//TODO TODO TODO TODO
-		if (path->to->wrap != path->from->wrap && next && next->from->wrap != next->to->wrap)
-				zone = path->was_rev ? EXITING_DARK_ZONE : ENTERING_DARK_ZONE;
-		if (zone == EXITING_DARK_ZONE || zone == ENTRANCE_DARK_ZONE)
-		{
-			one_log = (t_log) {NULL, path->from, path->to, zone};
-			free(path);
-			free(lst);
-			zone = zone == EXITING_DARK_ZONE ? NORMAL_ZONE : IN_DARK_ZONE;
-		}
-		else
-		{
+//		if (path->to->wrap != path->from->wrap && next && next->from->wrap != next->to->wrap)
+//				zone = path->was_rev ? EXITING_DARK_ZONE : ENTERING_DARK_ZONE;
+//		if (zone == EXITING_DARK_ZONE || zone == ENTRANCE_DARK_ZONE)
+//		{
+//			one_log = (t_log) {NULL, path->from, path->to, zone};
+//			free(path);
+//			free(lst);
+//			zone = zone == EXITING_DARK_ZONE ? NORMAL_ZONE : IN_DARK_ZONE;
+//		}
+//		else
+//		{
 //			ft_printf("{\\76}(%s - %s){eof} ", path->from->wrap->name, path->to->wrap->name);
 			one_log = (t_log){path, path->from, path->to, zone};
+
 			swap_nodes(&path->from, &path->to);
 			path->was_rev = path->was_rev == 1 ? 0 : 1;
+			if (ft_abs(path->wgth) != 1 && path->from->wrap != path->to->wrap)
+				path->wgth = path->wgth == 2 ? 0 : 2;
+			else
+				path->wgth = -path->wgth;
 			ft_lstadd(&path->from->links, lst);
-		}
-		if (zone == ENTERING_DARK_ZONE)
-			zone = ENTRANCE_DARK_ZONE;
+//		}
+//		if (zone == ENTERING_DARK_ZONE)
+//			zone = ENTRANCE_DARK_ZONE;
 		path = next;
 		if (!(*log = ft_vecpush(*log, &one_log, sizeof(t_log))))
 		    ultimate_exit(mngr, MALLOC_ERROR);
@@ -245,14 +250,14 @@ static void     undo_reverse_path(t_mngr *mngr, t_vector *log)
         {
 //			ft_printf("{\\79}(%s - %s){eof} ", logs[i].from->wrap->name, logs[i].to->wrap->name);
             lst = pop_edge(&logs[i].edge->from->links, logs[i].edge); // TODO or think about all here because now it causes infinite loop
-            if (logs[i].from->wrap->name == logs[i].to->wrap->name || logs[i].zone == IN_DARK_ZONE)
-			{
+//            if (logs[i].from->wrap->name == logs[i].to->wrap->name || logs[i].zone == IN_DARK_ZONE)
+//			{
 				swap_nodes(&logs[i].edge->from, &logs[i].edge->to);
 				logs[i].edge->was_rev = !logs[i].edge->was_rev;
 				ft_lstadd(&logs[i].edge->from->links, lst);
-			}
-            else
-            	ft_lstdelone(&lst, NULL);
+//			}
+//            else
+//            	ft_lstdelone(&lst, NULL);
         }
         else
         {
@@ -328,6 +333,7 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 		//------------------------------------------------------------------------//
         ft_printf("#recalculate length of output {Green}%i{eof}\n", len_of_output); // TODO print
 		//------------------------------------------------------------------------//
+
 		if (prev_len && (len_of_output >= prev_len || len_of_output < 0))
 		{
 		    undo_reverse_path(mngr, log);
@@ -341,11 +347,15 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 //				continue;
 //			}
 			//------------------------------------------------------------------------//
+			for (int i = prev_len - 1; i >= 0; i--)
+				ft_printf("L1-art\n");
+			ultimate_exit(mngr, SUCCESS);
             break;
         }
         log->len = 0;
         ft_bzero(log->data, log->cap); // TODO not nec
 		prev_len = len_of_output;
+//		set_weights(mngr);
 		--iter;
 	}
 	return (iter);

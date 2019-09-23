@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 21:31:08 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/01 20:54:47 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/23 20:17:04 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_int2 ft_int2_min(t_int2 a, t_int2 b){
 int ft_int2gt(t_int2 a, t_int2 b)
 {
 //	return a.y > b.y;
-	return (a.y > b.y || (a.y == b.y && a.x > b.x));
+	return (a.y > b.y || (a.y == b.y && a.x < b.x));
 //	return (a.x > b.x || (a.x == b.x && a.y > b.y));
 }
 
