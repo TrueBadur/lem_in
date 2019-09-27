@@ -18,7 +18,7 @@ t_edge	*init_edge(t_wnode *from, t_wnode *to)
 
 	if (!(ret = malloc(sizeof(t_edge))))
 		return NULL;
-	ret->wgth = -1;
+	ret->wgth = 1;
 	ret->from = &(from->out);
 	ret->to = &(to->in);
 	ret->was_rev = 0;

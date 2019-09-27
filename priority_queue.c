@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 21:31:08 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/23 20:17:04 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/27 16:05:13 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	swap_pque(t_pque *a, t_pque *b)
 int ft_int2lt(t_int2 a, t_int2 b)
 {
 //	return a.y < b.y;
-	return (a.y < b.y || (a.y == b.y && a.x < b.x));
-//	return (a.x < b.x || (a.x == b.x && a.y < b.y));
+//	return (a.y < b.y || (a.y == b.y && a.x < b.x));
+	return (a.x < b.x );//|| (a.x == b.x && a.y < b.y));
 }
 
 t_int2 ft_int2_min(t_int2 a, t_int2 b){
@@ -39,8 +39,8 @@ t_int2 ft_int2_min(t_int2 a, t_int2 b){
 int ft_int2gt(t_int2 a, t_int2 b)
 {
 //	return a.y > b.y;
-	return (a.y > b.y || (a.y == b.y && a.x < b.x));
-//	return (a.x > b.x || (a.x == b.x && a.y > b.y));
+//	return (a.y > b.y || (a.y == b.y && a.x < b.x));
+	return (a.x > b.x );//|| (a.x == b.x && a.y > b.y));
 }
 
 int ft_int2eq(t_int2 a, t_int2 b)
@@ -60,8 +60,10 @@ static void	sift_up(t_pque *q, unsigned int i)
 		return ;
 	parent = (i + 1) / 2 - 1;
 	if (ft_int2lt(q[i].priority, q[parent].priority))
+	{
 		swap_pque(&q[i], &q[parent]);
-	sift_up(q, parent);
+		sift_up(q, parent);
+	}
 }
 
 /*

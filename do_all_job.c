@@ -88,7 +88,7 @@ void            do_all_job(t_mngr *mngr)
 	t_list		*ends;
 
 //	ft_printf("{Blue}ants: %d\n\n{eof}", mngr->ant_num); // TODO print
-	set_weights(mngr);
+//	set_weights(mngr);
 //	ft_printf("{Green}weights set{eof}\n\n"); // TODO print
 	ends = NULL;
 	size = -FT_MIN2(ft_lstlen(mngr->start->links),\

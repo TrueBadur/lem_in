@@ -43,11 +43,13 @@ static t_elt setup_node(t_mngr *mngr, t_wnode *node, char *line)
 	node->out.wrap = node;
 	node->in.path_priority = (t_int2){INT32_MAX, INT32_MAX};
 	node->out.path_priority = (t_int2){INT32_MAX, INT32_MAX};
-	node->in.counter = -1;
-	node->out.counter = -1;
+	node->in.counter = 0;
+	node->out.counter = 0;
+	node->in.label = 0;
+	node->out.label = 0;
 	if (!(ed = malloc(sizeof(t_edge))))
 		ultimate_exit(mngr, MALLOC_ERROR);
-	ed->wgth = -1;
+	ed->wgth = 1;
 	ed->from = &(node->in);
 	ed->to = &(node->out);
 	ed->was_rev = 0;

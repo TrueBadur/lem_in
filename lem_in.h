@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/19 13:42:34 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:01:19 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ typedef struct	s_edge
 typedef struct  s_node
 {
 	int				counter; // -1 by default
+	int				label;
 	t_edge			*path;  // NULL by default
 	t_int2			path_priority;
+	int				prior_this_search;
 	struct s_wnode	*wrap;
 	t_list			*links;  // t_edge
 }				t_node;
@@ -126,7 +128,7 @@ int				calc_len_of_output(t_list *ends, int size, int ants,
 void			calc_ants(t_mngr *mngr, int size, t_node **ends);
 int				get_one_line(int **params, t_vector **output, t_mngr *mngr,
 								int *cur_lem);
-
+void set_potentials(t_vector *all_nodes);
 
 
 void	        print_edge(t_edge *edge);
