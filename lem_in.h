@@ -6,14 +6,14 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/28 18:37:22 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 20:07:07 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_LEM_IN_H
 # define LEM_IN_LEM_IN_H
 //#define DEBUG
-#define INPUT_VECTOR_SIZE 1000
+#define INPUT_VECTOR_SIZE 4000
 # include "libft.h"
 # include "pque.h"
 
@@ -33,8 +33,7 @@ typedef struct  s_node
 	int				counter; // -1 by default
 	int				label;
 	t_edge			*path;  // NULL by default
-	t_int2			path_priority;
-	int				prior_this_search;
+	int				path_priority;
 	struct s_wnode	*wrap;
 	t_list			*links;  // t_edge
 }				t_node;
@@ -46,21 +45,11 @@ typedef struct  s_wnode
 	t_node	out;
 }				t_wnode;
 
-typedef enum	e_edge_zone
-{
-	NORMAL_ZONE,
-	IN_DARK_ZONE,
-	ENTERING_DARK_ZONE,
-	ENTRANCE_DARK_ZONE,
-	EXITING_DARK_ZONE,
-}				t_edgzone;
-
 typedef struct  s_log
 {
     t_edge		*edge;
     t_node		*from;
     t_node		*to;
-    t_edgzone	zone;
 }               t_log;
 
 
@@ -100,7 +89,7 @@ typedef struct	s_mngr
 	t_node		*start;
 	t_node		*end;
 	t_elt		max_lt;
-	t_string	*input;
+	t_vector	*input;
 }				t_mngr;
 
 void	        *parse_flags(int argc, char **argv, t_mngr *mngr);
@@ -128,8 +117,7 @@ int				calc_len_of_output(t_list *ends, int size, int ants,
 									t_node *start);
 
 void			calc_ants(t_mngr *mngr, int size, t_node **ends);
-int				get_one_line(int **params, t_vector **output, t_mngr *mngr,
-								int *cur_lem);
+int get_one_line(int **params, t_mngr *mngr, int *cur_lem);
 void set_potentials(t_vector *all_nodes);
 
 

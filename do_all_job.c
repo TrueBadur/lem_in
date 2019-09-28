@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/28 18:53:08 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 19:48:09 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void     clean_graph(t_mngr *mngr, int iter)
 ** moves ants towards finish by shortest paths first
 */
 
-static t_vector *move_ants(t_mngr *mngr, t_vector *output, int size)
+static void move_ants(t_mngr *mngr, int size)
 {
 	int		cur_lem;
 	int		count;
@@ -62,19 +62,17 @@ static t_vector *move_ants(t_mngr *mngr, t_vector *output, int size)
 	t_node	*ends[size];
 
 	calc_ants(mngr, ft_lstlen(mngr->end->links), ends);
-//	int i = -1;  // TODO print
-//	while (++i < size)  // TODO print
-//		print_node(ends[i]);  // TODO print
 	ft_bzero(finishs, sizeof(int) * size);
 	cur_lem = 1;
 	count = 1;
 	while (count)
 	{
-		count = get_one_line((int*[]){(int *)finishs, (int *)ends}, &output,\
-		mngr, &cur_lem);
-		output = ft_vecpush(output, "\n", 1);
+		count = get_one_line((int *[]) {(int *) finishs, (int *) ends}, mngr,
+							 &cur_lem);
+		if (!(mngr->input = ft_vecpush(mngr->input, "\n", 1)))
+			ultimate_exit(mngr, MALLOC_ERROR);
 	}
-	return (output);
+//	return (output);
 }
 
 /*
@@ -85,7 +83,7 @@ void            do_all_job(t_mngr *mngr)
 {
 	int			i;
 	int			size;
-	t_vector	*output;
+//	t_vector	*output;
 	t_list		*ends;
 
 //	ft_printf("{Blue}ants: %d\n\n{eof}", mngr->ant_num); // TODO print
@@ -101,11 +99,11 @@ void            do_all_job(t_mngr *mngr)
 	clean_graph(mngr, i - 1);
 	size = ft_lstlen(mngr->end->links);
 //	ft_printf("{Green}graph cleaned{eof}\n\n"); // TODO print
-	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
-		ultimate_exit(mngr, MALLOC_ERROR);
+//	if (!(output = ft_vecinit(1000 * mngr->ant_num * sizeof(char))))
+//		ultimate_exit(mngr, MALLOC_ERROR);
 //	ft_printf("#num of paths %i\n", size);
-	output = move_ants(mngr, output, size);
-	write(STDOUT_FILENO, output->data, output->len);
+ 	move_ants(mngr, size);
+	write(STDOUT_FILENO, mngr->input->data, mngr->input->len);
 //	ft_printf("\n%s", (char*)output->data);
-	ft_vecdel((void **)&output);
+//	ft_vecdel((void **)&output);
 }

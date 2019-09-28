@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:58:51 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/28 19:04:03 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 19:49:35 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ static t_elt parse_by_type(t_mngr *mngr, char *line, t_elt type)
 		mngr->ant_num = ft_atoi(line);
 	if (!(type == ERROR))
 	{
-		ft_string_push_back_s(&mngr->input, line);
-		type = ft_string_push_back(&mngr->input, '\n') == 1 ? type : ERROR;
+		mngr->input = ft_vecpush(mngr->input, line, ft_strlen(line));
+		if (!(mngr->input = ft_vecpush(mngr->input, "\n", 1)))
+			ultimate_exit(mngr, MALLOC_ERROR);
 	}
 	return (type);
 }
@@ -63,5 +64,7 @@ void parse_input(t_mngr *mngr)
 	}
 	if (!mngr->start || !mngr->end || mngr->ant_num < 0)
 		ultimate_exit(mngr, NOT_ENOUGH_DATA);
-	write(STDOUT_FILENO, mngr->input->data, mngr->input->len);
+	if (!(mngr->input = ft_vecpush(mngr->input, "\n", 1)))
+		ultimate_exit(mngr, MALLOC_ERROR);
+//	write(STDOUT_FILENO, mngr->input->data, mngr->input->len);
 }

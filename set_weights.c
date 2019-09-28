@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/28 16:51:49 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 20:28:41 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,31 +88,10 @@ void		set_weights(t_mngr *mngr)
 		{
 			if (EDGE->to->counter == -1)
 				que = set_node_weight(que, EDGE->to, cur, mngr);
-//			if (EDGE->wgth == -1)
-				set_edge_weight(EDGE);
-//ft_printf("{\\13}%p {eof}", EDGE->from);
-
-//			ft_printf("# {Green}|%s - %s (%d - %d - %d) | {eof}",
-//					  EDGE->from->wrap->name,
-//					  EDGE->to->wrap->name,
-//					  EDGE->from->label,
-//					  EDGE->wgth,
-//					  EDGE->to->label);
 			child = child->next;
 		}
-//		ft_printf("\n");
 	}
-//	t_wnode* tmp = ft_avlsearch(mngr->all_rooms, "Vlj6", 1, NULL);
-//	print_node(&tmp->in);
-//	print_node(&tmp->out);
 	ft_vecdel((void **)&que);
-}
-
-static void	*reset_node_weight(t_vector *que, t_node *nod, t_node *prev,
-								t_mngr *mngr)
-{
-
-	return (que);
 }
 
 void set_potentials(t_vector *all_nodes)
@@ -127,12 +106,9 @@ void set_potentials(t_vector *all_nodes)
 	i = -1;
 	while (++i < len)
 	{
-		nodes[i]->in.label += nodes[i]->in.path_priority.x;
-		nodes[i]->out.label += nodes[i]->out.path_priority.x;
-		nodes[i]->in.path_priority = (t_int2){INT32_MAX, INT32_MAX};
-		nodes[i]->out.path_priority = (t_int2){INT32_MAX, INT32_MAX};
-//		ft_printf("%p ", nodes[i]);
-//		ft_printf("#{\\54} (%d - %d: %s) {eof}", nodes[i]->in.label,
-//				nodes[i]->out.label, nodes[i]->name);
+		nodes[i]->in.label += nodes[i]->in.path_priority;
+		nodes[i]->out.label += nodes[i]->out.path_priority;
+		nodes[i]->in.path_priority = INT32_MAX;
+		nodes[i]->out.path_priority = INT32_MAX;
 	}
 }

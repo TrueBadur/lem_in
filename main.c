@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:12:33 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/13 01:58:03 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/28 19:03:08 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_mngr	*init_mngr(void)
 
 	if (!(ret = ft_memalloc(sizeof(t_mngr))))
 		return (NULL);
-	ret->input = ft_make_string(INPUT_VECTOR_SIZE);
+	ret->input = ft_vecinit(INPUT_VECTOR_SIZE);
 	ret->max_lt = LT_NONE;
 	ret->ant_num = -1;
 	ret->instr = INSTR_NONE;

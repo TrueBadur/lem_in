@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/28 18:37:54 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 19:32:58 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int	longest_path(t_node *start, t_node *end, t_node **ends)
 	i = -1;
 	while (child)
 	{
-		t_edge *tmp = EDGE;
 		len = get_path_len(EDGE->to, start, 1, &ends[++i]);
 		max = len > max ? len : max;
 		child = child->next;
@@ -50,9 +49,7 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 	int		max;
 	int		sum;
 	int		i;
-	char 	minus;
 
-	minus = 0;
 //	print_node(*ends);
 	max = longest_path(mngr->start, mngr->end, ends);
 	sum = mngr->ant_num;
@@ -81,24 +78,23 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 	}
 }
 
-static int	move_one_ant(t_edge *edge, t_vector **output, int num, char *name)
+static void	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
 {
 	char	*s;
 
 	edge->from->counter = num;
-	*output = ft_vecpush(*output, "L", 1);
+	mngr->input = ft_vecpush(mngr->input, "L", 1);
 	s = ft_itoa(num);
-	*output = ft_vecpush(*output, s, ft_strlen(s));
+	mngr->input = ft_vecpush(mngr->input, s, ft_strlen(s));
 	free(s);
-	*output = ft_vecpush(*output, "-", 1);
-	*output = ft_vecpush(*output, name, ft_strlen(name));
-	*output = ft_vecpush(*output, " ", 1);
+	mngr->input = ft_vecpush(mngr->input, "-", 1);
+	mngr->input = ft_vecpush(mngr->input, name, ft_strlen(name));
+	if (!(mngr->input = ft_vecpush(mngr->input, " ", 1)))
+		ultimate_exit(mngr, MALLOC_ERROR);
 //	ft_printf("%s\n\n", (char *)(*output)->data); // TODO print
-	return (1);
 }
 
-static void	get_one_line_hlper(int **params, t_vector **output, t_mngr *mngr,
-									int *cur_lem)
+static void get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 {
 	t_edge	*edge;
 	t_node	**end;
@@ -115,24 +111,25 @@ static void	get_one_line_hlper(int **params, t_vector **output, t_mngr *mngr,
 #endif
 			edge = ((t_edge *) edge->to->links->data);
 		}
-	while (edge->to != *end && move_one_ant(edge, output, edge->to->counter,
-			edge->to->wrap->name))
+	while (edge->to != *end)
+	{
+		move_one_ant(edge, mngr, edge->to->counter, edge->to->wrap->name);
 		edge = (t_edge *)edge->to->links->data;
+	}
 	if (((t_edge*)(*end)->links->data)->to == mngr->start)
 	{
-		move_one_ant(edge, output, (*cur_lem)++, edge->to->wrap->name);
+		move_one_ant(edge, mngr, (*cur_lem)++, edge->to->wrap->name);
 		if (--(*end)->counter == 0)
 			*end = edge->from;
 	}
 	else
 	{
-		move_one_ant(edge, output, edge->to->counter, edge->to->wrap->name);
+		move_one_ant(edge, mngr, edge->to->counter, edge->to->wrap->name);
 		*end = edge->from == mngr->end ? NULL : edge->from;
 	}
 }
 
-int			get_one_line(int **params, t_vector **output, t_mngr *mngr,
-							int *cur_lem)
+int get_one_line(int **params, t_mngr *mngr, int *cur_lem)
 {
 	int		count;
 	int		i;
@@ -149,13 +146,14 @@ int			get_one_line(int **params, t_vector **output, t_mngr *mngr,
 	{
 		if (fins[i])
 		{
-			move_one_ant((t_edge *)cur->data, output,\
+			move_one_ant((t_edge *)cur->data, mngr,\
 			fins[i], mngr->end->wrap->name);
 			fins[i] = 0;
 		}
 		if (ends[i] && ++count)
-			get_one_line_hlper((int *[]){&fins[i], (int *)&ends[i], (int *)cur},
-					output, mngr, cur_lem);
+			get_one_line_hlper(
+					(int *[]) {&fins[i], (int *) &ends[i], (int *) cur}, mngr,
+					cur_lem);
 		cur = cur->next;
 	}
 	return (count);
