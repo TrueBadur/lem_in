@@ -6,13 +6,14 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/28 20:07:07 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 22:26:47 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_LEM_IN_H
 # define LEM_IN_LEM_IN_H
 //#define DEBUG
+//#define DEBUG1
 #define INPUT_VECTOR_SIZE 4000
 # include "libft.h"
 # include "pque.h"
@@ -33,7 +34,8 @@ typedef struct  s_node
 	int				counter; // -1 by default
 	int				label;
 	t_edge			*path;  // NULL by default
-	int				path_priority;
+	t_edge			*tmp_path;
+	int				tmp_label;
 	struct s_wnode	*wrap;
 	t_list			*links;  // t_edge
 }				t_node;

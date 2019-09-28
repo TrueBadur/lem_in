@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_room.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:11:10 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/16 16:51:18 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/28 20:28:57 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static t_elt setup_node(t_mngr *mngr, t_wnode *node, char *line)
 {
 	t_edge *ed;
 
-	ft_bzero(node, sizeof(t_wnode));
 	if (!(node->name = get_node_name(line)))
 		ultimate_exit(mngr, MALLOC_ERROR);
 	if (ft_avlsearch(mngr->all_rooms, node->name, 0, NULL))
@@ -41,12 +40,8 @@ static t_elt setup_node(t_mngr *mngr, t_wnode *node, char *line)
 	}
 	node->in.wrap = node;
 	node->out.wrap = node;
-	node->in.path_priority = INT32_MAX;
-	node->out.path_priority =INT32_MAX;
-	node->in.counter = 0;
-	node->out.counter = 0;
-	node->in.label = 0;
-	node->out.label = 0;
+	node->in.tmp_label = INT32_MAX;
+	node->out.tmp_label =INT32_MAX;
 	if (!(ed = malloc(sizeof(t_edge))))
 		ultimate_exit(mngr, MALLOC_ERROR);
 	ed->wgth = 1;
@@ -62,7 +57,7 @@ t_elt	get_room(t_mngr *mngr, char *line)
 {
 	t_wnode	*node;
 
-	if ((node = malloc(sizeof(t_wnode))) == NULL)
+	if ((node = ft_memalloc(sizeof(t_wnode))) == NULL)
 		ultimate_exit(mngr, MALLOC_ERROR);
 	if (setup_node(mngr, node, line) == ERROR)
 		return (ERROR);

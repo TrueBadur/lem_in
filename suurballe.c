@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/28 20:20:06 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 22:54:09 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,55 +46,53 @@ static t_vector *dijkstra(t_mngr *mngr, int iter, t_vector *que)
 	if (((t_node*)cur.data)->counter == iter)
 		return (que);
 	((t_node*)cur.data)->counter = iter;
-	//------------------------------------------------------------------------//
+
 #ifdef DEBUG1
-	ft_printf("\n{Green}Get {\\202} %s {\\96}(%s){eof} with priority {\\207}(%d, %d){eof} from queue\n",
+	ft_printf("\n{Green}Get {\\202} %s {\\96}(%s){eof} with priority {\\207}(%d){eof} from queue\n",
 			((t_node*)cur.data)->wrap->name, &((t_node*)cur.data)->wrap->out == ((t_node*)cur.data) ? "out" : "in",
-			cur.priority.x, cur.priority.y);
+			cur.priority);
 #endif
-	//------------------------------------------------------------------------//
+
 	child = ((t_node *)cur.data)->links;
 	while (child)
 	{
 		// TODO not proceed on already set up edges
 		// TODO find out why it sets wrong new labels on nodes
-//
-//			//------------------------------------------------------------------------//
-//			t_edge * tmp2;
-//			tmp2 = EDGE;
-//			//-----------------------------------------------------------------------//
+
 #ifdef DEBUG1
 			ft_printf("{\\96}Checking node {Red}%s {eof}(%s)\n", EDGE->to->wrap->name,
 					  &EDGE->to->wrap->out == EDGE->to ? "out" : "in", EDGE->to->label);
 			ft_printf("{\\96}current priority {\\85}%d {\\96} previous {Green}%d{eof} ",
-					cur.priority.x + EDGE->wgth + EDGE->from->label - EDGE->to->label, EDGE->to->path_priority.x);
+					 EDGE->wgth + EDGE->from->label - EDGE->to->label, EDGE->to->tmp_label);
 
 #endif
-			if (cur.priority + EDGE->wgth + EDGE->from->label - EDGE->to->label < EDGE->to->path_priority)
+
+			if (EDGE->to->counter != iter && cur.priority + EDGE->wgth + EDGE->from->label - EDGE->to->label < EDGE->to->tmp_label)
 			{
-				EDGE->to->path = EDGE;
-				EDGE->to->path_priority = cur.priority + EDGE->wgth + EDGE->from->label - EDGE->to->label;
+				EDGE->to->tmp_path = EDGE;
+				EDGE->to->tmp_label = cur.priority + EDGE->wgth + EDGE->from->label - EDGE->to->label;
 #ifdef DEBUG1
-				ft_printf("{\\96} old label is {\\85}%d {\\96}new label will be {Green}%d{\\94} = %d + %d){eof}\n",
+				ft_printf("{\\96} old label is {\\85}%d {\\96}new label will be {Green}%d{\\94} = %d + %d - %d){eof}\n",
 						  EDGE->to->label,
-						  EDGE->to->label + EDGE->to->path_priority.x,
-						  EDGE->to->path_priority.x,EDGE->from->label);
+						  EDGE->to->tmp_label,
+						  EDGE->wgth,EDGE->from->label, EDGE->to->label);
 #endif
-				if (EDGE->to->counter != iter)
-					if (!(que = push_que(que, EDGE->to, EDGE->to->path_priority)))
+					if (!(que = push_que(que, EDGE->to, EDGE->to->tmp_label)))
 						ultimate_exit(mngr, MALLOC_ERROR);
 
 #ifdef DEBUG1
-				ft_printf("put into que with weight {Red}(%d, %d){eof}\n", EDGE->to->path_priority.x,
-						  cur.priority.y + (EDGE->was_rev ? -1 : 1));
+				ft_printf("put into que with weight {Red}(%d){eof}\n", EDGE->to->tmp_label - EDGE->to->label);
 #endif
 			}
 #ifdef DEBUG1
 			else
-				ft_printf(" label unchanged {\\94}%d{eof}\n", EDGE->to->label);
+				ft_printf(" label unchanged {\\94}%d{eof}\n", EDGE->to->tmp_label);
 #endif
 		child = child->next;
 	}
+	((t_node*)cur.data)->label += ((t_node*)cur.data)->tmp_label;
+	((t_node*)cur.data)->tmp_label = INT32_MAX;
+	((t_node*)cur.data)->path = ((t_node*)cur.data)->tmp_path;
 	return (que);
 }
 /*
@@ -110,7 +108,7 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 	if (!(que = push_que(que, mngr->start, 0)))
 		ultimate_exit(mngr, MALLOC_ERROR);
 	mngr->start->path = NULL;
-	mngr->start->path_priority = 0;
+	mngr->start->tmp_label = 0;
 	while (que->len > 0)
 		if (!(que = dijkstra(mngr, iter, que)))
 		{ //todo free vector
@@ -247,8 +245,8 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 	prev_len = 0;
 	if (!(log = ft_vecinit(SIZE_OF_LOG * sizeof(t_log))))
 		ultimate_exit(mngr, MALLOC_ERROR);
-	if (!(all_nodes = ft_avldatatovec(mngr->all_rooms, ft_vecinit(2 * sizeof(t_node)), &prev_len)))
-		ultimate_exit(mngr, MALLOC_ERROR);
+//	if (!(all_nodes = ft_avldatatovec(mngr->all_rooms, ft_vecinit(2 * sizeof(t_node)), &prev_len)))
+//		ultimate_exit(mngr, MALLOC_ERROR);
 	while (iter > limit - 1)
 	{
 		//------------------------------------------------------------------------//
@@ -272,7 +270,7 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 			undo_reverse_path(log);
 			break;
 		}
-		set_potentials(all_nodes);
+//		set_potentials(all_nodes);
 		log->len = 0;
 		prev_len = len_of_output;
 		iter--;

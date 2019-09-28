@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:05:55 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/28 20:28:41 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 22:39:57 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,10 @@ void set_potentials(t_vector *all_nodes)
 	i = -1;
 	while (++i < len)
 	{
-		nodes[i]->in.label += nodes[i]->in.path_priority;
-		nodes[i]->out.label += nodes[i]->out.path_priority;
-		nodes[i]->in.path_priority = INT32_MAX;
-		nodes[i]->out.path_priority = INT32_MAX;
+//		nodes[i]->in.label
+//		nodes[i]->in.label += nodes[i]->in.tmp_label;
+//		nodes[i]->out.label += nodes[i]->out.tmp_label;
+//		nodes[i]->in.tmp_label = INT32_MAX;
+//		nodes[i]->out.tmp_label = INT32_MAX;
 	}
 }
