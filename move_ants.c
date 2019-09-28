@@ -74,7 +74,7 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 			ends[i]->counter = 1;
 			ends[size - 1]->counter--;
 		}
-		print_node(ends[i]);
+//		print_node(ends[i]);
 	}
 }
 

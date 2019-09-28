@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/28 22:54:09 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 23:05:57 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter)
 	ft_vecdel((void **)&que);
 	if (!mngr->end->path)
 	{
-		ft_printf("#{Light red}cant find another way\n{eof}");
+//		ft_printf("#{Light red}cant find another way\n{eof}");
 		return (-1);
 	}
 	return (0);
@@ -262,7 +262,7 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 		len_of_output = calc_len_of_output(*ends, ft_lstlen(*ends),
 										   mngr->ant_num, mngr->start);
 		//------------------------------------------------------------------------//
-		ft_printf("#recalculate length of output {Green}%i{eof}\n", len_of_output); // TODO print
+//		ft_printf("#recalculate length of output {Green}%i{eof}\n", len_of_output); // TODO print
 		//------------------------------------------------------------------------//
 
 		if (prev_len && (len_of_output > prev_len || len_of_output < 0))
