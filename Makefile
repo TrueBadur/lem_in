@@ -1,4 +1,4 @@
-NAME_LEMIN = lem_in
+NAME_LEMIN = lem-in
 SRC_LEMIN = $(wildcard *.c)
 OBJ_LEMIN =$(SRC_LEMIN:.c=.o)
 CC = clang
@@ -10,7 +10,7 @@ HDR := ./lem_in.h
 VIZ =
 HID =
 LINK =
-CFLAGS =
+CFLAGS =# -fsanitize=address -g
 
 viz: VIZ = -D VIZUALIZER
 viz: LINK = -lmlx -framework OpenGL -framework AppKit -L /usr/local/lib/

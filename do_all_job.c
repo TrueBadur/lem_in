@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/18 23:07:51 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 18:53:08 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ static void     clean_graph(t_mngr *mngr, int iter)
 			if (!EDGE->was_rev)// && EDGE->from->wrap != EDGE->to->wrap)
 			{
 				tmp = pop_edge(&(EDGE->from->links), EDGE);
+				child = child->next;
 				ft_lstdelone(&tmp, NULL);
-				break ;
+				continue ;
 			}
 			child = child->next;
 		}
@@ -104,6 +105,7 @@ void            do_all_job(t_mngr *mngr)
 		ultimate_exit(mngr, MALLOC_ERROR);
 //	ft_printf("#num of paths %i\n", size);
 	output = move_ants(mngr, output, size);
-	ft_printf("\n%s", (char*)output->data);
+	write(STDOUT_FILENO, output->data, output->len);
+//	ft_printf("\n%s", (char*)output->data);
 	ft_vecdel((void **)&output);
 }

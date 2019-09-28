@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/18 23:49:31 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 18:37:54 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 	int		max;
 	int		sum;
 	int		i;
+	char 	minus;
 
+	minus = 0;
+//	print_node(*ends);
 	max = longest_path(mngr->start, mngr->end, ends);
 	sum = mngr->ant_num;
 	i = -1;
@@ -69,6 +72,11 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 		ends[i]->counter += sum;
 		if (max-- > 0)
 			ends[i]->counter += 1;
+		if (ends[i]->counter == 0)
+		{
+			ends[i]->counter = 1;
+			ends[size - 1]->counter--;
+		}
 		print_node(ends[i]);
 	}
 }
@@ -101,7 +109,12 @@ static void	get_one_line_hlper(int **params, t_vector **output, t_mngr *mngr,
 		*(int *)params[0] = edge->to->counter;
 	else
 		while (edge->to->counter == 0)
-			edge = ((t_edge *)edge->to->links->data);
+		{
+#ifdef DEBUG
+			ft_printf("{\\96}In node {Red}%s{\\96} next node is {Green}%s{eof}\n", edge->from->wrap->name, edge->to->wrap->name);
+#endif
+			edge = ((t_edge *) edge->to->links->data);
+		}
 	while (edge->to != *end && move_one_ant(edge, output, edge->to->counter,
 			edge->to->wrap->name))
 		edge = (t_edge *)edge->to->links->data;

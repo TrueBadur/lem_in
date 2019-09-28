@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/27 20:50:45 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 18:24:40 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 #define SIZE_OF_QUE 10000 * sizeof(t_pque)
 #define EDGE ((t_edge *)child->data)
-//#define DEBUG
 
 /*
 ** one run of Dijkstra algorithm trough graph,
@@ -72,7 +71,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int *prohod)
 //	tmp->label += cur.priority.x;
 	((t_node*)cur.data)->counter = iter;
 	//------------------------------------------------------------------------//
-#ifdef DEBUG
+#ifdef DEBUG1
 	ft_printf("\n{Green}Get {\\202} %s {\\96}(%s){eof} with priority {\\207}(%d, %d){eof} from queue\n",
 			((t_node*)cur.data)->wrap->name, &((t_node*)cur.data)->wrap->out == ((t_node*)cur.data) ? "out" : "in",
 			cur.priority.x, cur.priority.y);
@@ -89,7 +88,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int *prohod)
 //			t_edge * tmp2;
 //			tmp2 = EDGE;
 //			//-----------------------------------------------------------------------//
-#ifdef DEBUG
+#ifdef DEBUG1
 			ft_printf("{\\96}Checking node {Red}%s {eof}(%s)\n", EDGE->to->wrap->name,
 					  &EDGE->to->wrap->out == EDGE->to ? "out" : "in", EDGE->to->label);
 			ft_printf("{\\96}current priority {\\85}%d {\\96} previous {Green}%d{eof} ",
@@ -117,7 +116,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int *prohod)
 ////				ft_vecdel((void **)&que);
 ////				return (NULL);
 //				}
-#ifdef DEBUG
+#ifdef DEBUG1
 				ft_printf("{\\96} old label is {\\85}%d {\\96}new label will be {Green}%d{\\94} = %d + %d){eof}\n",
 						  EDGE->to->label,
 						  EDGE->to->label + EDGE->to->path_priority.x,
@@ -127,7 +126,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int *prohod)
 						cur.priority.y + (EDGE->was_rev ? -1 : 1)})))
 					ultimate_exit(mngr, MALLOC_ERROR);
 
-#ifdef DEBUG
+#ifdef DEBUG1
 				ft_printf("put into que with weight {Red}(%d, %d){eof}\n", EDGE->to->path_priority.x,
 						  cur.priority.y + (EDGE->was_rev ? -1 : 1));
 
@@ -148,7 +147,7 @@ static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que, int *prohod)
 //			ft_printf("\n");
 				//------------------------------------------------------------------------//
 			}
-#ifdef DEBUG
+#ifdef DEBUG1
 			else
 				ft_printf(" label unchanged {\\94}%d{eof}\n", EDGE->to->label);
 #endif
@@ -184,7 +183,7 @@ static int		wrap_dijkstra(t_mngr *mngr, int iter, int *proh)
 	ft_vecdel((void **)&que);
 	if (!mngr->end->path)
 	{
-		ft_printf("{Light red}#cant find another way\n{eof}");
+		ft_printf("#{Light red}cant find another way\n{eof}");
 		return (-1);
 	}
 	return (0);
@@ -265,7 +264,7 @@ static t_node	*reverse_path(t_mngr *mngr, t_node *fin, t_vector **log)
 		if (!(*log = ft_vecpush(*log, &one_log, sizeof(t_log))))
 			ultimate_exit(mngr, MALLOC_ERROR);
 	}
-	ft_printf("\n");
+//	ft_printf("\n");
 	return (ret);
 }
 
@@ -311,7 +310,7 @@ static void     undo_reverse_path(t_mngr *mngr, t_vector *log)
 			free(ed);
 		}
 	}
-	ft_printf("\n");
+//	ft_printf("\n");
 }
 
 //------------------------------------------------------------------------//
@@ -377,7 +376,7 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 		{
 			undo_reverse_path(mngr, log);
 			//------------------------------------------------------------------------//
-			ft_printf("\n{Green}#reverse undone{eof}\n\n"); // TODO print
+//			ft_printf("\n{Green}#reverse undone{eof}\n\n"); // TODO print
 //			if (p == 16)
 //			{
 //				ft_printf("{Red} Trying dijkstra after undone\n");

@@ -16,9 +16,9 @@ static t_mngr	*init_mngr(void)
 {
 	t_mngr *ret;
 
-	if (!(ret = malloc(sizeof(t_mngr))))
+	if (!(ret = ft_memalloc(sizeof(t_mngr))))
 		return (NULL);
-	ft_bzero(ret, sizeof(t_mngr));
+	ret->input = ft_make_string(INPUT_VECTOR_SIZE);
 	ret->max_lt = LT_NONE;
 	ret->ant_num = -1;
 	ret->instr = INSTR_NONE;

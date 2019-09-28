@@ -6,13 +6,14 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/27 18:01:19 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/28 18:37:22 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_LEM_IN_H
 # define LEM_IN_LEM_IN_H
-
+//#define DEBUG
+#define INPUT_VECTOR_SIZE 1000
 # include "libft.h"
 # include "pque.h"
 
@@ -99,6 +100,7 @@ typedef struct	s_mngr
 	t_node		*start;
 	t_node		*end;
 	t_elt		max_lt;
+	t_string	*input;
 }				t_mngr;
 
 void	        *parse_flags(int argc, char **argv, t_mngr *mngr);
