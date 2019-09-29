@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_ants.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/29 13:44:26 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/29 14:12:06 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ static int	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
 	char	*s;
 
 	edge->from->counter = num;
+	if (mngr->fancy > 0)
+	{
+		mngr->input = ft_vecpush(mngr->input, "\033[38;5;", 7);
+		s = ft_itoa(num);
+		mngr->input = ft_vecpush(mngr->input, s, ft_strlen(s));
+		mngr->input = ft_vecpush(mngr->input, "m", 1);
+	}
 	mngr->input = ft_vecpush(mngr->input, "L", 1);
 	s = ft_itoa(num);
 	mngr->input = ft_vecpush(mngr->input, s, ft_strlen(s));
@@ -129,7 +136,7 @@ void		move_ants(t_mngr *mngr, int size)
 	{
 		count = get_one_line((int *[]){(int *)finishs, (int *)ends}, mngr,
 				&cur_lem);
-		if (!(mngr->input = ft_vecpush(mngr->input, "\n", 1)))
+		if (!(mngr->input = ft_vecpush(mngr->input, "\33[0m\n", 5)))
 			ultimate_exit(mngr, MALLOC_ERROR);
 	}
 }
