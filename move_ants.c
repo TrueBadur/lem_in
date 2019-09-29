@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_ants.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/28 19:32:58 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/29 12:56:52 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static int	longest_path(t_node *start, t_node *end, t_node **ends)
 		max = len > max ? len : max;
 		child = child->next;
 	}
-//	ft_printf("longest path: %d\n", max);
 	return (max);
 }
 
@@ -50,7 +49,6 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 	int		sum;
 	int		i;
 
-//	print_node(*ends);
 	max = longest_path(mngr->start, mngr->end, ends);
 	sum = mngr->ant_num;
 	i = -1;
@@ -59,26 +57,20 @@ void		calc_ants(t_mngr *mngr, int size, t_node **ends)
 		ends[i]->counter = max - ends[i]->counter;
 		sum -= ends[i]->counter;
 	}
-//	ft_printf("sum %i\n", sum); // TODO print
-	max = sum % size; // ostatok
-	sum = sum / size; // po skolko v kazdoe
-//	ft_printf("v kazdoe %i, ostatok %i\n", sum, max); // TODO print
+	max = sum % size;
+	sum = sum / size;
 	i = -1;
 	while (++i < size)
 	{
 		ends[i]->counter += sum;
 		if (max-- > 0)
 			ends[i]->counter += 1;
-		if (ends[i]->counter == 0)
-		{
-			ends[i]->counter = 1;
+		if (ends[i]->counter == 0 && (ends[i]->counter = 1))
 			ends[size - 1]->counter--;
-		}
-//		print_node(ends[i]);
 	}
 }
 
-static void	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
+static int	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
 {
 	char	*s;
 
@@ -91,10 +83,10 @@ static void	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
 	mngr->input = ft_vecpush(mngr->input, name, ft_strlen(name));
 	if (!(mngr->input = ft_vecpush(mngr->input, " ", 1)))
 		ultimate_exit(mngr, MALLOC_ERROR);
-//	ft_printf("%s\n\n", (char *)(*output)->data); // TODO print
+	return (1);
 }
 
-static void get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
+static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 {
 	t_edge	*edge;
 	t_node	**end;
@@ -105,17 +97,10 @@ static void get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 		*(int *)params[0] = edge->to->counter;
 	else
 		while (edge->to->counter == 0)
-		{
-#ifdef DEBUG
-			ft_printf("{\\96}In node {Red}%s{\\96} next node is {Green}%s{eof}\n", edge->from->wrap->name, edge->to->wrap->name);
-#endif
-			edge = ((t_edge *) edge->to->links->data);
-		}
-	while (edge->to != *end)
-	{
-		move_one_ant(edge, mngr, edge->to->counter, edge->to->wrap->name);
+			edge = ((t_edge *)edge->to->links->data);
+	while (edge->to != *end &&
+	move_one_ant(edge, mngr, edge->to->counter, edge->to->wrap->name))
 		edge = (t_edge *)edge->to->links->data;
-	}
 	if (((t_edge*)(*end)->links->data)->to == mngr->start)
 	{
 		move_one_ant(edge, mngr, (*cur_lem)++, edge->to->wrap->name);
@@ -129,7 +114,7 @@ static void get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 	}
 }
 
-int get_one_line(int **params, t_mngr *mngr, int *cur_lem)
+int			get_one_line(int **params, t_mngr *mngr, int *cur_lem)
 {
 	int		count;
 	int		i;
@@ -142,7 +127,7 @@ int get_one_line(int **params, t_mngr *mngr, int *cur_lem)
 	i = -1;
 	cur = mngr->end->links;
 	count = 0;
-	while (cur && ++i > -1) //TODO Here infinite loop because of changes in undone_reverse
+	while (cur && ++i > -1)
 	{
 		if (fins[i])
 		{
@@ -151,9 +136,8 @@ int get_one_line(int **params, t_mngr *mngr, int *cur_lem)
 			fins[i] = 0;
 		}
 		if (ends[i] && ++count)
-			get_one_line_hlper(
-					(int *[]) {&fins[i], (int *) &ends[i], (int *) cur}, mngr,
-					cur_lem);
+			get_one_line_hlper((int *[]){&fins[i], (int *)&ends[i], (int *)cur},
+					mngr, cur_lem);
 		cur = cur->next;
 	}
 	return (count);
