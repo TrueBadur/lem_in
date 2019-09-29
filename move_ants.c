@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_ants.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/29 14:12:06 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/29 15:21:20 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 	while (edge->to != *end &&
 	move_one_ant(edge, mngr, edge->to->counter, edge->to->wrap->name))
 		edge = (t_edge *)edge->to->links->data;
-	if (((t_edge*)(*end)->links->data)->to == mngr->start)
+	if (((t_edge*)(*end)->links->data)->to == mngr->start &&
+	edge->from != mngr->end)
 	{
 		move_one_ant(edge, mngr, (*cur_lem)++, edge->to->wrap->name);
 		if (--(*end)->counter == 0)
