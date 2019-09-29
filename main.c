@@ -25,6 +25,24 @@ static t_mngr	*init_mngr(void)
 	return (ret);
 }
 
+static void parse_flags(int argc, char **argv, t_mngr *mngr)
+{
+	int i;
+
+	i = 1;
+	while (i < argc)
+	{
+		if (!ft_strcmp(argv[i], "--fancy"))
+			mngr->fancy = 1;
+		if (!ft_strcmp(argv[i], "--help"))
+		{
+			ft_printf("./lem-in < name_of_map\n"
+			 "./lem-in --fancy for disco\n");
+			ultimate_exit(mngr, SUCCESS);
+		}
+	}
+}
+
 int main(int argc, char **argv)
 {
 	t_mngr *mngr;
@@ -33,8 +51,8 @@ int main(int argc, char **argv)
 		ultimate_exit(NULL, MALLOC_ERROR);//TODO
 	argc += 0;
 	argv += 0;
-//	if (argc > 1)
-//		parse_flags(argc, argv, mngr); //TODO
+	if (argc > 1)
+		parse_flags(argc, argv, mngr); //TODO
 	parse_input(mngr); //TODO
 //	test(mngr);
 	do_all_job(mngr);

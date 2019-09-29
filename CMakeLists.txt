@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(lem-in C)
+project(testing/lem-in C)
 
 set(CMAKE_C_STANDARD 99)
 find_library(OPEN_GL OpenGl)
@@ -12,7 +12,7 @@ link_directories(/usr/local/lib libft/lib)
 link_libraries(mlx)
 FILE(GLOB LIBFT_SRCS ./libft/std_lib/*.c ./libft/std_lib/printf/*.c)  # ADD LIBFT as sources
 
-AUX_SOURCE_DIRECTORY(libft/std_lib/liblist/ TMP)
+AUX_SOURCE_DIRECTORY(libft/std_lib/liblist/ maps/tmp)
 
 
 add_executable(lem_in main.c lem_in.h check_line_type.c

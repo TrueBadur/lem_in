@@ -1,22 +1,16 @@
 NAME_LEMIN = lem-in
 SRC_LEMIN = $(wildcard *.c)
-OBJ_LEMIN =$(SRC_LEMIN:.c=.o)
+OBJ_LEMIN = $(addprefix $(OBJ_PATH), $(SRC_LEMIN:.c=.o))
+OBJ_PATH = obj/
 CC = clang
 CFLAGS = -Wall -Wextra -Werror
 LIB := ./libft/lib/libft.a
 LIBDIR = libft/
 LIBSPATH = -I libft/includes/ -I /usr/local/include/ -I ./
 HDR := ./lem_in.h
-VIZ =
-HID =
-LINK =
-#CFLAGS =# -fsanitize=address -g
+CFLAGS = #-Wall -Wextra -Werror
 
-viz: VIZ = -D VIZUALIZER
-viz: LINK = -lmlx -framework OpenGL -framework AppKit -L /usr/local/lib/
-viz: re
-
-%.o: %.c $(HDR) $(LIB)
+$(OBJ_PATH)%.o: %.c $(HDR) $(LIB)
 	$(CC) $(CFLAGS) $(VIZ) $(HID) $(LIBSPATH) -c $< -o $@
 
 all: lib $(NAME_LEMIN)
