@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_line_type.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 17:37:45 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/11 15:53:04 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/29 13:04:19 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static int isvalidroomsymb(char c)
+static int	isvalidroomsymb(char c)
 {
 	return (c != '-' && !ft_isspace(c) && ft_isprint(c));
 }
@@ -24,7 +24,7 @@ static int	islink(char *line)
 	f = 1;
 	if (*line == 'L' || *line == '#')
 		return (0);
-	while(*line != '\0')
+	while (*line != '\0')
 	{
 		if (*line == '-' && f && !(*(line + 1) == 'L' || *(line + 1) == '#'))
 			f = 0;
@@ -35,15 +35,14 @@ static int	islink(char *line)
 	return (1);
 }
 
-
-static int 	isroom(char *lin)
+static int	isroom(char *lin)
 {
 	int	f;
 
 	f = 2;
 	if (*lin == 'L' || *lin == '#')
 		return (0);
-	while(*lin != '\0')
+	while (*lin != '\0')
 	{
 		if (*lin == ' ' && *(lin + 1) == ' ')
 		{

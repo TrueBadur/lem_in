@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_room.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 19:11:10 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/28 20:28:57 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/29 13:08:16 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "lem_in.h"
 
-char	*get_node_name(char *line)
+char			*get_node_name(char *line)
 {
 	char	*ret;
 	int		i;
@@ -26,7 +25,7 @@ char	*get_node_name(char *line)
 	return (ret);
 }
 
-static t_elt setup_node(t_mngr *mngr, t_wnode *node, char *line)
+static t_elt	setup_node(t_mngr *mngr, t_wnode *node, char *line)
 {
 	t_edge *ed;
 
@@ -41,7 +40,7 @@ static t_elt setup_node(t_mngr *mngr, t_wnode *node, char *line)
 	node->in.wrap = node;
 	node->out.wrap = node;
 	node->in.tmp_label = INT32_MAX;
-	node->out.tmp_label =INT32_MAX;
+	node->out.tmp_label = INT32_MAX;
 	if (!(ed = malloc(sizeof(t_edge))))
 		ultimate_exit(mngr, MALLOC_ERROR);
 	ed->wgth = 1;
@@ -53,7 +52,7 @@ static t_elt setup_node(t_mngr *mngr, t_wnode *node, char *line)
 	return (ROOM);
 }
 
-t_elt	get_room(t_mngr *mngr, char *line)
+t_elt			get_room(t_mngr *mngr, char *line)
 {
 	t_wnode	*node;
 
@@ -62,7 +61,7 @@ t_elt	get_room(t_mngr *mngr, char *line)
 	if (setup_node(mngr, node, line) == ERROR)
 		return (ERROR);
 	if (!(mngr->all_rooms = ft_avlins(mngr->all_rooms, ft_avlnew_nc(node,
-																	node->name,	sizeof(t_wnode), STRING), NULL)))
+			node->name, sizeof(t_wnode), STRING), NULL)))
 		ultimate_exit(mngr, MALLOC_ERROR);
 	if (mngr->instr == START)
 		mngr->start = &(node->out);
