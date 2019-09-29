@@ -16,7 +16,7 @@ AUX_SOURCE_DIRECTORY(libft/std_lib/liblist/ maps/tmp)
 
 
 add_executable(lem_in main.c lem_in.h check_line_type.c
-		do_all_job.c suurballe.c
+		do_all_job.c suurballe.c clean_graph.c
 				priority_queue.c ultimate_exit.c
 				get_link.c get_room.c parse_input.c algo_utils.c move_ants.c libft/std_lib/libavl/ft_avltovec.c)
 
