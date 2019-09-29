@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/28 22:26:47 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/29 13:40:53 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_LEM_IN_H
 # define LEM_IN_LEM_IN_H
-//#define DEBUG
-//#define DEBUG1
 #define INPUT_VECTOR_SIZE 4000
+#define MY_LOG (200 * sizeof(t_log))
 # include "libft.h"
 # include "pque.h"
 
@@ -103,9 +102,7 @@ t_elt	        get_link(t_mngr *mngr, char *line);
 
 void            ultimate_exit(t_mngr *mngr, int exit_code);
 
-void			*que_add(t_vector *que, t_node *node, t_mngr *mngr);
-t_node			*que_popleft(t_vector *que);
-void 			set_weights(t_mngr *mngr);
+void     		clean_graph(t_mngr *mngr, int iter);
 
 int				suurballe(t_mngr *mngr, t_list **ends, int limit);
 
@@ -115,15 +112,12 @@ t_list			*pop_edge(t_list **links, t_edge *one);
 void			swap_nodes(t_node **a, t_node **b);
 int				get_path_len(t_node *node, t_node *start, char to_relink,
 								t_node **to_set);
+int				longest_path(t_node *start, t_node *end, t_node **ends);
 int				calc_len_of_output(t_list *ends, int size, int ants,
 									t_node *start);
+void			move_ants(t_mngr *mngr, int size);
 
 void			calc_ants(t_mngr *mngr, int size, t_node **ends);
-int get_one_line(int **params, t_mngr *mngr, int *cur_lem);
-void set_potentials(t_vector *all_nodes);
-
-
-void	        print_edge(t_edge *edge);
-void	        print_node(t_node *node);
+//int				get_one_line(int **params, t_mngr *mngr, int *cur_lem);
 
 #endif

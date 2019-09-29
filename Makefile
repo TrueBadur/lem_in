@@ -10,7 +10,7 @@ HDR := ./lem_in.h
 VIZ =
 HID =
 LINK =
-CFLAGS =# -fsanitize=address -g
+#CFLAGS =# -fsanitize=address -g
 
 viz: VIZ = -D VIZUALIZER
 viz: LINK = -lmlx -framework OpenGL -framework AppKit -L /usr/local/lib/

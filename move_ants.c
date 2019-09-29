@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/29 12:56:52 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/29 13:44:26 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** set array /ends/ and get length of the longest path
 */
 
-static int	longest_path(t_node *start, t_node *end, t_node **ends)
+int			longest_path(t_node *start, t_node *end, t_node **ends)
 {
 	t_list	*child;
 	int		i;
@@ -35,39 +35,6 @@ static int	longest_path(t_node *start, t_node *end, t_node **ends)
 		child = child->next;
 	}
 	return (max);
-}
-
-/*
-** calculate total number of ants for every path,
-** write it down to /node->counter/ for start of path
-** (in fact it's /mngr->start->child/s)
-*/
-
-void		calc_ants(t_mngr *mngr, int size, t_node **ends)
-{
-	int		max;
-	int		sum;
-	int		i;
-
-	max = longest_path(mngr->start, mngr->end, ends);
-	sum = mngr->ant_num;
-	i = -1;
-	while (++i < size)
-	{
-		ends[i]->counter = max - ends[i]->counter;
-		sum -= ends[i]->counter;
-	}
-	max = sum % size;
-	sum = sum / size;
-	i = -1;
-	while (++i < size)
-	{
-		ends[i]->counter += sum;
-		if (max-- > 0)
-			ends[i]->counter += 1;
-		if (ends[i]->counter == 0 && (ends[i]->counter = 1))
-			ends[size - 1]->counter--;
-	}
 }
 
 static int	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
@@ -114,7 +81,7 @@ static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 	}
 }
 
-int			get_one_line(int **params, t_mngr *mngr, int *cur_lem)
+static int	get_one_line(int **params, t_mngr *mngr, int *cur_lem)
 {
 	int		count;
 	int		i;
@@ -141,4 +108,28 @@ int			get_one_line(int **params, t_mngr *mngr, int *cur_lem)
 		cur = cur->next;
 	}
 	return (count);
+}
+
+/*
+** moves ants towards finish by shortest paths first
+*/
+
+void		move_ants(t_mngr *mngr, int size)
+{
+	int		cur_lem;
+	int		count;
+	int		finishs[size];
+	t_node	*ends[size];
+
+	calc_ants(mngr, ft_lstlen(mngr->end->links), ends);
+	ft_bzero(finishs, sizeof(int) * size);
+	cur_lem = 1;
+	count = 1;
+	while (count)
+	{
+		count = get_one_line((int *[]){(int *)finishs, (int *)ends}, mngr,
+				&cur_lem);
+		if (!(mngr->input = ft_vecpush(mngr->input, "\n", 1)))
+			ultimate_exit(mngr, MALLOC_ERROR);
+	}
 }

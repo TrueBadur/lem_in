@@ -23,9 +23,5 @@ typedef struct	s_pque
 
 void			*push_que(t_vector *vec, void *data, int priority);
 t_pque			pop_que(t_vector *vec);
-int ft_int2lt(t_int2 a, t_int2 b);
-t_int2 ft_int2_min(t_int2 a, t_int2 b);
-int ft_int2gt(t_int2 a, t_int2 b);
-int ft_int2eq(t_int2 a, t_int2 b);
 
 #endif
