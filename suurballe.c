@@ -91,7 +91,7 @@ static t_node	*reverse_path(t_mngr *mngr, t_node *fin, t_vector **log)
 	{
 		next = path->from->path;
 		lst = pop_edge(&path->from->links, path);
-		one_log = (t_log){path, path->from, path->to};
+		one_log = (t_log){path, path->to};
 		(*log)->offset += path->wgth;
 		swap_nodes(&path->from, &path->to);
 		path->was_rev = path->was_rev == 1 ? 0 : 1;

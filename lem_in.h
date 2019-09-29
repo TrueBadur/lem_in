@@ -6,14 +6,14 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/29 13:40:53 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/29 14:01:51 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_LEM_IN_H
 # define LEM_IN_LEM_IN_H
-#define INPUT_VECTOR_SIZE 4000
-#define MY_LOG (200 * sizeof(t_log))
+# define INPUT_VECTOR_SIZE 4000
+# define MY_LOG (200 * sizeof(t_log))
 # include "libft.h"
 # include "pque.h"
 
@@ -24,35 +24,33 @@ typedef struct	s_edge
 {
 	struct s_node	*from;
 	struct s_node	*to;
-	int             wgth;  // -1 by default
-	char			was_rev; // 0 by default
+	int				wgth;
+	char			was_rev;
 }				t_edge;
 
-typedef struct  s_node
+typedef struct	s_node
 {
-	int				counter; // -1 by default
+	int				counter;
 	int				label;
-	t_edge			*path;  // NULL by default
+	t_edge			*path;
 	t_edge			*tmp_path;
 	int				tmp_label;
 	struct s_wnode	*wrap;
-	t_list			*links;  // t_edge
+	t_list			*links;
 }				t_node;
 
-typedef struct  s_wnode
+typedef struct	s_wnode
 {
-	char    *name;
+	char	*name;
 	t_node	in;
 	t_node	out;
 }				t_wnode;
 
-typedef struct  s_log
+typedef struct	s_log
 {
-    t_edge		*edge;
-    t_node		*from;
-    t_node		*to;
-}               t_log;
-
+	t_edge	*edge;
+	t_node	*to;
+}				t_log;
 
 typedef enum	e_instuctions
 {
@@ -72,7 +70,7 @@ typedef enum	e_line_types
 	ERROR
 }				t_elt;
 
-typedef enum    e_errors
+typedef enum	e_errors
 {
 	SUCCESS,
 	MALLOC_ERROR,
@@ -83,7 +81,7 @@ typedef enum    e_errors
 
 typedef struct	s_mngr
 {
-	int			fancy; //TODO convert to more flags or to bitarray
+	int			fancy;
 	int			ant_num;
 	t_btavl		*all_rooms;
 	t_instr		instr;
@@ -93,14 +91,14 @@ typedef struct	s_mngr
 	t_vector	*input;
 }				t_mngr;
 
-void	        parse_input(t_mngr *mngr);
-t_elt	        check_line_type(char *line);
-t_elt	        get_room(t_mngr *mngr, char *line);
-t_elt	        get_link(t_mngr *mngr, char *line);
+void			parse_input(t_mngr *mngr);
+t_elt			check_line_type(char *line);
+t_elt			get_room(t_mngr *mngr, char *line);
+t_elt			get_link(t_mngr *mngr, char *line);
 
-void            ultimate_exit(t_mngr *mngr, int exit_code);
+void			ultimate_exit(t_mngr *mngr, int exit_code);
 
-void     		clean_graph(t_mngr *mngr, int iter);
+void			clean_graph(t_mngr *mngr, int iter);
 
 int				suurballe(t_mngr *mngr, t_list **ends, int limit);
 
@@ -116,6 +114,5 @@ int				calc_len_of_output(t_list *ends, int size, int ants,
 void			move_ants(t_mngr *mngr, int size);
 
 void			calc_ants(t_mngr *mngr, int size, t_node **ends);
-//int				get_one_line(int **params, t_mngr *mngr, int *cur_lem);
 
 #endif
