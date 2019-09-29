@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:58:51 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/28 19:49:35 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/29 13:09:33 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void get_instruction(t_mngr *mngr, char *line)
+void			get_instruction(t_mngr *mngr, char *line)
 {
 	if (ft_strcmp(line + 2, "start") == 0)
 		mngr->instr = START;
@@ -22,7 +22,7 @@ void get_instruction(t_mngr *mngr, char *line)
 		mngr->instr = INSTR_NONE;
 }
 
-static t_elt parse_by_type(t_mngr *mngr, char *line, t_elt type)
+static t_elt	parse_by_type(t_mngr *mngr, char *line, t_elt type)
 {
 	if (type == LINK)
 		type = get_link(mngr, line);
@@ -41,13 +41,13 @@ static t_elt parse_by_type(t_mngr *mngr, char *line, t_elt type)
 	return (type);
 }
 
-void parse_input(t_mngr *mngr)
+void			parse_input(t_mngr *mngr)
 {
 	char	*line;
 	char	*tmp;
 	t_elt	type;
 
-	while(get_next_line(STDIN_FILENO, &line) > 0)
+	while (get_next_line(STDIN_FILENO, &line) > 0)
 	{
 		tmp = line;
 		line = ft_strtrim(line);
@@ -66,5 +66,4 @@ void parse_input(t_mngr *mngr)
 		ultimate_exit(mngr, NOT_ENOUGH_DATA);
 	if (!(mngr->input = ft_vecpush(mngr->input, "\n", 1)))
 		ultimate_exit(mngr, MALLOC_ERROR);
-//	write(STDOUT_FILENO, mngr->input->data, mngr->input->len);
 }

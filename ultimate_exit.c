@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ultimate_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/11 17:54:40 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/07/25 20:38:49 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/09/29 13:10:27 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_node(void *node)
 	free(node);
 }
 
-void ultimate_exit(t_mngr *mngr, int exit_code)
+void	ultimate_exit(t_mngr *mngr, int exit_code)
 {
 	if (mngr)
 	{
@@ -34,6 +34,3 @@ void ultimate_exit(t_mngr *mngr, int exit_code)
 		ft_printf("ERROR");
 	exit(exit_code);
 }
-
-
-
