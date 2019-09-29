@@ -84,7 +84,7 @@ typedef enum    e_errors
 
 typedef struct	s_mngr
 {
-	int			flags; //TODO convert to more flags or to bitarray
+	int			fancy; //TODO convert to more flags or to bitarray
 	int			ant_num;
 	t_btavl		*all_rooms;
 	t_instr		instr;
@@ -93,8 +93,6 @@ typedef struct	s_mngr
 	t_elt		max_lt;
 	t_vector	*input;
 }				t_mngr;
-
-void	        *parse_flags(int argc, char **argv, t_mngr *mngr);
 
 void	        parse_input(t_mngr *mngr);
 t_elt	        check_line_type(char *line);
