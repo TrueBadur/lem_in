@@ -83,7 +83,11 @@ static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 	move_one_ant(edge, mngr, edge->to->label, edge->to->wrap->name))
 		edge = (t_edge *)edge->to->links->data;
 	if (edge->to->counter)
-	    edge->to->counter--;
+	{
+	    edge->to->label = *cur_lem;
+	    *cur_lem += 1;
+        edge->to->counter--;
+    }
 	else
 		*end = edge->from == mngr->end ? NULL : edge->from;
 }
@@ -147,7 +151,7 @@ void		move_ants(t_mngr *mngr, int size)
 		ends[count]->counter--;
 	}
 	ft_bzero(finishs, sizeof(int) * size);
-	cur_lem = 1;
+	cur_lem = size + 1;
 	count = 1;
 	while (count)
 	{
