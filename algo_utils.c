@@ -66,6 +66,8 @@ int			get_path_len(t_node *node, t_node *start, char relink, t_node **set)
 	while (cur != start)
 	{
 		cur->counter = 0;
+		if (relink)
+			cur->label = 0;
 		child = cur->links;
 		while (!EDGE->was_rev)
 			child = child->next;
@@ -79,6 +81,8 @@ int			get_path_len(t_node *node, t_node *start, char relink, t_node **set)
 				*set = EDGE->from;
 		}
 	}
+	if (len == 1 && set)
+		*set = cur;
 	return (len);
 }
 

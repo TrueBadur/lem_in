@@ -60,6 +60,13 @@ static int	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
 	return (1);
 }
 
+/*
+** ant make step from previous node to next up to end-childs
+** 'name' of ant are in /label/
+** if there is ant in end-child node, it goes to /fins/,
+** else we skip all empty nodes, then all ants make their steps
+**/
+
 static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 {
 	t_edge	*edge;
@@ -67,26 +74,25 @@ static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 
 	end = (t_node **)params[1];
 	edge = (t_edge *)((t_list *)params[2])->data;
-	if (edge->to->counter != 0)
-		*(int *)params[0] = edge->to->counter;
+	if (edge->to->label != 0)
+		*(int *)params[0] = edge->to->label;
 	else
-		while (edge->to->counter == 0)
+		while (edge->to->label == 0)
 			edge = ((t_edge *)edge->to->links->data);
-	while (edge->to != *end &&
+	while (edge->to != mngr->start &&
 	move_one_ant(edge, mngr, edge->to->counter, edge->to->wrap->name))
 		edge = (t_edge *)edge->to->links->data;
-	if (((t_edge*)(*end)->links->data)->to == mngr->start)
-	{
-		move_one_ant(edge, mngr, (*cur_lem)++, edge->to->wrap->name);
-		if (--(*end)->counter == 0)
-			*end = edge->from;
-	}
+	if (edge->to->counter)
+	    edge->to->counter--;
 	else
-	{
-		move_one_ant(edge, mngr, edge->to->counter, edge->to->wrap->name);
 		*end = edge->from == mngr->end ? NULL : edge->from;
-	}
 }
+
+/*
+** move all ants on one path in cycle for all paths
+** first of all goes ants from /fins/ to the end
+** then others, if there are more ants
+**/
 
 static int	get_one_line(int **params, t_mngr *mngr, int *cur_lem)
 {
@@ -119,6 +125,11 @@ static int	get_one_line(int **params, t_mngr *mngr, int *cur_lem)
 
 /*
 ** moves ants towards finish by shortest paths first
+** in /counter/ of start-childs it writes down number of ants in queue
+** in /label/ of start-childs it writes down 'names' of first ants
+** in /fins/ will be write down 'names' of ants that achive end->child node (/ends/)
+**  and ready to go to end itself. it init with nulls.
+** then works while something moves
 */
 
 void		move_ants(t_mngr *mngr, int size)
@@ -129,6 +140,12 @@ void		move_ants(t_mngr *mngr, int size)
 	t_node	*ends[size];
 
 	calc_ants(mngr, ft_lstlen(mngr->end->links), ends);
+	count = -1;
+	while (++count < size)
+	{
+		ends[count]->label = count + 1;
+		ends[count]->counter--;
+	}
 	ft_bzero(finishs, sizeof(int) * size);
 	cur_lem = 1;
 	count = 1;
