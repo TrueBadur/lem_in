@@ -41,7 +41,7 @@ static int	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
 {
 	char	*s;
 
-	edge->from->counter = num;
+	edge->from->label = num;
 	if (mngr->fancy > 0)
 	{
 		mngr->input = ft_vecpush(mngr->input, "\033[38;5;", 7);
@@ -80,7 +80,7 @@ static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 		while (edge->to->label == 0)
 			edge = ((t_edge *)edge->to->links->data);
 	while (edge->to != mngr->start &&
-	move_one_ant(edge, mngr, edge->to->counter, edge->to->wrap->name))
+	move_one_ant(edge, mngr, edge->to->label, edge->to->wrap->name))
 		edge = (t_edge *)edge->to->links->data;
 	if (edge->to->counter)
 	    edge->to->counter--;
