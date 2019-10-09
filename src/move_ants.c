@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/10/09 22:59:40 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/10/10 00:30:51 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,32 @@ static int	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
 static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem) {
 	t_edge *edge;
 	t_node **end;
+	t_node *tmp;
 
 	end = (t_node **) params[1];
 	edge = (t_edge *) ((t_list *) params[2])->data;
+	tmp = edge->from;
 	if (edge->to->label != 0)
 		*(int *) params[0] = edge->to->label;
 	else
-		while (edge->to->label == 0)
+		while (edge->to->label == 0) {
+			tmp = edge->from;
 			edge = ((t_edge *) edge->to->links->data);
-	while (edge->to != *end &&
+		}
+	while (edge->from != *end &&
 		   move_one_ant(edge, mngr, edge->to->label, edge->to->wrap->name))
-		edge = (t_edge *) edge->to->links->data;
-	if (edge->to->counter)
 	{
-		edge->to->label = *cur_lem;
+		tmp = edge->from;
+		edge = (t_edge *) edge->to->links->data;
+	}
+	if (edge->from->counter)
+	{
+		edge->from->label = *cur_lem;
 		*cur_lem += 1;
-		edge->to->counter--;
+		edge->from->counter--;
 	}
 	else
-		*end = edge->from == mngr->end ? NULL : edge->from;
+		*end = tmp == mngr->end ? NULL : tmp;
 }
 
 /*
