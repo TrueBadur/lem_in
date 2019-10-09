@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 19:06:54 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/29 13:19:19 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/09/29 15:35:19 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int			get_path_len(t_node *node, t_node *start, char relink, t_node **set)
 	while (cur != start)
 	{
 		cur->counter = 0;
+		if (relink)
+			cur->label = 0;
 		child = cur->links;
 		while (!EDGE->was_rev)
 			child = child->next;
@@ -79,6 +81,8 @@ int			get_path_len(t_node *node, t_node *start, char relink, t_node **set)
 				*set = EDGE->from;
 		}
 	}
+	if (len == 1 && set)
+		*set = cur;
 	return (len);
 }
 
