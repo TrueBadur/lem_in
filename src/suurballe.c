@@ -156,6 +156,8 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 		ft_lstadd(ends, ft_lstnew(&tmp, sizeof(t_node*)));
 		len_of_output = calc_len_of_output(*ends, ft_lstlen(*ends),
 				mngr->ant_num, mngr->start);
+		if (!len_of_output)
+			move_all_at_once(mngr);
 		if (prev_len && (len_of_output > prev_len || len_of_output < 0) &&
 		undo_reverse_path(log))
 			break ;

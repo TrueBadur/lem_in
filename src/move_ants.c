@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/10/10 00:30:51 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/10/10 01:11:00 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,8 @@ int			longest_path(t_node *start, t_node *end, t_node **ends)
 
 static int	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
 {
-	char	*s;
-
 	edge->from->label = num;
-	if (mngr->fancy > 0)
-	{
-		mngr->input = ft_vecpush(mngr->input, "\033[38;5;", 7);
-		s = ft_itoa(num);
-		mngr->input = ft_vecpush(mngr->input, s, ft_strlen(s));
-		mngr->input = ft_vecpush(mngr->input, "m", 1);
-	}
-	mngr->input = ft_vecpush(mngr->input, "L", 1);
-	s = ft_itoa(num);
-	mngr->input = ft_vecpush(mngr->input, s, ft_strlen(s));
-	free(s);
-	mngr->input = ft_vecpush(mngr->input, "-", 1);
-	mngr->input = ft_vecpush(mngr->input, name, ft_strlen(name));
-	if (!(mngr->input = ft_vecpush(mngr->input, " ", 1)))
-		ultimate_exit(mngr, MALLOC_ERROR);
+	add_ant_to_vec(mngr, num, name);
 //	ft_printf(mngr->input->data);
 	return (1);
 }
@@ -68,7 +52,8 @@ static int	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
 ** else we skip all empty nodes, then all ants make their steps
 */
 
-static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem) {
+static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
+{
 	t_edge *edge;
 	t_node **end;
 	t_node *tmp;

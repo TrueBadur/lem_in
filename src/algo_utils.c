@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 19:06:54 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/29 15:35:19 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/10/10 01:04:13 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ int			get_path_len(t_node *node, t_node *start, char relink, t_node **set)
 				*set = EDGE->from;
 		}
 	}
-	if (len == 1 && set)
-		*set = cur;
 	return (len);
 }
 
@@ -97,27 +95,27 @@ static int	calc_len_of_output_hlpr(int ants, int s, int size, int max)
 int			calc_len_of_output(t_list *ends, int size, int ants, t_node *start)
 {
 	int		lens[size];
-	int		i;
+	t_int2	count;
 	t_list	*tmp;
 	int		max;
-	int		s;
 
-	i = -1;
+	count.x = -1;
 	tmp = ends;
 	max = 0;
 	ft_bzero(lens, size * sizeof(int));
-	while (++i < size)
+	while (++count.x < size)
 	{
-		lens[i] = get_path_len((t_node *)tmp->data, start, 0, NULL);
-		max = lens[i] > max ? lens[i] : max;
+		lens[count.x] = get_path_len((t_node *)tmp->data, start, 0, NULL);
+		if (lens[count.x] == 1)
+			return (0);
+		max = lens[count.x] > max ? lens[count.x] : max;
 		tmp = tmp->next;
 	}
-	i = -1;
-	s = 0;
-	while (++i < size)
+	count = (t_int2){-1, 0};
+	while (++count.x < size)
 	{
-		lens[i] = max - lens[i];
-		s += lens[i];
+		lens[count.x] = max - lens[count.x];
+		count.y += lens[count.x];
 	}
-	return (calc_len_of_output_hlpr(ants, s, size, max));
+	return (calc_len_of_output_hlpr(ants, count.y, size, max));
 }
