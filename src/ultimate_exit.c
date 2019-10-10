@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/11 17:54:40 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/10/10 18:16:05 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:10:08 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ultimate_exit(t_mngr *mngr, int exit_code)
 	{
 		ft_printf("ERROR:\n");
 		if (exit_code == NOT_ENOUGH_DATA)
-			ft_printf("Not enough data provided\n");
+			ft_printf("Provided data is wrong or insufficient\n");
 		else if (exit_code == NO_PATHS_FOUND)
 			ft_printf("No path found in the graph\n");
 		else if (exit_code == MALLOC_ERROR)
