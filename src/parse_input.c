@@ -62,6 +62,8 @@ void			parse_input(t_mngr *mngr)
 		if (type == ERROR)
 			break ;
 	}
+	if (mngr->ant_num == 0)
+		move_all_at_once(mngr);
 	if (!mngr->start || !mngr->end || mngr->ant_num < 0)
 		ultimate_exit(mngr, NOT_ENOUGH_DATA);
 	if (!(mngr->input = ft_vecpush(mngr->input, "\n", 1)))
