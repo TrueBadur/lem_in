@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_ants.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:01:09 by mbartole          #+#    #+#             */
-/*   Updated: 2019/10/10 01:11:00 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/10/10 20:03:11 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,17 @@
 
 #define EDGE ((t_edge *)child->data)
 
-/*
-** set array /ends/ and get length of the longest path
-*/
-
-int			longest_path(t_node *start, t_node *end, t_node **ends)
+void static inline	norminette_helper(t_node **tmp, t_edge **edge)
 {
-	t_list	*child;
-	int		i;
-	int		max;
-	int		len;
-
-	max = 0;
-	child = end->links;
-	i = -1;
-	while (child)
-	{
-		len = get_path_len(EDGE->to, start, 1, &ends[++i]);
-		max = len > max ? len : max;
-		child = child->next;
-	}
-	return (max);
+	*tmp = (*edge)->from;
+	*edge = ((t_edge *)(*edge)->to->links->data);
 }
 
-static int	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
+static int			move_one_ant(t_edge *edge, t_mngr *mngr, int num,
+		char *name)
 {
 	edge->from->label = num;
 	add_ant_to_vec(mngr, num, name);
-//	ft_printf(mngr->input->data);
 	return (1);
 }
 
@@ -52,28 +35,23 @@ static int	move_one_ant(t_edge *edge, t_mngr *mngr, int num, char *name)
 ** else we skip all empty nodes, then all ants make their steps
 */
 
-static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
+static void			get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 {
 	t_edge *edge;
 	t_node **end;
 	t_node *tmp;
 
-	end = (t_node **) params[1];
-	edge = (t_edge *) ((t_list *) params[2])->data;
+	end = (t_node **)params[1];
+	edge = (t_edge *)((t_list *)params[2])->data;
 	tmp = edge->from;
 	if (edge->to->label != 0)
-		*(int *) params[0] = edge->to->label;
+		*(int *)params[0] = edge->to->label;
 	else
-		while (edge->to->label == 0) {
-			tmp = edge->from;
-			edge = ((t_edge *) edge->to->links->data);
-		}
+		while (edge->to->label == 0)
+			norminette_helper(&tmp, &edge);
 	while (edge->from != *end &&
-		   move_one_ant(edge, mngr, edge->to->label, edge->to->wrap->name))
-	{
-		tmp = edge->from;
-		edge = (t_edge *) edge->to->links->data;
-	}
+	move_one_ant(edge, mngr, edge->to->label, edge->to->wrap->name))
+		norminette_helper(&tmp, &edge);
 	if (edge->from->counter)
 	{
 		edge->from->label = *cur_lem;
@@ -90,7 +68,7 @@ static void	get_one_line_hlper(int **params, t_mngr *mngr, int *cur_lem)
 ** then others, if there are more ants
 */
 
-static int	get_one_line(int **params, t_mngr *mngr, int *cur_lem)
+static int			get_one_line(int **params, t_mngr *mngr, int *cur_lem)
 {
 	int		count;
 	int		i;
@@ -123,13 +101,12 @@ static int	get_one_line(int **params, t_mngr *mngr, int *cur_lem)
 ** moves ants towards finish by shortest paths first
 ** in /counter/ of start-childs it writes down number of ants in queue
 ** in /label/ of start-childs it writes down 'names' of first ants
-** in /fins/ will be write down 'names' of ants that achive end->child node (/ends/)
-**  and ready to go to end itself. it init with nulls.
+** in /fins/ will be write down 'names' of ants that achive end->child node
+** (/ends/) and ready to go to end itself. it init with nulls.
 ** then works while something moves
 */
 
-
-void		move_ants(t_mngr *mngr, int size)
+void				move_ants(t_mngr *mngr, int size)
 {
 	int		cur_lem;
 	int		count;

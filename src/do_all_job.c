@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_all_job.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/10/10 01:02:12 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:36:13 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,20 @@ void		do_all_job(t_mngr *mngr)
 	write(STDOUT_FILENO, mngr->input->data, mngr->input->len);
 }
 
-void move_all_at_once(t_mngr *mngr)
+void		move_all_at_once(t_mngr *mngr)
 {
 	int i;
 
 	i = 0;
 	while (i++ < mngr->ant_num)
 		add_ant_to_vec(mngr, i, mngr->end->wrap->name);
+	if (!(mngr->input = ft_vecpush(mngr->input, "\n", 1)))
+		ultimate_exit(mngr, MALLOC_ERROR);
 	write(STDOUT_FILENO, mngr->input->data, mngr->input->len);
 	ultimate_exit(mngr, SUCCESS);
 }
 
-void add_ant_to_vec(t_mngr *mngr, int num, char *name)
+void		add_ant_to_vec(t_mngr *mngr, int num, char *name)
 {
 	char *s;
 

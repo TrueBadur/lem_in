@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 19:06:54 by mbartole          #+#    #+#             */
-/*   Updated: 2019/10/10 01:04:13 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:56:08 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,30 +92,30 @@ static int	calc_len_of_output_hlpr(int ants, int s, int size, int max)
 	return (max + ants - 1);
 }
 
-int			calc_len_of_output(t_list *ends, int size, int ants, t_node *start)
+int			calc_len_of_output(t_list *ends, int size, t_mngr *mngr)
 {
 	int		lens[size];
-	t_int2	count;
+	t_int2	cnt;
 	t_list	*tmp;
 	int		max;
 
-	count.x = -1;
+	cnt.x = -1;
 	tmp = ends;
 	max = 0;
 	ft_bzero(lens, size * sizeof(int));
-	while (++count.x < size)
+	while (++cnt.x < size)
 	{
-		lens[count.x] = get_path_len((t_node *)tmp->data, start, 0, NULL);
-		if (lens[count.x] == 1)
-			return (0);
-		max = lens[count.x] > max ? lens[count.x] : max;
+		lens[cnt.x] = get_path_len((t_node *)tmp->data, mngr->start, 0, NULL);
+		if (lens[cnt.x] == 1)
+			move_all_at_once(mngr);
+		max = lens[cnt.x] > max ? lens[cnt.x] : max;
 		tmp = tmp->next;
 	}
-	count = (t_int2){-1, 0};
-	while (++count.x < size)
+	cnt = (t_int2){-1, 0};
+	while (++cnt.x < size)
 	{
-		lens[count.x] = max - lens[count.x];
-		count.y += lens[count.x];
+		lens[cnt.x] = max - lens[cnt.x];
+		cnt.y += lens[cnt.x];
 	}
-	return (calc_len_of_output_hlpr(ants, count.y, size, max));
+	return (calc_len_of_output_hlpr(mngr->ant_num, cnt.y, size, max));
 }

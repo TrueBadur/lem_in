@@ -18,7 +18,7 @@ AUX_SOURCE_DIRECTORY(libft/std_lib/liblist/ maps/tmp)
 add_executable(lem_in src/main.c lem_in.h src/check_line_type.c
 		src/do_all_job.c src/suurballe.c src/clean_graph.c
 		src/priority_queue.c src/ultimate_exit.c
-		src/get_link.c src/get_room.c src/parse_input.c src/algo_utils.c src/move_ants.c libft/std_lib/libavl/ft_avltovec.c)
+		src/get_link.c src/get_room.c src/parse_input.c src/algo_utils.c src/move_ants.c libft/std_lib/libavl/ft_avltovec.c src/longest_path.c)
 
 include(FindPkgConfig)
 find_package(ft REQUIRED)

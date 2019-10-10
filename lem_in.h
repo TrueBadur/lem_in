@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:46:43 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/29 14:01:51 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:56:08 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,12 @@ t_list			*pop_edge(t_list **links, t_edge *one);
 void			swap_nodes(t_node **a, t_node **b);
 int				get_path_len(t_node *node, t_node *start, char to_relink,
 								t_node **to_set);
-int				longest_path(t_node *start, t_node *end, t_node **ends);
-int				calc_len_of_output(t_list *ends, int size, int ants,
-									t_node *start);
+int				calc_len_of_output(t_list *ends, int size, t_mngr *mngr);
 void			move_ants(t_mngr *mngr, int size);
 
 void			calc_ants(t_mngr *mngr, int size, t_node **ends);
 void			move_all_at_once(t_mngr *mngr);
 void			add_ant_to_vec(t_mngr *mngr, int num, char *name);
+int				longest_path(t_node *start, t_node *end, t_node **ends);
 
 #endif

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   suurballe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 17:04:40 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/29 13:42:33 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:57:00 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-#define SIZE_OF_QUE 10000 * sizeof(t_pque)
+#define SIZE_OF_QUE (10000 * sizeof(t_pque))
 #define EDGE ((t_edge *)child->data)
 
 static t_vector	*dijkstra(t_mngr *mngr, int iter, t_vector *que)
@@ -154,10 +154,7 @@ int				suurballe(t_mngr *mngr, t_list **ends, int limit)
 			break ;
 		tmp = reverse_path(mngr, mngr->end, &log);
 		ft_lstadd(ends, ft_lstnew(&tmp, sizeof(t_node*)));
-		len_of_output = calc_len_of_output(*ends, ft_lstlen(*ends),
-				mngr->ant_num, mngr->start);
-		if (!len_of_output)
-			move_all_at_once(mngr);
+		len_of_output = calc_len_of_output(*ends, ft_lstlen(*ends), mngr);
 		if (prev_len && (len_of_output > prev_len || len_of_output < 0) &&
 		undo_reverse_path(log))
 			break ;
