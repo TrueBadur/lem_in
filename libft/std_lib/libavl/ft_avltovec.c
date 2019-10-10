@@ -6,7 +6,7 @@
 /*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 01:47:09 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/24 16:37:47 by ehugh-be         ###   ########.fr       */
+/*   Updated: 2019/10/10 18:49:25 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,15 @@ t_vector	*ft_avlkeystovec(t_btavl *tr, t_vector *vec, int *er)
 	if (!tr || !vec || *er)
 		return (NULL);
 	if (tr->left)
-		if (!(vec = ft_avlkeystovec(tr->left, vec, er)) && (*er == 1))
+		if (!(vec = ft_avlkeystovec(tr->left, vec, er)) &&
+		(*er == 1))
 			return (NULL);
-	if (!(vec = ft_vecpush(vec, &tr->key, sizeof(int))) && (*er = 1))
+	if (!(vec = ft_vecpush(vec, &tr->key, sizeof(int))) &&
+	(*er = 1))
 		return (NULL);
 	if (tr->right)
-		if (!(vec = ft_avlkeystovec(tr->right, vec, er)) && (*er == 1))
+		if (!(vec = ft_avlkeystovec(tr->right, vec, er)) &&
+		(*er == 1))
 			return (NULL);
 	return (vec);
 }
@@ -62,12 +65,15 @@ t_vector	*ft_avldatatovec_deep(t_btavl *tr, t_vector *vec, int *er)
 	if (!tr || !vec)
 		return (NULL);
 	if (tr->left)
-		if (!(vec = ft_avldatatovec(tr->left, vec, er)) && (*er == 1))
+		if (!(vec = ft_avldatatovec(tr->left, vec, er)) &&
+		(*er == 1))
 			return (NULL);
-	if (!(vec = ft_vecpush(vec, tr->data, sizeof(tr->size))) && (*er = 1))
+	if (!(vec = ft_vecpush(vec, tr->data, sizeof(tr->size))) &&
+	(*er = 1))
 		return (NULL);
 	if (tr->right)
-		if (!(vec = ft_avldatatovec(tr->right, vec, er)) && (*er == 1))
+		if (!(vec = ft_avldatatovec(tr->right, vec, er)) &&
+		(*er == 1))
 			return (NULL);
 	return (vec);
 }
@@ -92,13 +98,15 @@ t_vector	*ft_avldatatovec(t_btavl *tr, t_vector *vec, int *er)
 	if (!tr || !vec || *er)
 		return (NULL);
 	if (tr->left)
-		if (!(vec = ft_avldatatovec(tr->left, vec, er)) && (*er == 1))
+		if (!(vec = ft_avldatatovec(tr->left, vec, er)) &&
+		(*er == 1))
 			return (NULL);
-	if (!(vec = ft_vecpush(vec, &tr->data, sizeof(void *))) && (*er = 1))
+	if (!(vec = ft_vecpush(vec, &tr->data, sizeof(void *))) &&
+	(*er = 1))
 		return (NULL);
 	if (tr->right)
-		if (!(vec = ft_avldatatovec(tr->right, vec, er)) && (*er == 1))
+		if (!(vec = ft_avldatatovec(tr->right, vec, er)) &&
+		(*er == 1))
 			return (NULL);
 	return (vec);
 }
-

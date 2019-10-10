@@ -12,10 +12,6 @@
 
 #include "btavl.h"
 
-
-
-
-
 /*
 ** Creates new node with int as a key and stores given pointer to data without
 ** 	copying data

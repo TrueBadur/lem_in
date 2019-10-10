@@ -22,6 +22,7 @@
 t_btavl	*ft_avlins(t_btavl *tr, t_btavl *node, int (f)(void*, void*))
 {
 	int	cmp;
+
 	if (!node)
 		return (tr);
 	if (!tr)

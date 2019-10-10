@@ -28,4 +28,3 @@ int	ft_avl_keycmp(void *a, void *b, t_avl_k_t kt, int (f)(void*, void*))
 	else
 		return (f(a, b));
 }
-
