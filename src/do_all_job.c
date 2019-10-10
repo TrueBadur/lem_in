@@ -6,7 +6,7 @@
 /*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 05:22:01 by mbartole          #+#    #+#             */
-/*   Updated: 2019/09/29 13:02:29 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/10/10 01:02:12 by mbartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,36 @@ void		do_all_job(t_mngr *mngr)
 	size = ft_lstlen(mngr->end->links);
 	move_ants(mngr, size);
 	write(STDOUT_FILENO, mngr->input->data, mngr->input->len);
+}
+
+void move_all_at_once(t_mngr *mngr)
+{
+	int i;
+
+	i = 0;
+	while (i++ < mngr->ant_num)
+		add_ant_to_vec(mngr, i, mngr->end->wrap->name);
+	write(STDOUT_FILENO, mngr->input->data, mngr->input->len);
+	ultimate_exit(mngr, SUCCESS);
+}
+
+void add_ant_to_vec(t_mngr *mngr, int num, char *name)
+{
+	char *s;
+
+	if (mngr->fancy > 0)
+	{
+		mngr->input = ft_vecpush(mngr->input, "\033[38;5;", 7);
+		s = ft_itoa(num);
+		mngr->input = ft_vecpush(mngr->input, s, ft_strlen(s));
+		mngr->input = ft_vecpush(mngr->input, "m", 1);
+	}
+	mngr->input = ft_vecpush(mngr->input, "L", 1);
+	s = ft_itoa(num);
+	mngr->input = ft_vecpush(mngr->input, s, ft_strlen(s));
+	free(s);
+	mngr->input = ft_vecpush(mngr->input, "-", 1);
+	mngr->input = ft_vecpush(mngr->input, name, ft_strlen(name));
+	if (!(mngr->input = ft_vecpush(mngr->input, " ", 1)))
+		ultimate_exit(mngr, MALLOC_ERROR);
 }

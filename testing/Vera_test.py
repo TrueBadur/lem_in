@@ -18,7 +18,7 @@ def  test_one_map(flag):
     test_file = 'lem_in_input.txt'
     os.system('./generator.dms %s > %s ' % (flag, test_file))
     timer = time.time()
-    os.system('./lem-in < %s > %s' % (test_file, test))
+    os.system('../lem-in < %s > %s' % (test_file, test))
     timer = time.time() - timer
     timer2 = time.time()
     os.system('./gleb_lemin < %s > %s' % (test_file, "tmp"))

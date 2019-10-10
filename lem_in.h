@@ -114,5 +114,7 @@ int				calc_len_of_output(t_list *ends, int size, int ants,
 void			move_ants(t_mngr *mngr, int size);
 
 void			calc_ants(t_mngr *mngr, int size, t_node **ends);
+void			move_all_at_once(t_mngr *mngr);
+void			add_ant_to_vec(t_mngr *mngr, int num, char *name);
 
 #endif
