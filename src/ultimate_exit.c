@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ultimate_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbartole <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ehugh-be <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/11 17:54:40 by ehugh-be          #+#    #+#             */
-/*   Updated: 2019/09/29 13:10:27 by mbartole         ###   ########.fr       */
+/*   Updated: 2019/10/10 18:16:05 by ehugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ void	ultimate_exit(t_mngr *mngr, int exit_code)
 		free(mngr);
 	}
 	if (exit_code != 0)
-		ft_printf("ERROR");
+	{
+		ft_printf("ERROR:\n");
+		if (exit_code == NOT_ENOUGH_DATA)
+			ft_printf("Not enough data provided\n");
+		else if (exit_code == NO_PATHS_FOUND)
+			ft_printf("No path found in the graph\n");
+		else if (exit_code == MALLOC_ERROR)
+			ft_printf("Memory allocation failed\n");
+	}
 	exit(exit_code);
 }
